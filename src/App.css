@@ -20,6 +20,10 @@ body{
   background-color: var(--color-dark);
 }
 
+.shift{
+  margin-left: 150px;
+}
+
 /* Background Styles */
 
 .bg-black{
@@ -60,10 +64,23 @@ body{
   font-weight: 200;
 }
 
+.text-bold{
+  font-weight: 600;
+}
+
+.hero-font{
+  font-size: 4em;
+}
+
+.spaced-text{
+  letter-spacing: 3px;
+}
+
 /* Sidebar Styles */
 
 .sidebar{
   position: fixed;
+  z-index: 5;
   height: 100vh;
   width: 75px;
   transition: all 0.25s ease;
@@ -71,8 +88,9 @@ body{
 
 .sidebar-active{
   position: fixed;
+  z-index: 5;
   height: 100vh;
-  width: 180px;
+  width: 160px;
   transition: all 0.25s ease;
 }
 
@@ -80,7 +98,9 @@ body{
   background-color: rgba(0, 0, 0, 0);
   padding-top: 0.8rem ;
   padding-bottom: 0.8rem ;
+  cursor: pointer;
   text-decoration: none;
+  z-index: 6;
 }
 
 .side-item:hover{
@@ -89,12 +109,38 @@ body{
 }
 
 .side-item-active{
-  background-color: var(--color-red);
+  background-color: var(--color-red)!important;
   padding-top: 1.0rem ;
   padding-bottom: 1.0rem ;
   text-decoration: none;
+  z-index: 6;
 }
 
 .side-item-active:hover{
   text-decoration: none;
 }
+
+.link-title{
+  position: absolute;
+  opacity: 0;
+  transform: translate(-50px, 0);
+  z-index: 6;
+}
+
+.link-title-active{
+  display: inline-block;
+  position: absolute;
+  opacity: 100;
+  transform: translate(0, 0);
+  transition: all 0.25s ease-in;
+  z-index: 6;
+}
+
+/* Page Styles */
+
+.page{
+  height: 100vh;
+}
+
+/* Home */
+

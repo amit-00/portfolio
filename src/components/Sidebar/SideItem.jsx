@@ -1,17 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-scroll';
 
-const SideItem = ({ item: { title, path, icon }, active, current, setCurrent }) => {
+const SideItem = ({ item: { title, icon }, active }) => {
 
 
     return (
         <Link 
-        onClick={() => setCurrent(title)} 
-        style={{ fontSize: '1.4em' }} 
-        to={ path } 
-        className={`card border-0 text-slim-1 text-white pl-3 d-inline ${ current === title ? 'side-item-active' : 'side-item' } `}
+        style={{ fontSize: '1.2em', paddingLeft: '0.85rem' }} 
+        className={`card border-0 text-slim-1 text-white d-inline side-item`}
+        to={ title } 
+        activeClass="side-item-active"
+        spy={ true }
+        smooth={ true }
+        duration={ 500 }
         >
-            { icon } { active && <p className="d-inline" >{title}</p> }
+            { icon }<p className={`mb-0 ${ active ? 'link-title-active' : 'link-title' }`} >{title}</p>
         </Link>
     )
 }

@@ -1,21 +1,23 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Sidebar from './components/Sidebar/Sidebar';
+import Home from './components/Home/Home';
+import About from './components/About/About';
+import Skills from './components/Skills/Skills';
+import Projects from './components/Projects/Projects';
+import Contact from './components/Contact/Contact';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
         <Sidebar />
-        <div className="shift">
-          <Switch>
-
-          </Switch>
-        </div>
+        <Home />
+        <About />
+        <Skills />
+        <Projects />
+        <Contact />
       </div>
-    </Router>
   );
 }
 

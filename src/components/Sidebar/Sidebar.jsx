@@ -14,7 +14,7 @@ const Sidebar = () => {
         className={`card border-0 bg-black d-flex flex-column justify-content-center pl-2 pr-2 ${ active ? 'sidebar-active' : 'sidebar' }`} 
         >
             <div className="side-items d-flex flex-column justify-content-around" >
-                { navItems.map((item, index) => <SideItem key={ index } item={ item } active={ active } current={ current } setCurrent={ setCurrent } />) }
+                { navItems.map((item, index) => <SideItem key={ index } item={ item } active={ active } />) }
             </div>
         </div>
     )
