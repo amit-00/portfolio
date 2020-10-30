@@ -3,7 +3,7 @@
 /* Global Styles */
 
 :root{
-  --color-dark: #16181a;
+  --color-dark: #0e1012;
   --color-black: #010101;
   --color-primary: #69c9d0;
   --color-red: #ee1d52;
@@ -96,8 +96,8 @@ body{
 
 .side-item{
   background-color: rgba(0, 0, 0, 0);
-  padding-top: 0.8rem ;
-  padding-bottom: 0.8rem ;
+  padding-top: 1rem ;
+  padding-bottom: 1rem ;
   cursor: pointer;
   text-decoration: none;
   z-index: 6;
@@ -110,8 +110,8 @@ body{
 
 .side-item-active{
   background-color: var(--color-red)!important;
-  padding-top: 1.0rem ;
-  padding-bottom: 1.0rem ;
+  padding-top: 1.2rem ;
+  padding-bottom: 1.2rem ;
   text-decoration: none;
   z-index: 6;
 }
