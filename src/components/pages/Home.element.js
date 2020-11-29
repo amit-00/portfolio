@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Hero = styled.div`
+export const Hero = styled.section`
 background-color: #1c2237;
 color: #ffffff;
 display: grid;
@@ -25,5 +25,10 @@ p{
     width: 30px;
     margin-top: 2rem;
 }
+`
+
+export const Skills = styled.section`
+background-color: #276AFB;
+color: #FFFFFF;
 
 `
