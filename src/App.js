@@ -7,11 +7,9 @@ import Home from './components/pages/Home';
 function App() {
   return (
     <Router>
-      <div className="App">
-        <GlobalStyle />
-        <Navbar />
-        <Home />
-      </div>
+      <GlobalStyle />
+      <Navbar />
+      <Home />
     </Router>
   );
 }

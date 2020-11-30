@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { NavContainer, Head } from './Navbar.elements';
+import { NavContainer } from './Navbar.elements';
 
 
 const Navbar = () => {
     return (
         <Fragment>
             <NavContainer>
-                <Head>
+                <header>
                     <Link to='/' className='logo' >Amit Verma</Link>
 
                     <nav>
@@ -17,12 +17,12 @@ const Navbar = () => {
                             <li><Link className='nav-link' to='/'>Contact</Link></li>
                         </ul>
                     </nav>
-                    <div className="social-header">
-                        <ul>
-                            <li><Link to='/' >G</Link></li>
-                        </ul>
-                    </div>
-                </Head>
+                </header>
+                <div className="social-header">
+                    <ul>
+                        <li><Link style={{color: '#000000'}} to='/' ><i className="fab fa-github"></i></Link></li>
+                    </ul>
+                </div>
             </NavContainer>
         </Fragment>
     )

@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
-import { Hero } from './Home.element';
+import { Hero, Skills, Portfolio } from './Home.element';
 import featured from '../../assets/featured.png'
 
 import Project from '../layout/Project';
+import Card from '../layout/Card';
 
 
 const Home = () => {
@@ -14,7 +15,7 @@ const Home = () => {
                     <p>Discover more about me</p>
                     <svg className="scroll stagger1" width="40" height="77" viewBox="0 0 40 77" style={{transform: 'translate(0px, 0px)', opacity: '1'}}>
                         <g id="scroll" transform="translate(-253 -787)">
-                            <g id="Rectangle_12" data-name="Rectangle 12" transform="translate(253 787)" fill="none" stroke="#fff" stroke-width="4">
+                            <g id="Rectangle_12" data-name="Rectangle 12" transform="translate(253 787)" fill="none" stroke="#fff" strokeWidth="4">
                             <rect width="40" height="77" rx="20" stroke="none"></rect>
                             <rect x="2" y="2" width="36" height="73" rx="18" fill="none"></rect>
                             </g>
@@ -33,16 +34,29 @@ const Home = () => {
                     <circle className="square-anim" cx="225" cy="375" r="75" fill="#5BC0DE"/>
                 </svg>
             </Hero>
-            <Project title='InterLink Social Media App' subtitle='Featured Project' desc='Social media web application that allows developers to network and interact with eachother' img={featured} isFeatured={true} />
-
-            <section className="skills">
-                <div className="skills-container">
-                    <ul>
-                        <li className="transition2"></li>
-                    </ul>
-                </div>
+            <section className="featured">
+                <Project title='InterLink Social Media App' subtitle='Featured Project' desc='Social media web application that allows developers to network and interact with eachother' img={featured} isFeatured={true} />
             </section>
 
+            <Skills className="skills">
+                <div className="skills-container">
+                    <ul>
+                        <Card title='Software Design' desc='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque, sem eu blandit sodales' 
+                        icon={<i className="fas fa-crop-alt"></i>} />
+                        <Card title='Software Development' desc='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque, sem eu blandit sodal' 
+                        icon={<i className="fas fa-code"></i>} />
+                        <Card title='Web Development' desc='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque, sem eu blandit sodales' 
+                        icon={<i className="fab fa-react"></i>} />
+                    </ul>
+                </div>
+            </Skills>
+
+            <Portfolio>
+                <h1>Projects</h1>
+                <Project title='InterLink' subtitle='Social Media App' desc='Social media web application that allows developers to network and interact with eachother' img={featured} isFeatured={false} />
+                <Project title='InterLink' subtitle='Social Media App' desc='Social media web application that allows developers to network and interact with eachother' img={featured} isFeatured={false} />
+                <Project title='InterLink' subtitle='Social Media App' desc='Social media web application that allows developers to network and interact with eachother' img={featured} isFeatured={false} />
+            </Portfolio>
         </Fragment>
         
 

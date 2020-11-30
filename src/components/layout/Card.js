@@ -1,14 +1,15 @@
-import React from 'react'
+import React from 'react';
+import { CardContainer } from './Card.element'
 
-const Card = ({ title, desc }) => {
+const Card = ({ title, desc, icon }) => {
     return (
-        <li className="transition2">
+        <CardContainer className="transition2">
             <div className="icon-container one">
-                
+                {icon}
             </div>
             <p className="skill-title">{title}</p>
-            <p className="featured-desc skill-desc">{desc}</p>
-        </li>
+            <p className="desc">{desc}</p>
+        </CardContainer>
     )
 }
 
