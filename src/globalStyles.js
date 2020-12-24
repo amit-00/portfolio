@@ -13,6 +13,10 @@ body{
     overflow-x: hidden;
 }
 
+.home{
+  visibility: hidden;
+}
+
 h1 {
     display: block;
     font-size: 2em;

@@ -11,15 +11,19 @@ const Project = ({ title, subtitle, desc, img, isFeatured, link }) => {
     return (
         <ProjectContainer className='project'>
             <div className="left">
-                <div className="inner transition2">
+                <div className={isFeatured ? 'inner transition2' : 'inner transition4'}>
                     <p className="subtitle">{subtitle}</p>
-                    <Link to="/" className="project-title" >{title}</Link>
+                    { isFeatured ? (
+                        <Link to="/" className="project-title" >{title}</Link>
+                    ) : (
+                        <p className="project-title">{title}</p>
+                    ) }
                     
                     <p className="desc">{desc}</p>
                 </div>
             </div>
             <div className="right">
-                <Img  img={img} height={height} width={width}  />
+                <Img img={img} height={height} width={width} isFeatured={isFeatured}  />
             </div>
             
         </ProjectContainer>

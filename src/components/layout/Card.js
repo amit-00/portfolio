@@ -3,7 +3,7 @@ import { CardContainer } from './Card.element'
 
 const Card = ({ title, desc, icon }) => {
     return (
-        <CardContainer className="transition2">
+        <CardContainer className="transition3">
             <div className="icon-container one">
                 {icon}
             </div>
