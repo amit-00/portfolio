@@ -94,13 +94,13 @@ export default function Home() {
           </p>
         </div>
 
-        {projects.length > 0 ? projects.map((project) => (
+        {/* {projects.length > 0 ? projects.map((project) => (
           <div key={project.name} className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Image src={project.logo} alt={project.name} className="object-cover rounded-full" width={40} height={40} />
             </div>
           </div>
-        )) : <h2 className="text-muted-foreground mt-4 text-lg">It&apos;s kinda empty here...</h2>}
+        )) : <h2 className="text-muted-foreground mt-4 text-lg">It&apos;s kinda empty here...</h2>} */}
 
       </section>
 
