@@ -9,7 +9,7 @@ export const workExperience = [
   {
     company: "Geotab",
     title: "Software Engineer Intern",
-    date: "June 2022 - August 2023",
+    date: "June 2021 - August 2022",
     description: "Building backend systems for Geotab's fleet management platform",
     logo: "/geotab.png",
   }
