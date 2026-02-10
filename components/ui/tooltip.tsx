@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const TooltipContext = createContext<{
   open: boolean;
   setOpen: (open: boolean) => void;
-}>({ open: false, setOpen: () => {} });
+}>({ open: false, setOpen: () => { } });
 
 export function TooltipProvider({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
