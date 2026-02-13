@@ -7,6 +7,13 @@ export const workExperience = [
     logo: "/cibc.png",
   },
   {
+    company: "Jarvis Consulting Group",
+    title: "Technical Consultant",
+    date: "November 2023 - March 2024",
+    description: "",
+    logo: "/jarvis.png",
+  },
+  {
     company: "Geotab",
     title: "Software Engineer Intern",
     date: "June 2021 - August 2022",
