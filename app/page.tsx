@@ -3,12 +3,10 @@ import Image from "next/image";
 import { Globe, Github } from "lucide-react";
 import { AboutMe } from "@/components/about-me";
 import { Footer } from "@/components/footer";
-import { LightRays } from "@/components/ui/light-rays";
 
 export default function Home() {
   return (
     <div className="relative pt-24">
-      <LightRays />
       <div className="max-w-2xl mx-auto px-4 relative">
         <header className="flex flex-col-reverse md:flex-row items-center justify-between mb-24">
           <div className="">
