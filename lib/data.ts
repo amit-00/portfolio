@@ -43,4 +43,13 @@ export const skills = [
   { name: "GitHub", logo: "/github.png" },
 ]
 
-export const projects = []
+export const projects = [
+  {
+    name: "Flower City Run Club",
+    img: "fcrc.jpg",
+    description: "A running club I cofounded with my family to help people get into running and empower them to improve their health and confidence. Not technically advanced, but a proud accomplishment.",
+    link: "https://www.flowercityrunclub.ca",
+    repo: "",
+    tags: ["Next.js", "Tailwind CSS", "Vercel"]
+  }
+]

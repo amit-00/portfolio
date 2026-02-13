@@ -1,5 +1,6 @@
 import { workExperience, education, skills, projects } from "@/lib/data";
 import Image from "next/image";
+import { Globe, Github } from "lucide-react";
 
 export default function Home() {
   return (
@@ -96,13 +97,72 @@ export default function Home() {
           </p>
         </div>
 
-        {/* {projects.length > 0 ? projects.map((project) => (
-          <div key={project.name} className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Image src={project.logo} alt={project.name} className="object-cover rounded-full" width={40} height={40} />
-            </div>
-          </div>
-        )) : <h2 className="text-muted-foreground mt-4 text-lg">It&apos;s kinda empty here...</h2>} */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 text-left">
+          {projects.map((project) => {
+            const cardHref = project.link || project.repo;
+            return (
+              <div key={project.name} className="flex flex-col">
+                <div className="relative overflow-hidden rounded-xl border border-zinc-800 hover:border-zinc-600 transition-colors">
+                  {cardHref ? (
+                    <a href={cardHref} target="_blank" rel="noopener noreferrer">
+                      <Image
+                        src={`/${project.img}`}
+                        alt={project.name}
+                        className="object-cover w-full aspect-video"
+                        width={600}
+                        height={340}
+                      />
+                    </a>
+                  ) : (
+                    <Image
+                      src={`/${project.img}`}
+                      alt={project.name}
+                      className="object-cover w-full aspect-video"
+                      width={600}
+                      height={340}
+                    />
+                  )}
+                  <div className="absolute top-2 right-2 flex items-center gap-2">
+                    {project.link && (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 bg-zinc-900/80 backdrop-blur-sm text-zinc-200 rounded-full px-2 py-1 text-xs hover:bg-zinc-800 transition-colors"
+                      >
+                        <Globe className="size-3" />
+                        Website
+                      </a>
+                    )}
+                    {project.repo && (
+                      <a
+                        href={project.repo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 bg-zinc-900/80 backdrop-blur-sm text-zinc-200 rounded-full px-2 py-1 text-xs hover:bg-zinc-800 transition-colors"
+                      >
+                        <Github className="size-3" />
+                        GitHub
+                      </a>
+                    )}
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold mt-3">{project.name}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{project.description}</p>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="border border-zinc-800 rounded-full px-2 py-1 text-xs text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
       </section>
 
