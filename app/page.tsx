@@ -14,14 +14,16 @@ export default function Home() {
           </p>
         </div>
         <div className="mb-8 md:mb-0">
-          <div className="w-40 h-40 rounded-full bg-zinc-400"></div>
+          <div className="rounded-full overflow-hidden w-40 h-40 border border-zinc-800">
+            <Image src="/profile.jpeg" alt="Amit" className="object-cover w-full h-full" width={160} height={160} />
+          </div>
         </div>
       </header>
 
       <section>
         <h2 className="text-2xl font-bold">About Me</h2>
         <p className="text-lg text-muted-foreground mt-8">
-          I&apos;m a backend engineer who likes building systems that actually hold up in the real world. I&apos;m drawn to tricky constraints and I enjoy finding clean, practical solutions. I've worked in production environments at Canadian companies. Outside of work, I&apos;m building projects to learn scaling patterns.
+          I&apos;m a software engineer who likes building systems that actually hold up in the real world. I&apos;m drawn to tricky constraints and I enjoy finding clean, practical solutions. I've worked in production environments at large Canadian companies. Outside of work, I&apos;m building projects to learn scaling patterns.
         </p>
       </section>
 
