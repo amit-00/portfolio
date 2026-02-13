@@ -73,8 +73,14 @@ export default function Home() {
           {skills.map((skill) => (
             <div key={skill.name} className="flex items-center justify-between">
               <div className="flex items-center gap-2 border border-border rounded-full px-2 py-1">
-                {/* <Image src={skill.logo} alt={skill.name} className="object-cover rounded-full" width={40} height={40} /> */}
-                <div className="rounded-full bg-muted-foreground/40 w-6 h-6"></div>
+                <svg
+                  role="img"
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4 fill-muted-foreground"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d={skill.icon.path} />
+                </svg>
                 <p className="text-sm text-muted-foreground">{skill.name}</p>
               </div>
             </div>

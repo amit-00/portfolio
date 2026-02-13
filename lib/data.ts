@@ -30,17 +30,30 @@ export const education = [
   }
 ]
 
+import {
+  siPython,
+  siDjango,
+  siFastapi,
+  siReact,
+  siNextdotjs,
+  siTypescript,
+  siNodedotjs,
+  siDocker,
+  siPostgresql,
+  siGithub,
+} from "simple-icons";
+
 export const skills = [
-  { name: "Python", logo: "/python.png" },
-  { name: "Django", logo: "/django.png" },
-  { name: "FastAPI", logo: "/fastapi.png" },
-  { name: "React", logo: "/react.png" },
-  { name: "Next.js", logo: "/nextjs.png" },
-  { name: "Typescript", logo: "/typescript.png" },
-  { name: "Node.js", logo: "/nodejs.png" },
-  { name: "Docker", logo: "/docker.png" },
-  { name: "Postgres", logo: "/postgres.png" },
-  { name: "GitHub", logo: "/github.png" },
+  { name: "Python", icon: siPython },
+  { name: "Django", icon: siDjango },
+  { name: "FastAPI", icon: siFastapi },
+  { name: "React", icon: siReact },
+  { name: "Next.js", icon: siNextdotjs },
+  { name: "Typescript", icon: siTypescript },
+  { name: "Node.js", icon: siNodedotjs },
+  { name: "Docker", icon: siDocker },
+  { name: "Postgres", icon: siPostgresql },
+  { name: "GitHub", icon: siGithub },
 ]
 
 export const projects = [
