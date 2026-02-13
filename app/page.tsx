@@ -1,6 +1,7 @@
 import { workExperience, education, skills, projects } from "@/lib/data";
 import Image from "next/image";
 import { Globe, Github } from "lucide-react";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 export default function Home() {
   return (
@@ -147,13 +148,13 @@ export default function Home() {
                     )}
                   </div>
                 </div>
-                <h3 className="text-lg font-bold mt-3">{project.name}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{project.description}</p>
+                <h3 className="text-xl font-bold mt-3">{project.name}</h3>
+                <p className="text-md text-muted-foreground mt-1">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="border border-zinc-800 rounded-full px-2 py-1 text-xs text-muted-foreground"
+                      className="border border-zinc-800 rounded-full px-2 py-1 text-sm text-muted-foreground"
                     >
                       {tag}
                     </span>
@@ -166,7 +167,8 @@ export default function Home() {
 
       </section>
 
-      <footer className="mt-16 mb-32 text-center border border-zinc-800 rounded-2xl p-8">
+      <footer className="mt-32 mb-32 text-center border border-zinc-800 rounded-2xl p-8 relative">
+        <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
         <div className="max-w-lg mx-auto">
           <h2 className="text-5xl">Get in touch</h2>
           <p className="text-muted-foreground mt-4 text-lg">
