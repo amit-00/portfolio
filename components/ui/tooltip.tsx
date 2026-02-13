@@ -67,7 +67,7 @@ export function TooltipContent({
   return (
     <div
       className={cn(
-        "absolute -top-10 left-1/2 z-50 -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-foreground shadow-md",
+        "absolute -top-10 left-1/2 z-50 -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-background px-3 py-1.5 text-xs text-foreground shadow-md",
         className
       )}
     >

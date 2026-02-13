@@ -16,7 +16,7 @@ export default function Home() {
           </p>
         </div>
         <div className="mb-8 md:mb-0">
-          <div className="rounded-full overflow-hidden w-40 h-40 border border-zinc-800">
+          <div className="rounded-full overflow-hidden w-40 h-40 border border-border">
             <Image src="/profile.jpeg" alt="Amit" className="object-cover w-full h-full" width={160} height={160} />
           </div>
         </div>
@@ -72,9 +72,9 @@ export default function Home() {
         <div className="mt-12 flex flex-wrap gap-4">
           {skills.map((skill) => (
             <div key={skill.name} className="flex items-center justify-between">
-              <div className="flex items-center gap-2 border border-zinc-800 rounded-full px-2 py-1">
+              <div className="flex items-center gap-2 border border-border rounded-full px-2 py-1">
                 {/* <Image src={skill.logo} alt={skill.name} className="object-cover rounded-full" width={40} height={40} /> */}
-                <div className="rounded-full bg-zinc-400 w-6 h-6"></div>
+                <div className="rounded-full bg-muted-foreground/40 w-6 h-6"></div>
                 <p className="text-sm text-muted-foreground">{skill.name}</p>
               </div>
             </div>
@@ -103,7 +103,7 @@ export default function Home() {
             const cardHref = project.link || project.repo;
             return (
               <div key={project.name} className="flex flex-col">
-                <div className="relative overflow-hidden rounded-xl border border-zinc-800 hover:border-zinc-600 transition-colors">
+                <div className="relative overflow-hidden rounded-xl border border-border hover:border-muted-foreground/50 transition-colors">
                   {cardHref ? (
                     <a href={cardHref} target="_blank" rel="noopener noreferrer">
                       <Image
@@ -129,7 +129,7 @@ export default function Home() {
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 bg-zinc-900/80 backdrop-blur-sm text-zinc-200 rounded-full px-2 py-1 text-xs hover:bg-zinc-800 transition-colors"
+                        className="flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white rounded-full px-2 py-1 text-xs hover:bg-black/90 transition-colors"
                       >
                         <Globe className="size-3" />
                         Website
@@ -140,7 +140,7 @@ export default function Home() {
                         href={project.repo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 bg-zinc-900/80 backdrop-blur-sm text-zinc-200 rounded-full px-2 py-1 text-xs hover:bg-zinc-800 transition-colors"
+                        className="flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white rounded-full px-2 py-1 text-xs hover:bg-black/90 transition-colors"
                       >
                         <Github className="size-3" />
                         GitHub
@@ -154,7 +154,7 @@ export default function Home() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="border border-zinc-800 rounded-full px-2 py-1 text-sm text-muted-foreground"
+                      className="border border-border rounded-full px-2 py-1 text-sm text-muted-foreground"
                     >
                       {tag}
                     </span>
@@ -167,7 +167,7 @@ export default function Home() {
 
       </section>
 
-      <footer className="mt-32 mb-32 text-center border border-zinc-800 rounded-2xl p-8 relative">
+      <footer className="mt-32 mb-32 text-center border border-border rounded-2xl p-8 relative">
         <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
         <div className="max-w-lg mx-auto">
           <h2 className="text-5xl">Get in touch</h2>

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { FloatingDock } from "@/components/floating-dock";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -19,10 +21,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased bg-background text-foreground`}>
-        {children}
-        <FloatingDock />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+          <FloatingDock />
+          <Toaster position="top-right" toastOptions={{ style: { width: "fit-content" } }} />
+        </ThemeProvider>
       </body>
     </html>
   );

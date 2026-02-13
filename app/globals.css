@@ -4,24 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --color-background: var(--color-zinc-950);
-  --color-foreground: var(--color-zinc-50);
-  --color-muted: var(--color-zinc-400);
-  --color-muted-foreground: var(--color-zinc-500);
-  --color-surface: var(--color-zinc-900);
-  --color-surface-hover: var(--color-zinc-800);
-  --color-border: var(--color-zinc-800);
-}
-
 @layer base {
   body {
-    @apply bg-background text-foreground;
     @apply bg-background text-foreground;
   }
 
   ::selection {
-    @apply bg-zinc-700 text-zinc-50;
+    @apply bg-zinc-300 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-50;
   }
   * {
     @apply border-border outline-ring/50;

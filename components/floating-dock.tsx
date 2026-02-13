@@ -2,7 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { HomeIcon, PencilIcon, MailIcon } from "lucide-react";
+import { HomeIcon, MailIcon, SunIcon, MoonIcon } from "lucide-react";
+import { useTheme } from "next-themes";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { Dock, DockIcon } from "@/components/ui/dock";
@@ -34,21 +36,11 @@ const Icons = {
       />
     </svg>
   ),
-  x: (props: IconProps) => (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <title>X</title>
-      <path
-        fill="currentColor"
-        d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
-      />
-    </svg>
-  ),
 };
 
 const DATA = {
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
-    { href: "#", icon: PencilIcon, label: "Blog" },
   ],
   contact: {
     social: {
@@ -62,15 +54,44 @@ const DATA = {
         url: "https://linkedin.com",
         icon: Icons.linkedin,
       },
-      X: {
-        name: "X",
-        url: "https://x.com",
-        icon: Icons.x,
-      },
     },
-    email: "mailto:hello@example.com",
+    email: "amit.v@hotmail.com",
   },
 };
+
+function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => setMounted(true), []);
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          aria-label="Toggle theme"
+          className={cn(
+            "flex size-12 cursor-pointer items-center justify-center rounded-full"
+          )}
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+        >
+          {mounted ? (
+            resolvedTheme === "dark" ? (
+              <SunIcon className="size-4" />
+            ) : (
+              <MoonIcon className="size-4" />
+            )
+          ) : (
+            <SunIcon className="size-4" />
+          )}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{mounted && resolvedTheme === "dark" ? "Light mode" : "Dark mode"}</p>
+      </TooltipContent>
+    </Tooltip>
+  );
+}
 
 export function FloatingDock() {
   return (
@@ -97,6 +118,9 @@ export function FloatingDock() {
               </Tooltip>
             </DockIcon>
           ))}
+          <DockIcon>
+            <ThemeToggle />
+          </DockIcon>
           <Separator orientation="vertical" className="h-full" />
           {Object.entries(DATA.contact.social).map(([name, social]) => (
             <DockIcon key={name}>
@@ -123,18 +147,21 @@ export function FloatingDock() {
           <DockIcon>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link
-                  href={DATA.contact.email}
-                  aria-label="Send Email"
+                <button
+                  aria-label="Copy Email"
                   className={cn(
-                    "flex size-12 items-center justify-center rounded-full"
+                    "flex size-12 cursor-pointer items-center justify-center rounded-full"
                   )}
+                  onClick={() => {
+                    navigator.clipboard.writeText(DATA.contact.email);
+                    toast("Email copied to clipboard!");
+                  }}
                 >
                   <MailIcon className="size-4" />
-                </Link>
+                </button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Send Email</p>
+                <p>Copy Email</p>
               </TooltipContent>
             </Tooltip>
           </DockIcon>
