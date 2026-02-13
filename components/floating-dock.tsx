@@ -44,14 +44,14 @@ const DATA = {
   ],
   contact: {
     social: {
-      GitHub: {
-        name: "GitHub",
-        url: "https://github.com",
-        icon: Icons.github,
-      },
+      // GitHub: {
+      //   name: "GitHub",
+      //   url: "https://github.com",
+      //   icon: Icons.github,
+      // },
       LinkedIn: {
         name: "LinkedIn",
-        url: "https://linkedin.com",
+        url: "https://www.linkedin.com/in/amitv00/",
         icon: Icons.linkedin,
       },
     },
@@ -102,15 +102,15 @@ export function FloatingDock() {
             <DockIcon key={item.label}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link
-                    href={item.href}
+                  <button
                     aria-label={item.label}
                     className={cn(
-                      "flex size-12 items-center justify-center rounded-full"
+                      "flex size-12 cursor-pointer items-center justify-center rounded-full"
                     )}
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                   >
                     <item.icon className="size-4" />
-                  </Link>
+                  </button>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>{item.label}</p>
