@@ -1,10 +1,8 @@
-"use client";
-
 import { workExperience, education, skills, projects } from "@/lib/data";
 import Image from "next/image";
 import { Globe, Github } from "lucide-react";
-import { ShineBorder } from "@/components/ui/shine-border";
-import { toast } from "sonner";
+import { AboutMe } from "@/components/about-me";
+import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
@@ -25,12 +23,7 @@ export default function Home() {
         </div>
       </header>
 
-      <section>
-        <h2 className="text-2xl font-bold">About Me</h2>
-        <p className="text-lg text-muted-foreground mt-8">
-          I&apos;m a software engineer who likes building systems that actually hold up in the real world. I&apos;m drawn to tricky constraints and I enjoy finding clean, practical solutions. I've worked in production environments at <button onClick={() => document.getElementById("work-experience")?.scrollIntoView({ behavior: "smooth" })} className="underline cursor-pointer">large Canadian companies.</button> Outside of work, <button onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })} className="underline cursor-pointer">I&apos;m building projects</button> to learn scaling patterns.
-        </p>
-      </section>
+      <AboutMe />
 
       <section id="work-experience" className="mt-16 scroll-mt-24">
         <h2 className="text-2xl font-bold">Work Experience</h2>
@@ -176,15 +169,7 @@ export default function Home() {
 
       </section>
 
-      <footer className="mt-32 mb-32 text-center border border-border rounded-2xl p-8 relative">
-        <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
-        <div className="max-w-lg mx-auto">
-          <h2 className="text-5xl">Get in touch</h2>
-          <p className="text-muted-foreground mt-4 text-lg">
-            I&apos;m always looking for new opportunities and collaborations. Feel free to reach out to me via <span className="underline cursor-pointer" onClick={() => { navigator.clipboard.writeText("amit.v@hotmail.com"); toast("Email copied to clipboard!"); }}>email</span>.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
