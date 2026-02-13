@@ -1,7 +1,10 @@
+"use client";
+
 import { workExperience, education, skills, projects } from "@/lib/data";
 import Image from "next/image";
 import { Globe, Github } from "lucide-react";
 import { ShineBorder } from "@/components/ui/shine-border";
+import { toast } from "sonner";
 
 export default function Home() {
   return (
@@ -25,11 +28,11 @@ export default function Home() {
       <section>
         <h2 className="text-2xl font-bold">About Me</h2>
         <p className="text-lg text-muted-foreground mt-8">
-          I&apos;m a software engineer who likes building systems that actually hold up in the real world. I&apos;m drawn to tricky constraints and I enjoy finding clean, practical solutions. I've worked in production environments at large Canadian companies. Outside of work, I&apos;m building projects to learn scaling patterns.
+          I&apos;m a software engineer who likes building systems that actually hold up in the real world. I&apos;m drawn to tricky constraints and I enjoy finding clean, practical solutions. I've worked in production environments at <button onClick={() => document.getElementById("work-experience")?.scrollIntoView({ behavior: "smooth" })} className="underline cursor-pointer">large Canadian companies.</button> Outside of work, <button onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })} className="underline cursor-pointer">I&apos;m building projects</button> to learn scaling patterns.
         </p>
       </section>
 
-      <section className="mt-16">
+      <section id="work-experience" className="mt-16 scroll-mt-24">
         <h2 className="text-2xl font-bold">Work Experience</h2>
         <div className="mt-12 flex flex-col gap-8">
           {workExperience.map((experience) => (
@@ -96,7 +99,7 @@ export default function Home() {
         <div className="flex-1 h-px bg-border"></div>
       </div>
 
-      <section className="mt-16 text-center">
+      <section id="projects" className="mt-16 text-center scroll-mt-24">
         <div className="max-w-lg mx-auto">
           <h2 className="text-3xl font-bold">Check out my latest work</h2>
           <p className="text-muted-foreground mt-4 text-lg">
@@ -178,7 +181,7 @@ export default function Home() {
         <div className="max-w-lg mx-auto">
           <h2 className="text-5xl">Get in touch</h2>
           <p className="text-muted-foreground mt-4 text-lg">
-            I&apos;m always looking for new opportunities and collaborations. Feel free to reach out to me via email or social media.
+            I&apos;m always looking for new opportunities and collaborations. Feel free to reach out to me via <span className="underline cursor-pointer" onClick={() => { navigator.clipboard.writeText("amit.v@hotmail.com"); toast("Email copied to clipboard!"); }}>email</span>.
           </p>
         </div>
       </footer>
