@@ -48,6 +48,9 @@ import {
   siDocker,
   siPostgresql,
   siGithub,
+  siGooglecloud,
+  siModal,
+  siTerraform,
 } from "simple-icons";
 
 export const skills = [
@@ -61,9 +64,20 @@ export const skills = [
   { name: "Docker", icon: siDocker },
   { name: "Postgres", icon: siPostgresql },
   { name: "GitHub", icon: siGithub },
+  { name: "Google Cloud", icon: siGooglecloud },
+  { name: "Modal", icon: siModal },
+  { name: "Terraform", icon: siTerraform },
 ]
 
 export const projects = [
+  {
+    name: "PulseFM - AI Lofi Radio",
+    img: "pulsefm.jpg",
+    description: "PulseFM is a 24/7 AI-powered radio platform where listeners vote on curated music styles, and the winning option is generated and streamed live.",
+    link: "https://www.pulsefm.app",
+    repo: "https://github.com/amit-00/pulseFM",
+    tags: ["FastAPI", "Next.js", "Redis", "Docker", "GCP", "Modal", "Terraform"]
+  },
   {
     name: "Flower City Run Club",
     img: "fcrc.jpg",
@@ -71,5 +85,6 @@ export const projects = [
     link: "https://www.flowercityrunclub.ca",
     repo: "",
     tags: ["Next.js", "Tailwind CSS", "Vercel"]
-  }
+  },
+  
 ]
