@@ -69,13 +69,25 @@ export const skills = [
   { name: "Terraform", icon: siTerraform },
 ]
 
-export const projects = [
+export interface Project {
+  name: string;
+  img: string;
+  description: string;
+  link: string;
+  repo: string;
+  /** Slug under content/projects/; when set, the card links to /projects/<docs> */
+  docs?: string;
+  tags: string[];
+}
+
+export const projects: Project[] = [
   {
     name: "PulseFM - AI Lofi Radio",
     img: "pulsefm.jpg",
     description: "PulseFM is a 24/7 AI-powered radio platform where listeners vote on curated music styles, and the winning option is generated and streamed live.",
     link: "https://www.pulsefm.app",
     repo: "https://github.com/amit-00/pulseFM",
+    docs: "pulsefm",
     tags: ["FastAPI", "Next.js", "Redis", "Docker", "GCP", "Modal", "Terraform"]
   },
   {

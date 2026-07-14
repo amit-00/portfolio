@@ -1,5 +1,6 @@
 import { workExperience, education, skills, projects } from "@/lib/data";
 import Image from "next/image";
+import Link from "next/link";
 import { Globe, Github } from "lucide-react";
 import { AboutMe } from "@/components/about-me";
 import { Footer } from "@/components/footer";
@@ -103,28 +104,29 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 text-left">
             {projects.map((project) => {
-              const cardHref = project.link || project.repo;
+              const docsHref = project.docs ? `/projects/${project.docs}` : null;
+              // "||" not "??": link/repo use empty string for "absent"
+              const cardHref = docsHref ?? (project.link || project.repo);
+              const image = (
+                <Image
+                  src={`/${project.img}`}
+                  alt={project.name}
+                  className="object-cover w-full aspect-video"
+                  width={600}
+                  height={340}
+                />
+              );
               return (
                 <div key={project.name} className="flex flex-col">
                   <div className="relative overflow-hidden rounded-xl border border-border hover:border-muted-foreground/50 transition-colors">
-                    {cardHref ? (
+                    {docsHref ? (
+                      <Link href={docsHref}>{image}</Link>
+                    ) : cardHref ? (
                       <a href={cardHref} target="_blank" rel="noopener noreferrer">
-                        <Image
-                          src={`/${project.img}`}
-                          alt={project.name}
-                          className="object-cover w-full aspect-video"
-                          width={600}
-                          height={340}
-                        />
+                        {image}
                       </a>
                     ) : (
-                      <Image
-                        src={`/${project.img}`}
-                        alt={project.name}
-                        className="object-cover w-full aspect-video"
-                        width={600}
-                        height={340}
-                      />
+                      image
                     )}
                     <div className="absolute top-2 right-2 flex items-center gap-2">
                       {project.link && (
@@ -151,7 +153,13 @@ export default function Home() {
                       )}
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold mt-3">{project.name}</h3>
+                  {docsHref ? (
+                    <Link href={docsHref}>
+                      <h3 className="text-xl font-bold mt-3 hover:underline">{project.name}</h3>
+                    </Link>
+                  ) : (
+                    <h3 className="text-xl font-bold mt-3">{project.name}</h3>
+                  )}
                   <p className="text-md text-muted-foreground mt-1">{project.description}</p>
                   <div className="flex flex-wrap gap-2 mt-3">
                     {project.tags.map((tag) => (
