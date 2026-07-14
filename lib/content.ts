@@ -114,3 +114,68 @@ export function getDocPage(
   if (!resolved) return null;
   return { slug, ...parseDocFile(resolved) };
 }
+
+export function getSidebarTree(
+  projectSlug: string,
+  contentDir: string = CONTENT_DIR,
+): SidebarNode[] {
+  if (!isValidSlug([projectSlug])) return [];
+  const projectDir = path.join(contentDir, projectSlug);
+  if (!fs.existsSync(projectDir)) return [];
+  return buildTree(projectDir, [projectSlug]);
+}
+
+function buildTree(dir: string, slugPrefix: string[]): SidebarNode[] {
+  const nodes: SidebarNode[] = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const entryPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      const childSlug = [...slugPrefix, entry.name];
+      const children = buildTree(entryPath, childSlug);
+      const indexPath = path.join(entryPath, "index.md");
+      if (fs.existsSync(indexPath)) {
+        const doc = parseDocFile(indexPath);
+        nodes.push({
+          title: doc.title,
+          href: hrefForSlug(childSlug),
+          order: doc.order,
+          children,
+        });
+      } else {
+        console.warn(
+          `[content] Folder missing index.md, omitting its sidebar link: ${entryPath}`,
+        );
+        nodes.push({
+          title: humanizeFilename(entry.name),
+          href: null,
+          order: null,
+          children,
+        });
+      }
+    } else if (entry.name.endsWith(".md") && entry.name !== "index.md") {
+      const doc = parseDocFile(entryPath);
+      nodes.push({
+        title: doc.title,
+        href: hrefForSlug([...slugPrefix, entry.name.slice(0, -".md".length)]),
+        order: doc.order,
+        children: [],
+      });
+    }
+  }
+  return sortNodes(nodes);
+}
+
+function hrefForSlug(slug: string[]): string {
+  return `/projects/${slug.join("/")}`;
+}
+
+function sortNodes(nodes: SidebarNode[]): SidebarNode[] {
+  return [...nodes].sort((a, b) => {
+    if (a.order !== null && b.order !== null && a.order !== b.order) {
+      return a.order - b.order;
+    }
+    if (a.order !== null && b.order === null) return -1;
+    if (a.order === null && b.order !== null) return 1;
+    return a.title.localeCompare(b.title);
+  });
+}

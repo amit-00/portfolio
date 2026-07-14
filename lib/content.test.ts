@@ -1,6 +1,6 @@
 import { describe, test, expect } from "bun:test";
 import path from "path";
-import { getAllDocSlugs, getDocPage } from "@/lib/content";
+import { getAllDocSlugs, getDocPage, getSidebarTree } from "@/lib/content";
 
 const FIXTURES = path.join(import.meta.dir, "__tests__", "fixtures");
 
@@ -65,5 +65,40 @@ describe("getDocPage", () => {
 
   test("throws an error naming the file on malformed frontmatter", () => {
     expect(() => getDocPage(["bad"], FIXTURES)).toThrow(/bad(\/|\\)index\.md/);
+  });
+});
+
+describe("getSidebarTree", () => {
+  test("sorts by order ascending, then nulls last alphabetically", () => {
+    const tree = getSidebarTree("alpha", FIXTURES);
+    expect(tree.map((n) => n.title)).toEqual(["Zebra", "Guides", "Setting Up"]);
+  });
+
+  test("builds hrefs from slugs and nests folder children", () => {
+    const tree = getSidebarTree("alpha", FIXTURES);
+    const guides = tree.find((n) => n.title === "Guides");
+    expect(guides?.href).toBe("/projects/alpha/guides");
+    expect(guides?.children.map((c) => c.href)).toEqual([
+      "/projects/alpha/guides/deploy",
+    ]);
+  });
+
+  test("leaf pages have no children", () => {
+    const tree = getSidebarTree("alpha", FIXTURES);
+    expect(tree.find((n) => n.title === "Setting Up")?.children).toEqual([]);
+  });
+
+  test("folder without index.md gets a null href but keeps its children", () => {
+    const tree = getSidebarTree("beta", FIXTURES);
+    const orphan = tree.find((n) => n.title === "Orphan");
+    expect(orphan?.href).toBeNull();
+    expect(orphan?.children.map((c) => c.href)).toEqual([
+      "/projects/beta/orphan/page",
+    ]);
+  });
+
+  test("returns empty array for unknown or invalid project slugs", () => {
+    expect(getSidebarTree("nope", FIXTURES)).toEqual([]);
+    expect(getSidebarTree("..", FIXTURES)).toEqual([]);
   });
 });
