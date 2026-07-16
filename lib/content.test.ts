@@ -155,4 +155,16 @@ describe("getProjectPosts", () => {
       /no-date\.md/,
     );
   });
+
+  test("breaks date ties by title ascending and parses quoted string dates", () => {
+    const posts = getProjectPosts("epsilon", FIXTURES);
+    expect(posts.map((p) => p.title)).toEqual(["Aaa Title", "Bbb Title"]);
+    expect(posts.every((p) => p.date === "2026-05-01")).toBe(true);
+  });
+
+  test("ignores non-markdown files and subdirectories inside posts/", () => {
+    const posts = getProjectPosts("epsilon", FIXTURES);
+    expect(posts).toHaveLength(2);
+    expect(posts.map((p) => p.title)).not.toContain("WIP Draft");
+  });
 });
