@@ -1,8 +1,15 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAllDocSlugs, getDocPage, getSidebarTree } from "@/lib/content";
+import {
+  getAllDocSlugs,
+  getDocPage,
+  getProjectPosts,
+  getSidebarTree,
+} from "@/lib/content";
 import { Markdown } from "@/components/markdown";
 import { DocsSidebar } from "@/components/docs-sidebar";
+import { EditorialSection } from "@/components/editorial-section";
+import { formatDate } from "@/lib/utils";
 
 // Only paths emitted by generateStaticParams exist; everything else 404s
 // and no doc page is ever rendered on demand.
@@ -32,6 +39,13 @@ export default async function ProjectDocPage({ params }: DocRouteProps) {
   const projectSlug = slug[0];
   const projectIndex = getDocPage([projectSlug]);
   const nodes = getSidebarTree(projectSlug);
+  const posts = getProjectPosts(projectSlug);
+
+  const isOverview = slug.length === 1;
+  const post =
+    slug.length === 3 && slug[1] === "posts"
+      ? posts.find((p) => p.slug.join("/") === slug.join("/"))
+      : undefined;
 
   return (
     <div className="relative pt-24 pb-24">
@@ -43,7 +57,16 @@ export default async function ProjectDocPage({ params }: DocRouteProps) {
           currentHref={`/projects/${slug.join("/")}`}
         />
         <article className="min-w-0 flex-1 max-w-2xl">
+          {post && (
+            <time
+              dateTime={post.date}
+              className="block text-sm text-muted-foreground"
+            >
+              {formatDate(post.date)}
+            </time>
+          )}
           <Markdown content={page.content} />
+          {isOverview && <EditorialSection posts={posts} />}
         </article>
       </div>
     </div>
