@@ -195,7 +195,28 @@ export function getSidebarTree(
   if (!isValidSlug([projectSlug])) return [];
   const projectDir = path.join(contentDir, projectSlug);
   if (!fs.existsSync(projectDir)) return [];
-  return buildTree(projectDir, [projectSlug]);
+  const nodes = buildTree(projectDir, [projectSlug], [POSTS_DIR]);
+  const editorial = buildEditorialGroup(projectSlug, contentDir);
+  return editorial ? [...nodes, editorial] : nodes;
+}
+
+function buildEditorialGroup(
+  projectSlug: string,
+  contentDir: string,
+): SidebarNode | null {
+  const posts = getProjectPosts(projectSlug, contentDir);
+  if (posts.length === 0) return null;
+  return {
+    title: "Editorial",
+    href: `/projects/${projectSlug}#editorial`,
+    order: null,
+    children: posts.map((post) => ({
+      title: post.title,
+      href: hrefForSlug(post.slug),
+      order: null,
+      children: [],
+    })),
+  };
 }
 
 export function getProjectPosts(
@@ -221,9 +242,14 @@ export function getProjectPosts(
   return posts.sort(comparePosts);
 }
 
-function buildTree(dir: string, slugPrefix: string[]): SidebarNode[] {
+function buildTree(
+  dir: string,
+  slugPrefix: string[],
+  skip: readonly string[] = [],
+): SidebarNode[] {
   const nodes: SidebarNode[] = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (skip.includes(entry.name)) continue;
     const entryPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       const childSlug = [...slugPrefix, entry.name];

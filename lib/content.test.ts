@@ -106,6 +106,37 @@ describe("getSidebarTree", () => {
     expect(getSidebarTree("nope", FIXTURES)).toEqual([]);
     expect(getSidebarTree("..", FIXTURES)).toEqual([]);
   });
+
+  test("appends an Editorial group after regular nodes when posts exist", () => {
+    const tree = getSidebarTree("gamma", FIXTURES);
+    expect(tree.map((n) => n.title)).toEqual(["Intro", "Editorial"]);
+  });
+
+  test("Editorial group links to the overview anchor", () => {
+    const editorial = getSidebarTree("gamma", FIXTURES).find(
+      (n) => n.title === "Editorial",
+    );
+    expect(editorial?.href).toBe("/projects/gamma#editorial");
+  });
+
+  test("Editorial children are posts, newest-first, with real hrefs", () => {
+    const editorial = getSidebarTree("gamma", FIXTURES).find(
+      (n) => n.title === "Editorial",
+    );
+    expect(editorial?.children.map((c) => c.title)).toEqual([
+      "Second Post",
+      "First Post",
+    ]);
+    expect(editorial?.children.map((c) => c.href)).toEqual([
+      "/projects/gamma/posts/second-post",
+      "/projects/gamma/posts/first-post",
+    ]);
+  });
+
+  test("no Editorial group when the project has no posts", () => {
+    const tree = getSidebarTree("alpha", FIXTURES);
+    expect(tree.map((n) => n.title)).not.toContain("Editorial");
+  });
 });
 
 describe("getProjectPosts", () => {
