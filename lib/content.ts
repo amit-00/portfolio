@@ -4,6 +4,16 @@ import matter from "gray-matter";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
 
+export const POSTS_DIR = "posts";
+
+export interface PostMeta {
+  slug: string[];
+  title: string;
+  date: string; // normalized YYYY-MM-DD
+  excerpt: string;
+  image: string | null;
+}
+
 export interface DocPage {
   slug: string[];
   title: string;
@@ -63,6 +73,59 @@ function resolveTitle(
   const fallbackName =
     baseName === "index" ? path.basename(path.dirname(filePath)) : baseName;
   return frontmatterTitle ?? headingTitle ?? humanizeFilename(fallbackName);
+}
+
+// gray-matter parses an unquoted `date: 2026-03-05` as a Date; a quoted value
+// arrives as a string. Accept both, reject everything else, and normalize to a
+// timezone-stable YYYY-MM-DD string.
+function normalizeDate(value: unknown, filePath: string): string {
+  let parsed: Date | null = null;
+  if (value instanceof Date) {
+    parsed = value;
+  } else if (typeof value === "string" && value.trim() !== "") {
+    parsed = new Date(value.trim());
+  }
+  if (parsed === null || Number.isNaN(parsed.getTime())) {
+    throw new Error(
+      `Missing or invalid "date" in ${filePath}: ${
+        value === undefined ? "no date provided" : `"${String(value)}"`
+      }. Add a frontmatter date in YYYY-MM-DD format.`,
+    );
+  }
+  return parsed.toISOString().slice(0, 10);
+}
+
+function deriveExcerpt(content: string): string {
+  const firstProse = content
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter((block) => block.length > 0)
+    .find((block) => !block.startsWith("#"));
+  return (firstProse ?? "").replace(/\s+/g, " ").trim();
+}
+
+function parsePostFile(filePath: string, slug: string[]): PostMeta {
+  const parsed = readMatter(filePath);
+  const explicitExcerpt =
+    typeof parsed.data.excerpt === "string" && parsed.data.excerpt.trim() !== ""
+      ? parsed.data.excerpt.trim()
+      : null;
+  const image =
+    typeof parsed.data.image === "string" && parsed.data.image.trim() !== ""
+      ? parsed.data.image.trim()
+      : null;
+  return {
+    slug,
+    title: resolveTitle(parsed, filePath),
+    date: normalizeDate(parsed.data.date, filePath),
+    excerpt: explicitExcerpt ?? deriveExcerpt(parsed.content),
+    image,
+  };
+}
+
+function comparePosts(a: PostMeta, b: PostMeta): number {
+  if (a.date !== b.date) return a.date < b.date ? 1 : -1; // date descending
+  return a.title.localeCompare(b.title);
 }
 
 function parseDocFile(filePath: string): ParsedDoc {
@@ -133,6 +196,29 @@ export function getSidebarTree(
   const projectDir = path.join(contentDir, projectSlug);
   if (!fs.existsSync(projectDir)) return [];
   return buildTree(projectDir, [projectSlug]);
+}
+
+export function getProjectPosts(
+  projectSlug: string,
+  contentDir: string = CONTENT_DIR,
+): PostMeta[] {
+  if (!isValidSlug([projectSlug])) return [];
+  const postsDir = path.join(contentDir, projectSlug, POSTS_DIR);
+  if (!fs.existsSync(postsDir)) return [];
+  const posts: PostMeta[] = [];
+  for (const entry of fs.readdirSync(postsDir, { withFileTypes: true })) {
+    if (!entry.isFile()) continue;
+    if (!entry.name.endsWith(".md") || entry.name === "index.md") continue;
+    const name = entry.name.slice(0, -".md".length);
+    posts.push(
+      parsePostFile(path.join(postsDir, entry.name), [
+        projectSlug,
+        POSTS_DIR,
+        name,
+      ]),
+    );
+  }
+  return posts.sort(comparePosts);
 }
 
 function buildTree(dir: string, slugPrefix: string[]): SidebarNode[] {

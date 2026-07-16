@@ -1,6 +1,11 @@
 import { describe, test, expect } from "bun:test";
 import path from "path";
-import { getAllDocSlugs, getDocPage, getSidebarTree } from "@/lib/content";
+import {
+  getAllDocSlugs,
+  getDocPage,
+  getSidebarTree,
+  getProjectPosts,
+} from "@/lib/content";
 
 const FIXTURES = path.join(import.meta.dir, "__tests__", "fixtures");
 
@@ -100,5 +105,54 @@ describe("getSidebarTree", () => {
   test("returns empty array for unknown or invalid project slugs", () => {
     expect(getSidebarTree("nope", FIXTURES)).toEqual([]);
     expect(getSidebarTree("..", FIXTURES)).toEqual([]);
+  });
+});
+
+describe("getProjectPosts", () => {
+  test("returns posts sorted newest-first by date", () => {
+    const posts = getProjectPosts("gamma", FIXTURES);
+    expect(posts.map((p) => p.title)).toEqual(["Second Post", "First Post"]);
+  });
+
+  test("normalizes date to YYYY-MM-DD and builds the post slug", () => {
+    const [newest] = getProjectPosts("gamma", FIXTURES);
+    expect(newest.date).toBe("2026-03-05");
+    expect(newest.slug).toEqual(["gamma", "posts", "second-post"]);
+  });
+
+  test("uses an explicit excerpt when present", () => {
+    const first = getProjectPosts("gamma", FIXTURES).find(
+      (p) => p.title === "First Post",
+    );
+    expect(first?.excerpt).toBe("An explicit excerpt for the first post.");
+  });
+
+  test("derives the excerpt from the first paragraph, collapsing whitespace", () => {
+    const second = getProjectPosts("gamma", FIXTURES).find(
+      (p) => p.title === "Second Post",
+    );
+    expect(second?.excerpt).toBe("This first paragraph becomes the derived excerpt.");
+  });
+
+  test("exposes image when set and null when absent", () => {
+    const posts = getProjectPosts("gamma", FIXTURES);
+    expect(posts.find((p) => p.title === "First Post")?.image).toBe("/posts/first.jpg");
+    expect(posts.find((p) => p.title === "Second Post")?.image).toBeNull();
+  });
+
+  test("ignores index.md inside posts/", () => {
+    const posts = getProjectPosts("gamma", FIXTURES);
+    expect(posts.map((p) => p.title)).not.toContain("Should Be Ignored");
+  });
+
+  test("returns [] when the project or posts folder is absent", () => {
+    expect(getProjectPosts("alpha", FIXTURES)).toEqual([]);
+    expect(getProjectPosts("nope", FIXTURES)).toEqual([]);
+  });
+
+  test("throws a descriptive error when a post is missing its date", () => {
+    expect(() => getProjectPosts("deltabad", FIXTURES)).toThrow(
+      /no-date\.md/,
+    );
   });
 });
