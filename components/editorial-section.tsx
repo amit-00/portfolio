@@ -1,8 +1,13 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { PostMeta } from "@/lib/content";
 import { formatDate } from "@/lib/utils";
 
-export function EditorialSection({ posts }: { posts: PostMeta[] }) {
+export function EditorialSection({
+  posts,
+}: {
+  posts: PostMeta[];
+}): ReactNode {
   if (posts.length === 0) return null;
   return (
     <section id="editorial" className="mt-16 scroll-mt-24">

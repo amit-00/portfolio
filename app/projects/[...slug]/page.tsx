@@ -39,13 +39,15 @@ export default async function ProjectDocPage({ params }: DocRouteProps) {
   const projectSlug = slug[0];
   const projectIndex = getDocPage([projectSlug]);
   const nodes = getSidebarTree(projectSlug);
-  const posts = getProjectPosts(projectSlug);
 
   const isOverview = slug.length === 1;
-  const post =
-    slug.length === 3 && slug[1] === "posts"
-      ? posts.find((p) => p.slug.join("/") === slug.join("/"))
-      : undefined;
+  const isPostPage = slug.length === 3 && slug[1] === "posts";
+  // Posts are only needed to render the overview's editorial section or a
+  // post page's date header; the sidebar loads them separately at build time.
+  const posts = isOverview || isPostPage ? getProjectPosts(projectSlug) : [];
+  const post = isPostPage
+    ? posts.find((p) => p.slug.join("/") === slug.join("/"))
+    : undefined;
 
   return (
     <div className="relative pt-24 pb-24">
