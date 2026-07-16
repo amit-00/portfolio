@@ -39,11 +39,10 @@ function humanizeFilename(name: string): string {
   return name.replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-function parseDocFile(filePath: string): ParsedDoc {
+function readMatter(filePath: string): ReturnType<typeof matter> {
   const raw = fs.readFileSync(filePath, "utf-8");
-  let parsed: ReturnType<typeof matter>;
   try {
-    parsed = matter(raw);
+    return matter(raw);
   } catch (error) {
     throw new Error(
       `Malformed frontmatter in ${filePath}: ${
@@ -51,14 +50,25 @@ function parseDocFile(filePath: string): ParsedDoc {
       }. Fix the YAML block at the top of the file.`,
     );
   }
+}
+
+function resolveTitle(
+  parsed: ReturnType<typeof matter>,
+  filePath: string,
+): string {
   const frontmatterTitle =
     typeof parsed.data.title === "string" ? parsed.data.title : null;
   const headingTitle = parsed.content.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? null;
   const baseName = path.basename(filePath, ".md");
   const fallbackName =
     baseName === "index" ? path.basename(path.dirname(filePath)) : baseName;
+  return frontmatterTitle ?? headingTitle ?? humanizeFilename(fallbackName);
+}
+
+function parseDocFile(filePath: string): ParsedDoc {
+  const parsed = readMatter(filePath);
   return {
-    title: frontmatterTitle ?? headingTitle ?? humanizeFilename(fallbackName),
+    title: resolveTitle(parsed, filePath),
     order: typeof parsed.data.order === "number" ? parsed.data.order : null,
     content: parsed.content,
   };
