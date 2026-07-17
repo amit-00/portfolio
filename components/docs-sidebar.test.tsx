@@ -45,4 +45,31 @@ describe("DocsSidebar", () => {
     expect(html).not.toMatch(/<a[^>]*>Infra</);
     expect(html).toContain("Infra");
   });
+
+  test("renders a dock-styled mobile trigger button", () => {
+    const html = render("/projects/pulsefm");
+    expect(html).toContain('aria-label="Open docs navigation"');
+    // Trigger shares the dock surface: blur + border
+    expect(html).toMatch(/aria-label="Open docs navigation"[^>]*class="[^"]*backdrop-blur-md/);
+  });
+
+  test("renders a fixed back-to-portfolio button linking home", () => {
+    const html = render("/projects/pulsefm/architecture");
+    // Icon-only anchor to the portfolio home.
+    expect(html).toMatch(/<a[^>]*aria-label="Back to portfolio"[^>]*>\s*<svg/);
+    expect(html).toContain('href="/"');
+  });
+
+  test("no longer renders the back link inside the nav", () => {
+    const html = render("/projects/pulsefm");
+    expect(html).not.toContain("Back to portfolio</a>");
+  });
+
+  test("renders nav links inside the mobile drawer as well", () => {
+    // Both the desktop aside and the mobile panel render the nav, so each
+    // page link appears twice in the static markup.
+    const html = render("/projects/pulsefm");
+    const matches = html.match(/href="\/projects\/pulsefm\/architecture"/g) ?? [];
+    expect(matches.length).toBe(2);
+  });
 });
