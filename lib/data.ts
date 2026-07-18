@@ -82,6 +82,15 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    name: "Huddl - Live Party Games",
+    img: "huddl/home.png",
+    description: "Huddl is a web app for sports-themed party games — gather your group, share a room code, and play social deduction and guessing games together from your phones.",
+    link: "https://huddl.gg",
+    repo: "",
+    docs: "huddl",
+    tags: ["Next.js", "Cloudflare Workers", "Durable Objects", "TypeScript", "WebSockets", "Tailwind CSS"]
+  },
+  {
     name: "PulseFM - AI Lofi Radio",
     img: "pulsefm.jpg",
     description: "PulseFM is a 24/7 AI-powered radio platform where listeners vote on curated music styles, and the winning option is generated and streamed live.",
