@@ -2,16 +2,16 @@ export const workExperience = [
   {
     company: "CIBC",
     title: "Software Engineer",
-    date: "March 2024 - Present",
+    date: "March 2026 - Present",
     description: "Building backend systems for CIBC's retail banking platform",
     logo: "/cibc.png",
   },
   {
-    company: "Jarvis Consulting Group",
-    title: "Technical Consultant",
-    date: "November 2023 - March 2024",
+    company: "CIBC (contract)",
+    title: "Software Engineer",
+    date: "March 2024 - March 2026",
     description: "",
-    logo: "/jarvis.png",
+    logo: "/cibc.png",
   },
   {
     company: "Geotab",
