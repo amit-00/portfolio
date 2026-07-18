@@ -2,11 +2,11 @@
 title: Huddl
 ---
 
-# Huddl — Live Party Games for the Group Chat
+# Huddl: Live Party Games for the Group Chat
 
 Huddl is a web app for sports-themed party games: gather your group, open a
-room code, and play together from your phones — no app install, no sign-up
-required to join.
+room code, and play together from your phones. No app install, and no
+sign-up required to join.
 
 ![Huddl](/huddl/home.png)
 
@@ -14,7 +14,7 @@ required to join.
 
 ## Role
 
-Solo project — designed and built end-to-end over 85 commits in 17 days
+Solo project, designed and built end-to-end over 85 commits in 17 days
 (Jul 1–17, 2026): the Next.js frontend, the Cloudflare Worker lobby backend
 (Durable Objects), the shared wire-protocol package, Google auth, and the
 CI/CD pipeline that deploys all of it.
@@ -29,8 +29,8 @@ CI/CD pipeline that deploys all of it.
 
 ## What's documented here
 
-- [Problem & Motivation](/projects/huddl/problem) — what this is solving and for whom
-- [Solution & Features](/projects/huddl/solution) — what it does
-- [Technical Architecture](/projects/huddl/architecture) — how it's built, and why
-- [Challenges & Solutions](/projects/huddl/challenges) — the hardest problems and how I solved them
-- [Results & Impact](/projects/huddl/results) — what shipped, what I learned, what's next
+- [Problem & Motivation](/projects/huddl/problem): what this is solving and for whom
+- [Solution & Features](/projects/huddl/solution): what it does
+- [Technical Architecture](/projects/huddl/architecture): how it's built, and why
+- [Challenges & Solutions](/projects/huddl/challenges): the hardest problems and how I solved them
+- [Results & Impact](/projects/huddl/results): what shipped, what I learned, what's next

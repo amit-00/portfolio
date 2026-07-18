@@ -15,11 +15,11 @@ lobby from their phone.
 
 ## Player Imposter
 
-A social-deduction game: everyone except one secret imposter sees the real
-athlete; the imposter gets a vague hint instead. Players take turns giving
-one-word or short-phrase clues that prove to the group they know who it is
-— without handing the imposter enough to fake it — then the room votes out
-who they think is faking it.
+A social-deduction game: everyone except one secret imposter sees the
+real athlete, while the imposter gets a vague hint instead. Players take
+turns giving one-word or short-phrase clues that prove to the group they
+know who it is, without handing the imposter enough to fake it. Then the
+room votes out who they think is faking it.
 
 ![Ready check screen](/huddl/imposter-ready.png)
 ![Clue-giving round](/huddl/imposter-clue.png)
@@ -27,16 +27,17 @@ who they think is faking it.
 ![Round result](/huddl/imposter-gameover.png)
 
 The role reveal is scoped per player at the protocol level: crew members
-only ever receive the athlete's name, the imposter only ever receives the
-hint. Neither side can find out the other's information by reading network
-traffic, because the server never sends it.
+only ever receive the athlete's name, and the imposter only ever
+receives the hint. Neither side can find out the other's information by
+reading network traffic, because the server never sends it.
 
 ## Wavelength
 
 One player (the psychic) sees a hidden target on a spectrum between two
-opposing ideas ("Ice Cold" – "Blazing Hot", framed around a sports concept)
-and gives a one-word clue. Everyone else drags a dial to guess where the
-target sits, without seeing it, and scores based on how close they land.
+opposing ideas ("Ice Cold" vs. "Blazing Hot", framed around a sports
+concept) and gives a one-word clue. Everyone else drags a dial to guess
+where the target sits, without seeing it, and scores based on how close
+they land.
 
 ![Clue phase](/huddl/wavelength-clue.png)
 ![Guessing phase](/huddl/wavelength-guessing.png)
@@ -45,9 +46,9 @@ target sits, without seeing it, and scores based on how close they land.
 
 ## Guests welcome, accounts for hosts
 
-Joining an existing room never requires an account — pick a name and play.
-Hosting one does: creating a room needs a signed-in identity so a room has
-a durable owner, handled with Google sign-in.
+Joining an existing room never requires an account. Pick a name and
+play. Hosting one does: creating a room needs a signed-in identity so a
+room has a durable owner, handled with Google sign-in.
 
 ![Sign-in screen](/huddl/signin.png)
 
@@ -55,15 +56,15 @@ a durable owner, handled with Google sign-in.
 
 Phones sleep, wifi drops, tabs get backgrounded. A dropped connection
 reconnects automatically with backoff, and the server resends a full
-snapshot of wherever the game currently is on reconnect — no special
-"catch the reconnecting player up" logic, because every reconnect just
-looks like a fresh join that happens to already have a seat.
+snapshot of wherever the game currently is. There's no special "catch
+the reconnecting player up" logic, because every reconnect just looks
+like a fresh join that happens to already have a seat.
 
 ## Built to add more games without touching the lobby
 
 The lobby (seating, host handoff, connection tracking, per-room timers)
 and each individual game are fully decoupled: a game is one file that
 implements a fixed contract (`init`, `onMessage`, `onTimer`,
-`snapshotFor`, …), and the lobby engine that runs it never changes. See
-[Technical Architecture](/projects/huddl/architecture) for how that split
-works underneath.
+`snapshotFor`, and so on), and the lobby engine that runs it never
+changes. See [Technical Architecture](/projects/huddl/architecture) for
+how that split works underneath.
