@@ -7,18 +7,28 @@ order: 1
 
 ## The gap
 
-Jackbox-style party games solved "everyone plays from their phone, one
-screen is the room" years ago, but they're generic: trivia, drawing,
-word games that could be about anything. There's nothing built
-specifically around sports content for a group chat that wants to kill
-twenty minutes before kickoff arguing about who the imposter is or how
-underrated their favourite player really is. Sports-media trivia apps go
-the other way: single-player, high-production, and not built for a group
-that's physically (or virtually) in the same room playing off each other.
+There's currently a trend of content creators and influences on popular
+shortform content platforms (TikTok, Instagram Reels, Youtube Shorts etc)
+making content where they play group games that test knowledge on specific
+domains.
 
-Huddl sits in that gap: phone-first party games, sports as the subject
-matter, and a room code as the only setup. No lobby software to install,
-and no account required to join someone else's room.
+I personally have been seeing this a lot for sports related content from
+creators such as the Sideline Bros for this. Their videos tend to average
+30k-70k views however can hit peaks where they get hundreds of thousands
+or even millions of views on a single video of them playing these games.
+
+This got me thinking that people probably want to play these games with
+their friends and family, especially if they share common interests
+in topics that are very opinionated (sports, movies, etc). While there
+does exist apps/platforms that allow people to play some of these games
+individually, they usually target audiences that are physically in the same
+space.
+
+Currently there is no real solution for playing these games online with your
+friends. This is what Huddl is built to provide. Currently the application
+only targets the sports niche, however has future plans to allow users to
+create their own game packs, allowing them to play these games for whatever
+topics they wish.
 
 ## Who this is for
 
@@ -29,18 +39,17 @@ itself.
 
 ## Why I actually built it
 
+To be honest, I wanted to see if I could drum up a project that could
+garner some users. I enjoy the content I see and think people would
+love to be able to play games like this fast with their friends. This
+would give them the ability to do that.
+
 The product is real, but the reason I picked this project was the
 engineering shape underneath it. A lobby is a small piece of shared,
 authoritative state (who's seated, whose turn it is, what the score is)
 that has to stay consistent across however many phones are connected to
 it, survive people's wifi dropping mid-round, and support more than one
-game without the lobby code caring which game is currently running.
-
-That's really a plugin architecture problem. Every game in Huddl
-(Imposter, Wavelength, and a deliberately tiny internal-only game called
-Tap Race that exists purely to exercise the plugin contract) implements
-the same `GameDefinition` interface, and the lobby engine that seats
-players, tracks connections, and drives timers never changes when a new
-game is added. Getting that seam right, and getting real-time delivery
-right on Cloudflare's Durable Objects rather than a more familiar
-always-on server, was the actual point of the project.
+game without the lobby code caring which game is currently running. The
+shape of this problem gave me a perfect scenario to work with and implement
+Cloudflare's durable objects and also work with problems with two way
+communication

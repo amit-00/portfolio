@@ -25,17 +25,9 @@ They run in CI on every PR before either app is allowed to deploy.
 - **A plugin contract only proves itself once something un-special uses
   it.** Imposter alone couldn't tell me whether `GameDefinition` was a
   real abstraction or just "what Imposter happens to need." Wavelength
-  stress-tested it with a real second game, and `tap-race`, built purely
-  to exercise every hook with nothing else going on, is what actually
+  stress-tested it with a real second game is what actually
   gave me confidence the lobby engine doesn't secretly know anything
   about any particular game.
-- **Package boundaries are cheap to get wrong and cheap to fix, if you
-  notice fast.** Splitting `@huddl/game-protocol` out from
-  `@huddl/protocol` felt principled for about a day, until building
-  against it made clear the split didn't track anything real. Collapsing
-  it back cost one commit because I caught it immediately. The lesson
-  isn't "get boundaries right first try," it's "don't let a boundary
-  that isn't earning its keep sit for weeks before questioning it."
 - **StrictMode races are a preview of real double-tab races, not a
   development-only nuisance.** Fixing the WebSocket store to survive
   StrictMode's mount/unmount/remount properly is the same fix as making
@@ -49,7 +41,7 @@ They run in CI on every PR before either app is allowed to deploy.
   which defeats the entire cost model Durable Objects are supposed to
   offer.
 
-## What I'd do differently / next
+## What I'd do next
 
 In rough priority order:
 
@@ -69,7 +61,6 @@ In rough priority order:
    Cloudflare resources (D1, KV, the Worker itself) live in its own
    `wrangler.jsonc`. There's no single plan/apply step that provisions
    all of it together the way Terraform does for a multi-service system.
-5. **Add a private-lobby / friends-only mode.** Right now any room is
-   joinable by anyone with the code. That's fine for a link shared
-   directly with a group chat, but there's no way to restrict a room
-   beyond "don't share the code."
+5. **Add lobby config.** Right now rooms can only be configured for the
+   game the host wants to play. I want to extend the configuration to allow
+   for the changing of rules, lobby settings, etc

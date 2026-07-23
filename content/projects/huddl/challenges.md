@@ -21,11 +21,11 @@ means editing code that every other game also depends on.
 
 **What I considered and rejected:**
 
-- *One big handler with a switch on the active game.* The obvious first
+- _One big handler with a switch on the active game._ The obvious first
   draft, but the lobby's core files grow by one branch per game forever,
   and a bug in Wavelength's branch ships inside the same file, and same
   deploy, as Imposter's working code.
-- *A separate Durable Object class per game.* Isolates games completely,
+- _A separate Durable Object class per game._ Isolates games completely,
   but throws away everything they actually share (seating, host handoff,
   connection tracking, the reconnect story) and duplicates all of it per
   game instead of once.
@@ -56,7 +56,7 @@ connection.
 
 **What I considered and rejected:**
 
-- *Disable StrictMode.* That makes the symptom disappear without fixing
+- _Disable StrictMode._ That makes the symptom disappear without fixing
   the actual bug, which is that the connection logic wasn't safe against
   rapid remounts to begin with. A user really opening the same room in
   two tabs would hit the same race in production.
@@ -82,7 +82,7 @@ though there's no work to do.
 
 **What I considered and rejected:**
 
-- *Just accept the cost.* For a single Durable Object per room, an idle
+- _Just accept the cost._ For a single Durable Object per room, an idle
   room that nobody explicitly closes is a hibernation problem, not a
   request-volume problem. Normal request-based billing intuition doesn't
   save you if the object can never actually go idle.
@@ -98,33 +98,3 @@ is data in `RootState.timers`, reconciled to a single DO alarm set to
 the earliest one on every commit, rather than one `setTimeout` per
 timer. A `setTimeout` would itself have pinned the object in memory the
 whole time, defeating the point of hibernating in the first place.
-
-## 4. Getting the protocol package boundary wrong the first time
-
-**The problem:** The wire protocol (message shapes, close/error codes)
-started as a duplicated `protocol.ts` file, hand-copied between the
-frontend and the backend, which is exactly the kind of drift risk a
-shared package exists to prevent. That much was obvious early. What
-wasn't obvious until I'd actually done it: when Wavelength shipped, I
-put its wire types in a new package, `@huddl/game-protocol`, reasoning
-that "core lobby protocol" and "per-game protocol" were different
-concerns that deserved different packages.
-
-**What I considered and rejected:**
-
-- *Leave `@huddl/game-protocol` as its own package and add a third one
-  for the next game.* The split looked principled on paper (lobby
-  concerns vs. game concerns), but in practice every game already needs
-  both halves together on both sides of the wire. The extra package
-  boundary bought type-organization purity and nothing else. It was
-  overhead pretending to be architecture.
-
-**What I built:** Consolidated `@huddl/game-protocol` back into
-`@huddl/protocol` almost immediately, as a subpath export
-(`@huddl/protocol/wavelength`) rather than a separate package. A new
-game now adds one file under the same package instead of a new workspace
-entry, and there's exactly one place where "what can travel over this
-wire" is defined. The fix shipped as its own commit less than a day
-after the split that caused it. I'm keeping that in the record as the
-actual shape of how the decision got made, rather than writing the docs
-as if `@huddl/protocol/wavelength` were the first idea.
