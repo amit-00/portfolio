@@ -7,9 +7,9 @@ excerpt: v2 collapses five services and three functions into two, drops Redis fo
 # Rebuilding PulseFM: the clock comes first
 
 PulseFM's v1 was five Python services plus three Cloud Functions: an encoder,
-a Modal dispatcher, a vote handler, a rotation worker, an API, and glue
-functions wiring them together. It worked, but every deploy touched more
-moving parts than the actual feature warranted. v2 is two services —
+a Modal dispatcher, a vote handler, a rotation worker, an API, and three
+Cloud Functions wiring them together. It worked, but every deploy touched
+more moving parts than the actual feature warranted. v2 is two services —
 `radio-service` and `station-api` — and this post is about why, and about
 the decision I made before writing a line of generation code.
 
@@ -106,9 +106,12 @@ Firestore-emulator integration tests, and I measured the browser sync
 directly: a listener joining mid-track landed at `audio.currentTime`
 16.298s against a server-computed expected position of 17.094s — a delta of
 0.796s — and two independent browser tabs agreed on the station's position
-within 34 milliseconds of each other. That's the mechanism working. What
-it isn't yet is gapless: the idle audio slot loads reactively, after a poll
-reports the rotation has happened, not ahead of time — there's no
+within 34 milliseconds of each other. Those numbers were measured against
+12–15 minute WAV fixtures served same-origin from a dev server, not
+production-length m4a tracks over a CDN, so what's proven is that the
+mechanism is sub-second, not that these exact figures hold at production
+scale. What it isn't yet is gapless: the idle audio slot loads reactively,
+after a poll reports the rotation has happened, not ahead of time — there's no
 look-ahead preloading against the station's known next track. A track
 change swaps cleanly, but "gapless" isn't a claim I've earned. And none of
 this has touched a real deploy — every test here ran against the Firestore
