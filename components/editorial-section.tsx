@@ -7,7 +7,7 @@ export function EditorialSection({ posts }: { posts: PostMeta[] }): ReactNode {
   if (posts.length === 0) return null;
   return (
     <section id="editorial" className="mt-16">
-      <div className="font-mono text-label uppercase text-ink-5">Writing</div>
+      <div className="font-mono text-label uppercase text-ink-5">Editorial</div>
       <div className="mt-4 border-t border-rule-strong">
         {posts.map((post) => (
           <Link

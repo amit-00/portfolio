@@ -11,11 +11,11 @@ export function SiteFooter(): ReactNode {
     <footer className="grid gap-9 border-t border-rule-strong px-gutter pt-section pb-11 font-mono text-label sm:grid-cols-[1fr_auto]">
       <div>
         <div className="text-[12.5px] font-bold tracking-[0.02em] text-ink-1">
-          AMIT VERMA
+          Get in touch
         </div>
         <div className="mt-3 max-w-[42ch] leading-[1.7] tracking-normal text-ink-5">
-          Software engineer in Toronto. Backend systems at CIBC; distributed and
-          real-time work on the side.
+          I&apos;m always looking for new opportunities and collaborations. Feel
+          free to reach out.
         </div>
       </div>
       <div className="flex flex-col gap-2">
