@@ -27,9 +27,8 @@ function render(currentHref: string): string {
 }
 
 describe("DocsSidebar", () => {
-  test("renders back link, project link, and page links", () => {
+  test("renders project link and page links", () => {
     const html = render("/projects/pulsefm");
-    expect(html).toContain('href="/"');
     expect(html).toContain('href="/projects/pulsefm"');
     expect(html).toContain('href="/projects/pulsefm/architecture"');
     expect(html).toContain('href="/projects/pulsefm/infra/deployment"');
@@ -37,7 +36,7 @@ describe("DocsSidebar", () => {
 
   test("highlights the current page", () => {
     const html = render("/projects/pulsefm/architecture");
-    expect(html).toMatch(/text-foreground[^>]*>Architecture/);
+    expect(html).toMatch(/text-ink-1[^>]*>Architecture/);
   });
 
   test("renders folders without index.md as plain text, not links", () => {
@@ -46,27 +45,27 @@ describe("DocsSidebar", () => {
     expect(html).toContain("Infra");
   });
 
-  test("renders a dock-styled mobile trigger button", () => {
+  test("renders the mobile nav as a native disclosure, not an animated drawer", () => {
     const html = render("/projects/pulsefm");
-    expect(html).toContain('aria-label="Open docs navigation"');
-    // Trigger shares the dock surface: blur + border
-    expect(html).toMatch(/aria-label="Open docs navigation"[^>]*class="[^"]*backdrop-blur-md/);
+    expect(html).toContain("<details");
+    expect(html).toContain("<summary");
+    // The system has no blur and no transforms to build a drawer from.
+    expect(html).not.toContain("backdrop-blur");
+    expect(html).not.toContain("translate-x");
   });
 
-  test("renders a fixed back-to-portfolio button linking home", () => {
+  test("carries no back link — the top bar wordmark goes home", () => {
     const html = render("/projects/pulsefm/architecture");
-    // Icon-only anchor to the portfolio home.
-    expect(html).toMatch(/<a[^>]*aria-label="Back to portfolio"[^>]*>\s*<svg/);
-    expect(html).toContain('href="/"');
+    expect(html).not.toContain('href="/"');
+    expect(html).not.toContain("Back to portfolio");
   });
 
-  test("no longer renders the back link inside the nav", () => {
-    const html = render("/projects/pulsefm");
-    expect(html).not.toContain("Back to portfolio</a>");
+  test("uses no icon set", () => {
+    expect(render("/projects/pulsefm")).not.toContain("<svg");
   });
 
-  test("renders nav links inside the mobile drawer as well", () => {
-    // Both the desktop aside and the mobile panel render the nav, so each
+  test("renders nav links inside the mobile disclosure as well", () => {
+    // Both the desktop aside and the mobile disclosure render the nav, so each
     // page link appears twice in the static markup.
     const html = render("/projects/pulsefm");
     const matches = html.match(/href="\/projects\/pulsefm\/architecture"/g) ?? [];

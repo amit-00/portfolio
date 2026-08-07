@@ -37,36 +37,21 @@ export const education = [
   }
 ]
 
-import {
-  siPython,
-  siDjango,
-  siFastapi,
-  siReact,
-  siNextdotjs,
-  siTypescript,
-  siNodedotjs,
-  siDocker,
-  siPostgresql,
-  siGithub,
-  siGooglecloud,
-  siModal,
-  siTerraform,
-} from "simple-icons";
-
-export const skills = [
-  { name: "Python", icon: siPython },
-  { name: "Django", icon: siDjango },
-  { name: "FastAPI", icon: siFastapi },
-  { name: "React", icon: siReact },
-  { name: "Next.js", icon: siNextdotjs },
-  { name: "Typescript", icon: siTypescript },
-  { name: "Node.js", icon: siNodedotjs },
-  { name: "Docker", icon: siDocker },
-  { name: "Postgres", icon: siPostgresql },
-  { name: "GitHub", icon: siGithub },
-  { name: "Google Cloud", icon: siGooglecloud },
-  { name: "Modal", icon: siModal },
-  { name: "Terraform", icon: siTerraform },
+// The system uses no icon set, so tools are named in mono, not badged.
+export const skills: string[] = [
+  "Python",
+  "Django",
+  "FastAPI",
+  "React",
+  "Next.js",
+  "Typescript",
+  "Node.js",
+  "Docker",
+  "Postgres",
+  "GitHub",
+  "Google Cloud",
+  "Modal",
+  "Terraform",
 ]
 
 export interface Project {
