@@ -19,7 +19,7 @@ function RecordRows({ entries }: { entries: RecordEntry[] }): ReactNode {
       {entries.map((entry) => (
         <div
           key={`${entry.title}-${entry.date}`}
-          className="grid grid-cols-1 items-center gap-2 border-b border-rule py-4 sm:grid-cols-[1fr_auto] sm:gap-5"
+          className="grid grid-cols-1 items-center gap-2 border-b border-rule py-6 lg:grid-cols-[1fr_auto] lg:gap-5"
         >
           <div className="flex items-center gap-4">
             <div className="shrink-0 border border-rule bg-sunken p-1">
@@ -38,7 +38,7 @@ function RecordRows({ entries }: { entries: RecordEntry[] }): ReactNode {
               <div className="text-small text-ink-4">{entry.subtitle}</div>
             </div>
           </div>
-          <div className="font-mono text-label uppercase text-ink-6 sm:text-right">
+          <div className="font-mono text-label uppercase text-ink-6 lg:text-right">
             {entry.date}
           </div>
         </div>
@@ -101,11 +101,6 @@ export default function Home(): ReactNode {
               I&apos;ve worked in production environments at large Canadian
               companies.
             </p>
-            <p>
-              Outside of work, I&apos;m building projects to learn scaling
-              patterns — a party-game engine on Durable Objects, an AI radio
-              station that generates its own playlist.
-            </p>
           </div>
         </div>
         <div className="bg-sunken px-gutter py-section">
@@ -114,9 +109,9 @@ export default function Home(): ReactNode {
             {(
               [
                 ["Role", "Software Engineer, CIBC"],
-                ["Focus", "Backend systems, retail banking platform"],
-                ["Building", "Huddl — live party games on Durable Objects"],
-                ["Open to", "New opportunities and collaborations"],
+                ["Focus", "Backend systems, platform engineering"],
+                ["Fav stack", "Python, Typescript, Cloudflare Workers"],
+                ["Located", "Toronto, ON Canada"],
               ] as [string, string][]
             ).map(([key, value]) => (
               <div
@@ -133,29 +128,20 @@ export default function Home(): ReactNode {
         </div>
       </section>
 
-      <section className="border-b border-rule px-gutter py-section">
-        <SectionLabel index="03">Projects</SectionLabel>
-        <p className="mt-3 max-w-[62ch] text-small text-ink-4">
-          I&apos;ve been working on a variety of projects to learn new
-          technologies and improve my skills. Here are some of my favorites.
-        </p>
-        <div className="mt-5">
-          <IndexList items={projectItems} />
+      <section className="grid border-b border-rule md:grid-cols-2">
+        <div className="border-b border-rule px-gutter py-section md:border-r md:border-b-0 md:pr-9">
+          <SectionLabel index="03">Work experience</SectionLabel>
+          <RecordRows
+            entries={workExperience.map((job) => ({
+              date: job.date,
+              logo: job.logo,
+              title: job.company,
+              subtitle: job.title,
+            }))}
+          />
         </div>
-      </section>
-
-      <section className="border-b border-rule px-gutter py-section">
-        <SectionLabel index="04">Work experience</SectionLabel>
-        <RecordRows
-          entries={workExperience.map((job) => ({
-            date: job.date,
-            logo: job.logo,
-            title: job.company,
-            subtitle: job.title,
-          }))}
-        />
-        <div className="mt-9">
-          <SectionLabel index="05">Education</SectionLabel>
+        <div className="px-gutter py-section">
+          <SectionLabel index="04">Education</SectionLabel>
           <RecordRows
             entries={education.map((entry) => ({
               date: entry.date,
@@ -168,7 +154,7 @@ export default function Home(): ReactNode {
       </section>
 
       <section className="border-b border-rule px-gutter py-section">
-        <SectionLabel index="06">Skills</SectionLabel>
+        <SectionLabel index="05">Skills</SectionLabel>
         <div className="mt-4 max-w-measure font-mono text-small leading-[2] text-ink-3">
           {skills.map((skill, i) => (
             <span key={skill}>
@@ -176,6 +162,17 @@ export default function Home(): ReactNode {
               {skill}
             </span>
           ))}
+        </div>
+      </section>
+
+      <section className="border-b border-rule px-gutter py-section">
+        <SectionLabel index="06">Projects</SectionLabel>
+        <p className="mt-3 max-w-[62ch] text-small text-ink-4">
+          I&apos;ve been working on a variety of projects to learn new
+          technologies and improve my skills. Here are some of my favorites.
+        </p>
+        <div className="mt-5">
+          <IndexList items={projectItems} />
         </div>
       </section>
 
