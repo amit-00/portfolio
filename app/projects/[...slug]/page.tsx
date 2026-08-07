@@ -6,7 +6,7 @@ import {
   getProjectPosts,
   getSidebarTree,
 } from "@/lib/content";
-import { Markdown } from "@/components/markdown";
+import { Article } from "@/components/article";
 import { DocsSidebar } from "@/components/docs-sidebar";
 import { EditorialSection } from "@/components/editorial-section";
 import { TopBar } from "@/components/relay/top-bar";
@@ -70,7 +70,7 @@ export default async function ProjectDocPage({ params }: DocRouteProps) {
               {formatDate(post.date)}
             </time>
           )}
-          <Markdown content={page.content} />
+          <Article content={page.content} />
           {isOverview && <EditorialSection posts={posts} />}
         </article>
       </div>
