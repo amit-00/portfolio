@@ -66,7 +66,16 @@ export default function Home(): ReactNode {
     <div>
       <TopBar />
 
-      <header className="flex flex-col-reverse items-start gap-9 border-b border-rule px-gutter pt-16 pb-11 md:flex-row md:items-center md:justify-between">
+      <header className="flex flex-col items-start gap-9 border-b border-rule px-gutter pt-16 pb-11 md:flex-row md:items-center">
+        <div className="shrink-0 border border-rule bg-sunken">
+          <Image
+            src="/profile.jpeg"
+            alt="Amit Verma"
+            width={160}
+            height={160}
+            className="size-40 object-cover"
+          />
+        </div>
         <div>
           <div className="font-mono text-label uppercase text-ink-5">
             Amit Verma — software engineer
@@ -78,15 +87,6 @@ export default function Home(): ReactNode {
             Software Engineer who loves building things. Currently building at
             CIBC.
           </p>
-        </div>
-        <div className="shrink-0 border border-rule bg-sunken">
-          <Image
-            src="/profile.jpeg"
-            alt="Amit Verma"
-            width={160}
-            height={160}
-            className="size-40 object-cover"
-          />
         </div>
       </header>
 
