@@ -1,0 +1,29 @@
+:root {
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Public Sans", Helvetica, Arial, sans-serif;
+
+  /* Scale — prose in sans, structure in mono. */
+  --text-display: 34px;
+  --text-h2: 20px;
+  --text-lead: 16.5px;
+  --text-body-size: 15.5px;
+  --text-small: 14.5px;
+  --text-code: 13px;
+  --text-label: 12px;
+  --text-label-sm: 11.5px;
+
+  --leading-display: 1.15;
+  --leading-heading: 1.25;
+  --leading-body: 1.68;
+  --leading-tight: 1.55;
+  --leading-code: 1.8;
+
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.02em;
+  --tracking-label: 0.06em;
+  --tracking-label-wide: 0.08em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+}

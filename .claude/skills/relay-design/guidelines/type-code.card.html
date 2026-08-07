@@ -1,0 +1,9 @@
+<!-- @dsCard group="Type" viewport="700x180" name="Code" subtitle="13px / 1.8, no syntax colour" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>body{margin:0;padding:20px 24px;background:var(--surface-page)}.k{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint)}</style></head><body>
+<div style="background:var(--surface-inverse);color:var(--text-inverse)"><div style="display:flex;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--rule-inverse);font-family:var(--font-mono);font-size:11.5px;color:var(--text-inverse-muted)"><span>consumer.py</span><span>PYTHON</span></div><pre style="margin:0;padding:18px 20px;font-family:var(--font-mono);font-size:13px;line-height:1.8">stream = relay.subscribe(table="orders", partitions=8)
+
+for batch in stream.batches(max_size=500):
+    warehouse.upsert(batch.rows)</pre></div>
+</body></html>

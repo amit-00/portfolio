@@ -1,0 +1,46 @@
+:root {
+  /* Ink — a single achromatic ramp. No tinted greys. */
+  --ink-1: #141414;
+  --ink-2: #262624;
+  --ink-3: #43433f;
+  --ink-4: #6d6d68;
+  --ink-5: #7c7c78;
+  --ink-6: #a9a9a3;
+
+  /* Surfaces */
+  --surface-page: #fbfbfa;
+  --surface-sunken: #f6f6f3;
+  --surface-fill: #f3f2ee;
+  --surface-raised: #ffffff;
+  --surface-inverse: #141414;
+
+  /* Rules */
+  --rule-strong: #141414;
+  --rule: #e3e3df;
+  --rule-soft: #ededea;
+  --rule-inverse: #2c2c2a;
+
+  /* Accent — one hue, used only for links and focus. */
+  --accent: oklch(0.45 0.09 250);
+  --accent-hover: oklch(0.38 0.09 250);
+  --accent-wash: oklch(0.96 0.015 250);
+
+  /* Status — same chroma, hue varies. */
+  --warning: oklch(0.55 0.10 70);
+  --warning-wash: oklch(0.96 0.03 70);
+  --danger: oklch(0.52 0.14 25);
+  --danger-wash: oklch(0.96 0.03 25);
+  --success: oklch(0.50 0.09 150);
+  --success-wash: oklch(0.96 0.03 150);
+
+  /* Semantic aliases */
+  --text-body: var(--ink-2);
+  --text-strong: var(--ink-1);
+  --text-muted: var(--ink-5);
+  --text-faint: var(--ink-6);
+  --text-inverse: #e8e8e3;
+  --text-inverse-muted: #8f8f89;
+  --text-link: var(--accent);
+  --surface-card: var(--surface-raised);
+  --surface-code: var(--surface-inverse);
+}

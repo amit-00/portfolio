@@ -1,0 +1,12 @@
+:root {
+  /* Flat by design: no radii, no shadows. Hierarchy comes from rule weight. */
+  --radius: 0px;
+  --border-width: 1px;
+  --border-hairline: var(--border-width) solid var(--rule);
+  --border-soft: var(--border-width) solid var(--rule-soft);
+  --border-strong: var(--border-width) solid var(--rule-strong);
+  --border-inverse: var(--border-width) solid var(--rule-inverse);
+  --shadow-none: none;
+  --focus-ring: 2px solid var(--accent);
+  --focus-offset: 2px;
+}

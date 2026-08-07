@@ -1,0 +1,46 @@
+<!-- @dsCard group="Components" viewport="700x400" name="Site" subtitle="Index list, prose, figure, meta row, footer" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{padding:24px}</style></head>
+<body><div id="root"></div>
+<script type="text/babel">
+const ds = window.RelayDesignSystem_27f20f || Object.values(window).find(v => v && typeof v === "object" && typeof v.SplitSection === "function");
+const { IndexList, Prose, Figure, MetaRow, SiteFooter, DiagramPlaceholder } = ds;
+const L = ({t}) => <div style={{fontFamily:"var(--font-mono)",fontSize:"var(--text-label-sm)",letterSpacing:".06em",textTransform:"uppercase",color:"var(--text-faint)",marginBottom:8}}>{t}</div>;
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"var(--space-7)"}}>
+    <div>
+      <L t="index list" />
+      <IndexList dense onSelect={() => {}} items={[
+        {meta:"2026", title:"Ordered fanout", description:"Partition-stable delivery for 40k consumers."},
+        {meta:"2025", title:"Checkpoint compaction", description:"Cutting replay time from hours to seconds."},
+        {meta:"2024", title:"Slot pressure", tag:"Note"},
+      ]} />
+      <div style={{marginTop:"var(--space-6)"}}><L t="meta row" /></div>
+      <MetaRow items={["2026-07-28","9 min","distributed systems"]} />
+      <div style={{marginTop:"var(--space-6)"}}><L t="figure" /></div>
+      <Figure index="FIG 02" caption="Envelopes hash to a partition by primary key.">
+        <DiagramPlaceholder label="diagram — partition hashing" height={96} style={{border:0}} />
+      </Figure>
+    </div>
+    <div>
+      <L t="prose" />
+      <Prose measure="46ch">
+        <p>Application code that writes to a database and publishes an event does two independent writes.</p>
+        <h2>The commit is the event</h2>
+        <p>Relay reads the replication log, so ordering falls out of the log's sequence numbers.</p>
+        <blockquote>Dual-write drift is not detectable from either side alone.</blockquote>
+      </Prose>
+    </div>
+    <div style={{gridColumn:"1 / -1"}}>
+      <L t="site footer" />
+      <SiteFooter style={{padding:"var(--space-6) 0 0"}} note="Written and built in London. Last deploy 2026-07-28."
+        groups={[{title:"Writing",links:["archive","rss"]},{title:"Elsewhere",links:["github","email"]}]} />
+    </div>
+  </div>
+);
+</script></body></html>

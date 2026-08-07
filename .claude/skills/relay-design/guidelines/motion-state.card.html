@@ -1,0 +1,16 @@
+<!-- @dsCard group="Motion" viewport="700x150" name="Transitions" subtitle="120ms linear, colour only — nothing moves" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>body{margin:0;padding:20px 24px;background:var(--surface-page)}
+.k{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint)}
+.row{display:flex;gap:12px;margin-top:12px}
+.b{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:9px 14px;border:1px solid var(--ink-1);cursor:pointer;transition:background 120ms linear,color 120ms linear}
+.p{background:var(--ink-1);color:var(--text-inverse)}.p:hover{background:var(--ink-3)}
+.se{background:transparent;color:var(--ink-1)}.se:hover{background:var(--surface-fill)}
+.g{border-color:transparent;color:var(--ink-4)}.g:hover{background:var(--surface-fill);color:var(--ink-1)}
+.f{outline:2px solid var(--accent);outline-offset:2px}
+.n{font-size:13px;color:var(--ink-4);margin-top:14px;line-height:1.6}</style></head><body>
+<div class="k">transition: 120ms linear &middot; hover fills or darkens &middot; press does not move</div>
+<div class="row"><div class="b p">Primary</div><div class="b se">Secondary</div><div class="b g">Ghost</div><div class="b se f">Focused</div></div>
+<div class="n">No easing curves, no transforms, no entrance animation. Focus is a 2px accent outline offset 2px.</div>
+</body></html>
