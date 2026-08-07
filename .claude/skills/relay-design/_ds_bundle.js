@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"RelayDesignSystem_27f20f","components":[{"name":"Callout","sourcePath":"components/content/Callout.jsx"},{"name":"CodeBlock","sourcePath":"components/content/CodeBlock.jsx"},{"name":"DataTable","sourcePath":"components/content/DataTable.jsx"},{"name":"DiagramPlaceholder","sourcePath":"components/content/DiagramPlaceholder.jsx"},{"name":"StepList","sourcePath":"components/content/StepList.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"SearchField","sourcePath":"components/core/SearchField.jsx"},{"name":"PageHeader","sourcePath":"components/layout/PageHeader.jsx"},{"name":"PrevNextNav","sourcePath":"components/layout/PrevNextNav.jsx"},{"name":"SectionLabel","sourcePath":"components/layout/SectionLabel.jsx"},{"name":"SplitSection","sourcePath":"components/layout/SplitSection.jsx"},{"name":"TopBar","sourcePath":"components/layout/TopBar.jsx"},{"name":"Figure","sourcePath":"components/site/Figure.jsx"},{"name":"IndexList","sourcePath":"components/site/IndexList.jsx"},{"name":"MetaRow","sourcePath":"components/site/MetaRow.jsx"},{"name":"Prose","sourcePath":"components/site/Prose.jsx"},{"name":"SiteFooter","sourcePath":"components/site/SiteFooter.jsx"}],"sourceHashes":{"components/content/Callout.jsx":"9bcb08b06113","components/content/CodeBlock.jsx":"6cfa5043cf02","components/content/DataTable.jsx":"54956df2408e","components/content/DiagramPlaceholder.jsx":"e1c6f0d70263","components/content/StepList.jsx":"e87f7a824009","components/core/Badge.jsx":"7836d9ab4453","components/core/Button.jsx":"0a4ca127eedc","components/core/SearchField.jsx":"687d4c7fd708","components/layout/PageHeader.jsx":"db3ba4cc7bf5","components/layout/PrevNextNav.jsx":"4d7ce619cecd","components/layout/SectionLabel.jsx":"70d968d44f33","components/layout/SplitSection.jsx":"35458caadb94","components/layout/TopBar.jsx":"c1fd21cda84c","components/site/Figure.jsx":"f64d6fb63dca","components/site/IndexList.jsx":"46edd5b2f4ff","components/site/MetaRow.jsx":"a5bbbb562161","components/site/Prose.jsx":"816d8068f3a8","components/site/SiteFooter.jsx":"bc4002616b10","ui_kits/docs/ApiReferencePage.jsx":"973084edce29","ui_kits/docs/DeepDivePage.jsx":"99b115542230","ui_kits/docs/DocsApp.jsx":"f4b5d0822574","ui_kits/portfolio/AboutPage.jsx":"e4b823eb3b68","ui_kits/portfolio/CaseStudyPage.jsx":"cb337558d9c2","ui_kits/portfolio/PortfolioApp.jsx":"02f2b26e0319","ui_kits/portfolio/PortfolioHome.jsx":"95c970f77941","ui_kits/writing/ArchivePage.jsx":"75613af8ba3b","ui_kits/writing/ArticlePage.jsx":"7e3b9dec11d7","ui_kits/writing/DesignDocPage.jsx":"5ae9556b6d8c","ui_kits/writing/WritingApp.jsx":"00ad04cdcad1"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"RelayDesignSystem_27f20f","components":[{"name":"Callout","sourcePath":"components/content/Callout.jsx"},{"name":"CodeBlock","sourcePath":"components/content/CodeBlock.jsx"},{"name":"DataTable","sourcePath":"components/content/DataTable.jsx"},{"name":"DiagramPlaceholder","sourcePath":"components/content/DiagramPlaceholder.jsx"},{"name":"StepList","sourcePath":"components/content/StepList.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"SearchField","sourcePath":"components/core/SearchField.jsx"},{"name":"Boundary","sourcePath":"components/diagram/Boundary.jsx"},{"name":"ArrowDefs","sourcePath":"components/diagram/DiagramEdge.jsx"},{"name":"DiagramEdge","sourcePath":"components/diagram/DiagramEdge.jsx"},{"name":"DiagramFrame","sourcePath":"components/diagram/DiagramFrame.jsx"},{"name":"DiagramLegend","sourcePath":"components/diagram/DiagramLegend.jsx"},{"name":"DiagramNode","sourcePath":"components/diagram/DiagramNode.jsx"},{"name":"StepMarker","sourcePath":"components/diagram/StepMarker.jsx"},{"name":"PageHeader","sourcePath":"components/layout/PageHeader.jsx"},{"name":"PrevNextNav","sourcePath":"components/layout/PrevNextNav.jsx"},{"name":"SectionLabel","sourcePath":"components/layout/SectionLabel.jsx"},{"name":"SplitSection","sourcePath":"components/layout/SplitSection.jsx"},{"name":"TopBar","sourcePath":"components/layout/TopBar.jsx"},{"name":"Figure","sourcePath":"components/site/Figure.jsx"},{"name":"IndexList","sourcePath":"components/site/IndexList.jsx"},{"name":"MetaRow","sourcePath":"components/site/MetaRow.jsx"},{"name":"Prose","sourcePath":"components/site/Prose.jsx"},{"name":"SiteFooter","sourcePath":"components/site/SiteFooter.jsx"}],"sourceHashes":{"components/content/Callout.jsx":"9bcb08b06113","components/content/CodeBlock.jsx":"6cfa5043cf02","components/content/DataTable.jsx":"54956df2408e","components/content/DiagramPlaceholder.jsx":"e1c6f0d70263","components/content/StepList.jsx":"e87f7a824009","components/core/Badge.jsx":"7836d9ab4453","components/core/Button.jsx":"0a4ca127eedc","components/core/SearchField.jsx":"687d4c7fd708","components/diagram/Boundary.jsx":"8994d01d8980","components/diagram/DiagramEdge.jsx":"d8852b08345b","components/diagram/DiagramFrame.jsx":"b364891dd03e","components/diagram/DiagramLegend.jsx":"cef4447abf50","components/diagram/DiagramNode.jsx":"c812fd7010ef","components/diagram/StepMarker.jsx":"baacc0f54b16","components/layout/PageHeader.jsx":"db3ba4cc7bf5","components/layout/PrevNextNav.jsx":"4d7ce619cecd","components/layout/SectionLabel.jsx":"70d968d44f33","components/layout/SplitSection.jsx":"35458caadb94","components/layout/TopBar.jsx":"c1fd21cda84c","components/site/Figure.jsx":"f64d6fb63dca","components/site/IndexList.jsx":"46edd5b2f4ff","components/site/MetaRow.jsx":"a5bbbb562161","components/site/Prose.jsx":"816d8068f3a8","components/site/SiteFooter.jsx":"bc4002616b10","ui_kits/docs/ApiReferencePage.jsx":"973084edce29","ui_kits/docs/DeepDivePage.jsx":"99b115542230","ui_kits/docs/DocsApp.jsx":"f4b5d0822574","ui_kits/portfolio/AboutPage.jsx":"e4b823eb3b68","ui_kits/portfolio/CaseStudyPage.jsx":"cb337558d9c2","ui_kits/portfolio/PortfolioApp.jsx":"02f2b26e0319","ui_kits/portfolio/PortfolioHome.jsx":"95c970f77941","ui_kits/writing/ArchivePage.jsx":"75613af8ba3b","ui_kits/writing/ArticlePage.jsx":"7e3b9dec11d7","ui_kits/writing/DesignDocPage.jsx":"5ae9556b6d8c","ui_kits/writing/WritingApp.jsx":"00ad04cdcad1"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -421,6 +421,479 @@ function SearchField({
 }
 Object.assign(__ds_scope, { SearchField });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/core/SearchField.jsx", error: String((e && e.message) || e) }); }
+
+// components/diagram/Boundary.jsx
+try { (() => {
+function Boundary({
+  x,
+  y,
+  w,
+  h,
+  label,
+  opacity = 1,
+  children,
+  style
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: x,
+      top: y,
+      width: w,
+      height: h,
+      boxSizing: "border-box",
+      border: "1px dashed var(--ink-6)",
+      borderRadius: "var(--radius)",
+      background: "none",
+      opacity,
+      transition: "opacity 120ms linear",
+      pointerEvents: "none",
+      ...style
+    }
+  }, label ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: "absolute",
+      top: -8,
+      left: 12,
+      background: "var(--surface-page)",
+      padding: "0 6px",
+      fontFamily: "var(--font-mono)",
+      fontSize: "10.5px",
+      letterSpacing: "var(--tracking-label-wide)",
+      textTransform: "uppercase",
+      color: "var(--ink-5)"
+    }
+  }, label) : null, children);
+}
+Object.assign(__ds_scope, { Boundary });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/diagram/Boundary.jsx", error: String((e && e.message) || e) }); }
+
+// components/diagram/DiagramEdge.jsx
+try { (() => {
+const STROKE = {
+  ok: "var(--dg-edge)",
+  failure: "var(--danger)"
+};
+const DASH = {
+  sync: undefined,
+  async: "3 4"
+};
+function ArrowDefs() {
+  return /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("marker", {
+    id: "dg-ar-ink",
+    viewBox: "0 0 10 10",
+    refX: "9",
+    refY: "5",
+    markerWidth: "7",
+    markerHeight: "7",
+    orient: "auto-start-reverse"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M0,1 L9,5 L0,9",
+    fill: "none",
+    stroke: "var(--dg-edge)",
+    strokeWidth: "1.2"
+  })), /*#__PURE__*/React.createElement("marker", {
+    id: "dg-ar-danger",
+    viewBox: "0 0 10 10",
+    refX: "9",
+    refY: "5",
+    markerWidth: "7",
+    markerHeight: "7",
+    orient: "auto-start-reverse"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M0,1 L9,5 L0,9",
+    fill: "none",
+    stroke: "var(--danger)",
+    strokeWidth: "1.2"
+  })));
+}
+function DiagramEdge({
+  d,
+  mode = "sync",
+  outcome = "ok",
+  flow = false,
+  speed = 1.6,
+  arrow = true,
+  opacity = 1
+}) {
+  const stroke = STROKE[outcome];
+  const dash = outcome === "failure" ? "6 4" : DASH[mode];
+  const animate = flow && outcome !== "failure";
+  return /*#__PURE__*/React.createElement("g", {
+    opacity: opacity,
+    style: {
+      transition: "opacity 120ms linear"
+    }
+  }, /*#__PURE__*/React.createElement("path", {
+    d: d,
+    fill: "none",
+    stroke: stroke,
+    strokeWidth: "1",
+    strokeDasharray: dash,
+    markerEnd: arrow ? outcome === "failure" ? "url(#dg-ar-danger)" : "url(#dg-ar-ink)" : undefined
+  }), animate ? /*#__PURE__*/React.createElement("path", {
+    className: "dg-pulse",
+    d: d,
+    pathLength: "1000",
+    fill: "none",
+    stroke: "var(--dg-pulse)",
+    strokeWidth: "var(--dg-pulse-w)",
+    strokeDasharray: "7 243",
+    strokeLinecap: "square",
+    style: {
+      animation: `relay-flow ${speed}s linear infinite`
+    }
+  }) : null);
+}
+Object.assign(__ds_scope, { ArrowDefs, DiagramEdge });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/diagram/DiagramEdge.jsx", error: String((e && e.message) || e) }); }
+
+// components/diagram/DiagramLegend.jsx
+try { (() => {
+const SPECS = {
+  sync: {
+    stroke: "var(--dg-edge)",
+    dash: undefined,
+    label: "sync"
+  },
+  async: {
+    stroke: "var(--dg-edge)",
+    dash: "3 4",
+    label: "async"
+  },
+  failure: {
+    stroke: "var(--danger)",
+    dash: "6 4",
+    label: "failure"
+  },
+  retry: {
+    stroke: "var(--ink-4)",
+    dash: "3 4",
+    label: "retry"
+  }
+};
+function DiagramLegend({
+  items = [],
+  style
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 20,
+      ...style
+    }
+  }, items.map(it => {
+    const s = typeof it === "string" ? SPECS[it] : {
+      ...SPECS[it.kind],
+      label: it.label
+    };
+    return /*#__PURE__*/React.createElement("div", {
+      key: s.label,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 9
+      }
+    }, /*#__PURE__*/React.createElement("svg", {
+      width: "30",
+      height: "8",
+      style: {
+        display: "block"
+      }
+    }, /*#__PURE__*/React.createElement("line", {
+      x1: "0",
+      y1: "4",
+      x2: "30",
+      y2: "4",
+      stroke: s.stroke,
+      strokeWidth: "1",
+      strokeDasharray: s.dash
+    })), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "var(--font-mono)",
+        fontSize: "11px",
+        color: "var(--text-muted)"
+      }
+    }, s.label));
+  }));
+}
+Object.assign(__ds_scope, { DiagramLegend });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/diagram/DiagramLegend.jsx", error: String((e && e.message) || e) }); }
+
+// components/diagram/DiagramFrame.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+const {
+  useState
+} = React;
+function DiagramFrame({
+  width,
+  height,
+  edges = [],
+  legend,
+  caption,
+  interactive = true,
+  flow = true,
+  speed = 1.6,
+  padded = true,
+  children,
+  style
+}) {
+  const [focus, setFocus] = useState(null);
+  const adj = {};
+  edges.forEach(e => {
+    if (!e.from || !e.to) return;
+    (adj[e.from] = adj[e.from] || []).push(e.to);
+    (adj[e.to] = adj[e.to] || []).push(e.from);
+  });
+  const nodeOp = id => !interactive || !focus || !id || id === focus || (adj[focus] || []).indexOf(id) > -1 ? 1 : 0.28;
+  const edgeOp = e => !interactive || !focus || e.from === focus || e.to === focus ? 1 : 0.18;
+  const onFocusNode = interactive ? id => setFocus(id) : undefined;
+  const onBlurNode = interactive ? () => setFocus(null) : undefined;
+  const kids = React.Children.map(children, child => {
+    if (!React.isValidElement(child)) return child;
+    const id = child.props.id;
+    const extra = {
+      opacity: nodeOp(id)
+    };
+    if (id) {
+      extra.onFocusNode = onFocusNode;
+      extra.onBlurNode = onBlurNode;
+    }
+    return React.cloneElement(child, extra);
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: "var(--border-hairline)",
+      borderRadius: "var(--radius)",
+      padding: padded ? "36px 32px 28px" : 0,
+      background: "var(--surface-page)",
+      overflowX: "auto",
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      width,
+      height,
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: width,
+    height: height,
+    viewBox: `0 0 ${width} ${height}`,
+    style: {
+      position: "absolute",
+      inset: 0,
+      overflow: "visible"
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.ArrowDefs, null), edges.map((e, i) => /*#__PURE__*/React.createElement(__ds_scope.DiagramEdge, _extends({
+    key: i
+  }, e, {
+    flow: flow && !!e.flow,
+    speed: e.speed || speed,
+    opacity: edgeOp(e)
+  })))), edges.filter(e => e.label).map((e, i) => /*#__PURE__*/React.createElement("span", {
+    key: i,
+    style: {
+      position: "absolute",
+      left: e.labelAt[0],
+      top: e.labelAt[1],
+      background: "var(--surface-page)",
+      padding: "1px 5px",
+      fontFamily: "var(--font-mono)",
+      fontSize: "10.5px",
+      whiteSpace: "nowrap",
+      color: e.outcome === "failure" ? "var(--danger)" : "var(--ink-4)",
+      opacity: edgeOp(e),
+      transition: "opacity 120ms linear"
+    }
+  }, e.label)), kids), legend || caption ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 30,
+      paddingTop: 14,
+      borderTop: "var(--border-hairline)",
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 20
+    }
+  }, legend ? /*#__PURE__*/React.createElement(__ds_scope.DiagramLegend, {
+    items: legend
+  }) : /*#__PURE__*/React.createElement("span", null), caption ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: "11px",
+      color: "var(--text-faint)"
+    }
+  }, caption) : null) : null);
+}
+Object.assign(__ds_scope, { DiagramFrame });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/diagram/DiagramFrame.jsx", error: String((e && e.message) || e) }); }
+
+// components/diagram/DiagramNode.jsx
+try { (() => {
+const KINDS = {
+  service: {},
+  datastore: {
+    borderBottom: "3px solid var(--ink-1)"
+  },
+  queue: {
+    borderLeft: "4px double var(--ink-1)"
+  },
+  external: {
+    border: "1px dashed var(--ink-6)",
+    background: "var(--surface-sunken)"
+  },
+  client: {
+    borderTop: "3px solid var(--ink-1)"
+  },
+  job: {
+    borderLeft: "3px solid var(--ink-1)"
+  },
+  terminal: {
+    border: "1px solid var(--ink-1)",
+    background: "var(--surface-inverse)"
+  },
+  decision: {}
+};
+const TICKS = {
+  ok: {
+    border: "1px solid var(--ink-4)"
+  },
+  degraded: {
+    background: "var(--warning)",
+    border: "1px solid var(--warning)"
+  },
+  failed: {
+    background: "var(--danger)",
+    border: "1px solid var(--danger)"
+  }
+};
+function DiagramNode({
+  id,
+  kind = "service",
+  name,
+  meta,
+  status = "ok",
+  badge,
+  x,
+  y,
+  width = 168,
+  height = 72,
+  opacity = 1,
+  onFocusNode,
+  onBlurNode,
+  style
+}) {
+  const inverse = kind === "terminal";
+  const external = kind === "external";
+  const placed = x !== undefined && y !== undefined;
+  return /*#__PURE__*/React.createElement("div", {
+    onMouseEnter: onFocusNode ? () => onFocusNode(id) : undefined,
+    onMouseLeave: onBlurNode,
+    style: {
+      position: placed ? "absolute" : "relative",
+      left: placed ? x : undefined,
+      top: placed ? y : undefined,
+      width,
+      height: placed ? height : undefined,
+      boxSizing: "border-box",
+      border: "1px solid var(--rule-strong)",
+      background: "var(--surface-raised)",
+      padding: "9px 11px",
+      display: "flex",
+      flexDirection: "column",
+      gap: 3,
+      borderRadius: "var(--radius)",
+      opacity,
+      transition: "opacity 120ms linear",
+      ...KINDS[kind],
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: "10.5px",
+      letterSpacing: "var(--tracking-label-wide)",
+      textTransform: "uppercase",
+      color: inverse ? "var(--text-inverse-muted)" : "var(--ink-6)"
+    }
+  }, kind), kind === "decision" ? null : /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 6,
+      height: 6,
+      ...(inverse ? {
+        border: "1px solid var(--text-inverse-muted)"
+      } : external && status === "ok" ? {
+        border: "1px solid var(--ink-6)"
+      } : TICKS[status])
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: "13px",
+      fontWeight: "var(--weight-medium)",
+      color: inverse ? "var(--text-inverse)" : external ? "var(--ink-3)" : "var(--ink-1)"
+    }
+  }, kind === "decision" ? "? " + name : name), badge ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 3,
+      display: "flex"
+    }
+  }, badge) : null, meta ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "var(--font-mono)",
+      fontSize: "10.5px",
+      color: inverse ? "var(--text-inverse-muted)" : "var(--ink-5)"
+    }
+  }, meta) : null);
+}
+Object.assign(__ds_scope, { DiagramNode });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/diagram/DiagramNode.jsx", error: String((e && e.message) || e) }); }
+
+// components/diagram/StepMarker.jsx
+try { (() => {
+function StepMarker({
+  n,
+  x,
+  y,
+  tone = "ink",
+  style
+}) {
+  const inverse = tone === "inverse";
+  return /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: x !== undefined ? "absolute" : "relative",
+      left: x,
+      top: y,
+      width: 20,
+      height: 20,
+      boxSizing: "border-box",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      border: "1px solid var(--ink-1)",
+      borderRadius: "var(--radius)",
+      background: inverse ? "var(--ink-1)" : "var(--surface-page)",
+      color: inverse ? "var(--text-inverse)" : "var(--ink-1)",
+      fontFamily: "var(--font-mono)",
+      fontSize: "10.5px",
+      ...style
+    }
+  }, String(n).padStart(2, "0"));
+}
+Object.assign(__ds_scope, { StepMarker });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/diagram/StepMarker.jsx", error: String((e && e.message) || e) }); }
 
 // components/layout/PageHeader.jsx
 try { (() => {
@@ -1949,6 +2422,20 @@ __ds_ns.Badge = __ds_scope.Badge;
 __ds_ns.Button = __ds_scope.Button;
 
 __ds_ns.SearchField = __ds_scope.SearchField;
+
+__ds_ns.Boundary = __ds_scope.Boundary;
+
+__ds_ns.ArrowDefs = __ds_scope.ArrowDefs;
+
+__ds_ns.DiagramEdge = __ds_scope.DiagramEdge;
+
+__ds_ns.DiagramFrame = __ds_scope.DiagramFrame;
+
+__ds_ns.DiagramLegend = __ds_scope.DiagramLegend;
+
+__ds_ns.DiagramNode = __ds_scope.DiagramNode;
+
+__ds_ns.StepMarker = __ds_scope.StepMarker;
 
 __ds_ns.PageHeader = __ds_scope.PageHeader;
 

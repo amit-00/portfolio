@@ -1,6 +1,6 @@
 ---
 name: relay-design
-description: Use this skill to generate well-branded interfaces and assets for Relay, either for production or throwaway prototypes/mocks/etc. Contains essential design guidelines, colors, type, fonts, assets, and UI kit components for protoyping.
+description: Use this skill to generate well-branded interfaces and assets for Relay, either for production or throwaway prototypes/mocks/etc. Contains essential design guidelines, colors, type, fonts, assets, UI kit components for protoyping, and the diagram vocabulary for architecture, data-flow and failure-path figures.
 user-invocable: true
 ---
 
