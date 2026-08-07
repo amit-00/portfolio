@@ -1,0 +1,27 @@
+/* Relay diagrams — geometry and the one motion exception.
+   Requires relay-design tokens to be loaded first. */
+
+:root {
+  --dg-node-w: 168px;
+  --dg-node-h: 72px;
+  --dg-gap-x: 96px;
+  --dg-gap-y: 136px;
+  --dg-edge: var(--ink-3);
+  --dg-pulse: var(--ink-1);
+  --dg-pulse-w: 5px;
+  --dg-speed: 1.6s; /* @kind other */
+  --dg-speed-slow: 6s; /* @kind other */
+}
+
+@keyframes relay-flow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -250; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dg-pulse { animation: none !important; opacity: 0; }
+}
+
+@media print {
+  .dg-pulse { animation: none !important; opacity: 0; }
+}

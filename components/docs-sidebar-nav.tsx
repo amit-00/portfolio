@@ -1,11 +1,6 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { SidebarNode } from "@/lib/content";
-
-// Shared dock surface: translucent, blurred, hairline border — matches the
-// FloatingDock so the docs controls feel like one system.
-export const dockSurface =
-  "border-border bg-white/10 dark:bg-black/10 backdrop-blur-md " +
-  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10";
 
 export interface DocsNavProps {
   projectTitle: string;
@@ -14,41 +9,38 @@ export interface DocsNavProps {
   currentHref: string;
 }
 
+const LINK = "block font-mono text-small transition-colors duration-[120ms]";
+
 function NavList({
   nodes,
   currentHref,
-  onNavigate,
 }: {
   nodes: SidebarNode[];
   currentHref: string;
-  onNavigate?: () => void;
-}) {
+}): ReactNode {
   return (
-    <ul className="flex flex-col gap-2">
+    <ul className="flex flex-col gap-[10px]">
       {nodes.map((node) => (
         <li key={node.href ?? node.title}>
           {node.href ? (
             <Link
               href={node.href}
-              onClick={onNavigate}
               className={
                 node.href === currentHref
-                  ? "text-sm text-foreground font-medium"
-                  : "text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  ? `${LINK} text-ink-1`
+                  : `${LINK} text-ink-5 hover:text-ink-1`
               }
             >
               {node.title}
             </Link>
           ) : (
-            <span className="text-sm text-muted-foreground/70">{node.title}</span>
+            <span className="block font-mono text-label-sm uppercase text-ink-6">
+              {node.title}
+            </span>
           )}
           {node.children.length > 0 && (
-            <div className="pl-3 mt-2 border-l border-border">
-              <NavList
-                nodes={node.children}
-                currentHref={currentHref}
-                onNavigate={onNavigate}
-              />
+            <div className="mt-[10px] border-l border-rule pl-4">
+              <NavList nodes={node.children} currentHref={currentHref} />
             </div>
           )}
         </li>
@@ -57,31 +49,27 @@ function NavList({
   );
 }
 
-// Shared nav markup for both the desktop aside and the mobile drawer.
-// `onNavigate` lets the mobile drawer close itself when a link is tapped.
 export function NavContent({
   projectTitle,
   projectHref,
   nodes,
   currentHref,
-  onNavigate,
-}: DocsNavProps & { onNavigate?: () => void }) {
+}: DocsNavProps): ReactNode {
   return (
     <nav>
       <Link
         href={projectHref}
-        onClick={onNavigate}
         className={
           projectHref === currentHref
-            ? "block font-bold text-foreground"
-            : "block font-bold text-muted-foreground hover:text-foreground transition-colors"
+            ? "block font-mono text-small font-bold text-ink-1"
+            : "block font-mono text-small font-bold text-ink-5 transition-colors duration-[120ms] hover:text-ink-1"
         }
       >
         {projectTitle}
       </Link>
       {nodes.length > 0 && (
-        <div className="mt-4">
-          <NavList nodes={nodes} currentHref={currentHref} onNavigate={onNavigate} />
+        <div className="mt-5 border-t border-rule pt-5">
+          <NavList nodes={nodes} currentHref={currentHref} />
         </div>
       )}
     </nav>

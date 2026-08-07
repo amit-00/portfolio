@@ -1,0 +1,31 @@
+<!-- @dsCard group="Components" viewport="800x520" name="Diagram" subtitle="Nodes, edges, boundaries, legend, step markers" -->
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{padding:24px;background:var(--surface-page)}</style></head>
+<body><div id="root"></div>
+<script type="text/babel">
+const __ds = window.RelayDesignSystem_27f20f || {};
+const DiagramFrame = __ds.DiagramFrame, DiagramNode = __ds.DiagramNode, Boundary = __ds.Boundary;
+const edges = [
+  { from: "pg", to: "capture", d: "M84,104 V168", label: "WAL", labelAt: [96, 124], flow: true },
+  { from: "capture", to: "stream", d: "M168,204 H262", label: "commit LSN", labelAt: [180, 178], flow: true },
+  { from: "stream", to: "fanout", d: "M432,204 H526", mode: "async", label: "at-least-once", labelAt: [438, 178], flow: true },
+  { from: "fanout", to: "wh", d: "M612,240 V302", label: "ordered", labelAt: [624, 262], flow: true },
+  { from: "fanout", to: "dlq", d: "M552,240 V272 H348 V302", outcome: "failure", label: "after 5 retries", labelAt: [378, 262] },
+];
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <DiagramFrame width={696} height={376} caption="fig. 01 — change capture, one degraded consumer" legend={["sync","async","failure"]} edges={edges}>
+    <Boundary x={-16} y={150} w={728} h={108} label="relay / control plane" />
+    <DiagramNode id="pg" x={0} y={32} kind="datastore" name="orders_pg" meta="primary" />
+    <DiagramNode id="capture" x={0} y={168} kind="service" name="capture" meta="3 replicas" />
+    <DiagramNode id="stream" x={264} y={168} kind="queue" name="changes.v2" meta="64 partitions · 7d" />
+    <DiagramNode id="fanout" x={528} y={168} kind="service" name="fanout" meta="p99 lag 14s" status="degraded" />
+    <DiagramNode id="dlq" x={264} y={304} kind="queue" name="changes.dlq" meta="2,104 held" status="failed" />
+    <DiagramNode id="wh" x={528} y={304} kind="external" name="warehouse" meta="consumer group" />
+  </DiagramFrame>
+);
+</script></body></html>

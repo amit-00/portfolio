@@ -6,9 +6,11 @@ import {
   getProjectPosts,
   getSidebarTree,
 } from "@/lib/content";
-import { Markdown } from "@/components/markdown";
+import { Article } from "@/components/article";
 import { DocsSidebar } from "@/components/docs-sidebar";
 import { EditorialSection } from "@/components/editorial-section";
+import { TopBar } from "@/components/relay/top-bar";
+import { SiteFooter } from "@/components/relay/site-footer";
 import { formatDate } from "@/lib/utils";
 
 // Only paths emitted by generateStaticParams exist; everything else 404s
@@ -50,27 +52,29 @@ export default async function ProjectDocPage({ params }: DocRouteProps) {
     : undefined;
 
   return (
-    <div className="relative pt-24 pb-24">
-      <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row gap-8 md:gap-12">
+    <div>
+      <TopBar breadcrumb={`projects / ${slug.join(" / ")}`} />
+      <div className="flex flex-col gap-9 border-b border-rule px-gutter py-section md:flex-row md:gap-12">
         <DocsSidebar
           projectTitle={projectIndex?.title ?? projectSlug}
           projectHref={`/projects/${projectSlug}`}
           nodes={nodes}
           currentHref={`/projects/${slug.join("/")}`}
         />
-        <article className="min-w-0 flex-1 max-w-2xl">
+        <article className="min-w-0 flex-1">
           {post && (
             <time
               dateTime={post.date}
-              className="block text-sm text-muted-foreground"
+              className="mb-4 block font-mono text-label uppercase text-ink-5"
             >
               {formatDate(post.date)}
             </time>
           )}
-          <Markdown content={page.content} />
+          <Article content={page.content} />
           {isOverview && <EditorialSection posts={posts} />}
         </article>
       </div>
+      <SiteFooter />
     </div>
   );
 }

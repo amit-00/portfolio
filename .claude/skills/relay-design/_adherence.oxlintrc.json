@@ -18,6 +18,7 @@
             "group": [
               "components/content/**",
               "components/core/**",
+              "components/diagram/**",
               "components/layout/**",
               "components/site/**",
               "ui_kits/docs/**",
@@ -52,6 +53,10 @@
         "message": "<Badge> tone must be one of 'neutral' | 'solid' | 'warning' | 'danger' | 'success'."
       },
       {
+        "selector": "JSXOpeningElement[name.name='Boundary'] > JSXAttribute > JSXIdentifier[name!=/^(?:x|y|w|h|label|opacity|children|key|ref|className|style|children)$/]",
+        "message": "<Boundary> doesn't accept that prop. Declared props: x, y, w, h, label, opacity, children."
+      },
+      {
         "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|size|disabled|uppercase|children|key|ref|className|style|children)$/]",
         "message": "<Button> doesn't accept that prop. Declared props: variant, size, disabled, uppercase, children."
       },
@@ -82,6 +87,22 @@
       {
         "selector": "JSXOpeningElement[name.name='DataTable'] > JSXAttribute > JSXIdentifier[name!=/^(?:columns|rows|monoColumns|style|key|ref|className|style|children)$/]",
         "message": "<DataTable> doesn't accept that prop. Declared props: columns, rows, monoColumns, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DiagramEdge'] > JSXAttribute > JSXIdentifier[name!=/^(?:d|mode|outcome|flow|speed|arrow|opacity|key|ref|className|style|children)$/]",
+        "message": "<DiagramEdge> doesn't accept that prop. Declared props: d, mode, outcome, flow, speed, arrow, opacity."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FrameEdge'] > JSXAttribute > JSXIdentifier[name!=/^(?:from|to|d|mode|outcome|flow|speed|label|labelAt|key|ref|className|style|children)$/]",
+        "message": "<FrameEdge> doesn't accept that prop. Declared props: from, to, d, mode, outcome, flow, speed, label, labelAt."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DiagramLegend'] > JSXAttribute > JSXIdentifier[name!=/^(?:items|key|ref|className|style|children)$/]",
+        "message": "<DiagramLegend> doesn't accept that prop. Declared props: items."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DiagramNode'] > JSXAttribute > JSXIdentifier[name!=/^(?:id|kind|name|meta|status|badge|x|y|width|height|opacity|onFocusNode|onBlurNode|key|ref|className|style|children)$/]",
+        "message": "<DiagramNode> doesn't accept that prop. Declared props: id, kind, name, meta, status, badge, x, y, width, height, opacity, onFocusNode, onBlurNode."
       },
       {
         "selector": "JSXOpeningElement[name.name='DiagramPlaceholder'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|height|style|key|ref|className|style|children)$/]",
@@ -140,6 +161,14 @@
         "message": "<StepListStep> doesn't accept that prop. Declared props: title, body."
       },
       {
+        "selector": "JSXOpeningElement[name.name='StepMarker'] > JSXAttribute > JSXIdentifier[name!=/^(?:n|x|y|tone|key|ref|className|style|children)$/]",
+        "message": "<StepMarker> doesn't accept that prop. Declared props: n, x, y, tone."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StepMarker'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:ink|inverse)$/]",
+        "message": "<StepMarker> tone must be one of 'ink' | 'inverse'."
+      },
+      {
         "selector": "JSXOpeningElement[name.name='TopBar'] > JSXAttribute > JSXIdentifier[name!=/^(?:product|breadcrumb|right|style|key|ref|className|style|children)$/]",
         "message": "<TopBar> doesn't accept that prop. Declared props: product, breadcrumb, right, style."
       }
@@ -160,6 +189,9 @@
       "Badge": {
         "replaces": []
       },
+      "Boundary": {
+        "replaces": []
+      },
       "Button": {
         "replaces": []
       },
@@ -170,6 +202,18 @@
         "replaces": []
       },
       "DataTable": {
+        "replaces": []
+      },
+      "DiagramEdge": {
+        "replaces": []
+      },
+      "FrameEdge": {
+        "replaces": []
+      },
+      "DiagramLegend": {
+        "replaces": []
+      },
+      "DiagramNode": {
         "replaces": []
       },
       "DiagramPlaceholder": {
@@ -208,6 +252,9 @@
       "StepListStep": {
         "replaces": []
       },
+      "StepMarker": {
+        "replaces": []
+      },
       "TopBar": {
         "replaces": []
       }
@@ -224,6 +271,15 @@
       "--border-width",
       "--danger",
       "--danger-wash",
+      "--dg-edge",
+      "--dg-gap-x",
+      "--dg-gap-y",
+      "--dg-node-h",
+      "--dg-node-w",
+      "--dg-pulse",
+      "--dg-pulse-w",
+      "--dg-speed",
+      "--dg-speed-slow",
       "--focus-offset",
       "--focus-ring",
       "--font-mono",
@@ -372,7 +428,16 @@
       "--border-inverse": "color",
       "--shadow-none": "shadow",
       "--focus-ring": "color",
-      "--focus-offset": "spacing"
+      "--focus-offset": "spacing",
+      "--dg-node-w": "spacing",
+      "--dg-node-h": "spacing",
+      "--dg-gap-x": "spacing",
+      "--dg-gap-y": "spacing",
+      "--dg-edge": "color",
+      "--dg-pulse": "color",
+      "--dg-pulse-w": "spacing",
+      "--dg-speed": "other",
+      "--dg-speed-slow": "other"
     },
     "fontFamilies": [
       "JetBrains Mono",

@@ -1,18 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono, Public_Sans } from "next/font/google";
 import "./globals.css";
-import { FloatingDock } from "@/components/floating-dock";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "sonner";
 
-const inter = Inter({
-  variable: "--font-inter",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
+const publicSans = Public_Sans({
+  variable: "--font-public-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
   title: "Amit Verma — Software Engineer",
-  description: "Portfolio of Amit Verma, a software engineer building web and AI products.",
+  description:
+    "Portfolio of Amit Verma, a software engineer building web and AI products.",
 };
 
 export default function RootLayout({
@@ -21,14 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} antialiased bg-background text-foreground`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
-          <FloatingDock />
-          <Toaster position="top-right" toastOptions={{ style: { width: "fit-content" } }} />
-        </ThemeProvider>
-      </body>
+    // The font variables must land on <html>: Tailwind resolves --font-sans and
+    // --font-mono at :root, and a var() it cannot see there computes to nothing.
+    <html lang="en" className={`${jetbrainsMono.variable} ${publicSans.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

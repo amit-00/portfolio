@@ -42,6 +42,26 @@ A flat, typographic system for personal publishing: portfolios, design docs, ess
 
 ---
 
+## Diagrams
+
+Architecture, data-flow and failure-path figures are drawn with the system's existing means — hairline rules, mono labels, one achromatic ink ramp — so a diagram sits inside a docs page without becoming an illustration. `tokens/diagram.css` loads with `styles.css`; nothing in it redefines a colour, a typeface or a radius.
+
+**Entities.** One `DiagramNode`, eight kinds, carried by rule weight and position, never by colour or icon: `service` (hairline box), `datastore` (3px bottom bar), `queue` (doubled left rule), `external` (dashed hairline, sunken fill), `client` (3px top bar), `job` (3px left bar), `terminal` (inverse fill), `decision` (`?` prefix). Each node reads kind, name, then one line of consequence — replicas, retention, schedule. Three lines is the maximum.
+
+**State.** A 6px square in the top-right corner: hollow ink for `ok`, filled warning for `degraded`, filled danger for `failed`. A node never changes its background to report health; pass `badge` when the state needs a reason. This is the one place status hues leave badges and callouts — same chroma band, never filling an area larger than a badge, and the failure edge is dashed as well so greyscale print still parses.
+
+**Connections.** `DiagramEdge` takes an SVG path in canvas coordinates. Solid is synchronous and the caller waits; dashed is asynchronous and it does not. Dash pattern encodes mode, colour encodes outcome, and the mono chip on the line says what moves. An unlabelled edge is a missing sentence. Edges run orthogonally on a 4px grid; the retry return path is the only curve.
+
+**Grouping.** `Boundary` marks a trust, network or ownership line: a dashed hairline rectangle with a mono corner label, never a background. One level of nesting; below that, split the diagram.
+
+**Motion.** Data flow is the single documented exception to the 120ms-colour-only motion rule: a 7-unit dash runs the edge at constant linear speed on an infinite loop — `1.6s` standard, `6s` batched or lagging. It does not ease, fade, grow or change colour. Every path is normalised to `pathLength=1000` so short and long hops move at the same visual rate. Failure edges never animate; nothing is moving down them, which is the point. Motion is off under `prefers-reduced-motion` and in print, where `StepMarker` carries sequence instead.
+
+**Interaction.** Hovering a node holds it and its immediate neighbours and drops everything else to 28% opacity. That is the diagram's only interaction, and it survives greyscale and print. Pass `interactive={false}` for a static figure.
+
+**Constraints.** No fills for meaning — two backgrounds only, the page and the sunken grey behind external nodes. No icons inside nodes; if the kind is not clear from the label, the label is wrong. No accent hue anywhere — links and focus rings keep it exclusively. No more than nine nodes in one figure; past that, cut a boundary out and give it its own figure. Layout grid: 168px nodes, 96px gaps, rows 136px apart, sources at the top, sinks at the bottom, failure paths to the left.
+
+---
+
 ## Content fundamentals
 
 Second person, present tense, active voice. State what the system does, then what that buys the reader; never sell it.
@@ -70,7 +90,7 @@ If a product genuinely needs true icons, add **Lucide at 1.5px stroke** from CDN
 ## Index
 
 - `styles.css` — the entry point; imports everything in `tokens/`.
-- `tokens/` — `fonts.css`, `colors.css`, `typography.css`, `spacing.css`, `borders.css`, `base.css`.
+- `tokens/` — `fonts.css`, `colors.css`, `typography.css`, `spacing.css`, `borders.css`, `base.css`, `diagram.css`.
 - `guidelines/` — 17 foundation specimen cards (Type, Colors, Spacing, Brand, Motion).
 - `thumbnail.html` — the system's homepage tile.
 - `SKILL.md` — Agent Skills entry point.
@@ -81,6 +101,7 @@ If a product genuinely needs true icons, add **Lucide at 1.5px stroke** from CDN
 **`components/content/`** — `Callout`, `CodeBlock`, `DataTable`, `StepList`, `DiagramPlaceholder`
 **`components/layout/`** — `TopBar`, `PageHeader`, `SectionLabel`, `SplitSection`, `PrevNextNav`
 **`components/site/`** — `IndexList`, `Prose`, `Figure`, `MetaRow`, `SiteFooter`
+**`components/diagram/`** — `DiagramFrame`, `DiagramNode`, `DiagramEdge`, `Boundary`, `DiagramLegend`, `StepMarker`
 
 Each directory has a `.card.html` showing its variants, and each component ships a `.d.ts` props contract and a `.prompt.md` usage note.
 

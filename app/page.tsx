@@ -1,186 +1,187 @@
-import { workExperience, education, skills, projects } from "@/lib/data";
 import Image from "next/image";
-import Link from "next/link";
-import { Globe, Github } from "lucide-react";
-import { AboutMe } from "@/components/about-me";
-import { Footer } from "@/components/footer";
+import type { ReactNode } from "react";
+import { workExperience, education, skills, projects } from "@/lib/data";
+import { TopBar } from "@/components/relay/top-bar";
+import { SiteFooter } from "@/components/relay/site-footer";
+import { SectionLabel } from "@/components/relay/section-label";
+import { IndexList, type IndexItem } from "@/components/relay/index-list";
 
-export default function Home() {
+interface RecordEntry {
+  date: string;
+  logo: string;
+  title: string;
+  subtitle: string;
+}
+
+function RecordRows({ entries }: { entries: RecordEntry[] }): ReactNode {
   return (
-    <div className="relative pt-24">
-      <div className="max-w-2xl mx-auto px-4 relative">
-        <header className="flex flex-col-reverse md:flex-row items-center justify-between mb-24">
-          <div className="">
-            <h1 className="text-4xl font-bold">
-              Hi, I&apos;m <span className="text-primary">Amit</span>
-            </h1>
-            <p className="text-2xl text-muted-foreground mt-8">
-              Software Engineer who loves building things. Currently building at CIBC
-            </p>
-          </div>
-          <div className="mb-8 md:mb-0">
-            <div className="rounded-full overflow-hidden w-40 h-40 border border-border">
-              <Image src="/profile.jpeg" alt="Amit" className="object-cover w-full h-full" width={160} height={160} />
+    <div className="mt-4 flex flex-col border-t border-rule">
+      {entries.map((entry) => (
+        <div
+          key={`${entry.title}-${entry.date}`}
+          className="grid grid-cols-1 items-center gap-2 border-b border-rule py-6 lg:grid-cols-[1fr_auto] lg:gap-5"
+        >
+          <div className="flex items-center gap-4">
+            <div className="shrink-0 border border-rule bg-sunken p-1">
+              <Image
+                src={entry.logo}
+                alt=""
+                width={32}
+                height={32}
+                className="size-8 object-contain"
+              />
+            </div>
+            <div className="min-w-0">
+              <div className="font-mono text-h3 font-medium text-ink-1">
+                {entry.title}
+              </div>
+              <div className="text-small text-ink-4">{entry.subtitle}</div>
             </div>
           </div>
-        </header>
-
-        <AboutMe />
-
-        <section id="work-experience" className="mt-16 scroll-mt-24">
-          <h2 className="text-2xl font-bold">Work Experience</h2>
-          <div className="mt-12 flex flex-col gap-8">
-            {workExperience.map((experience) => (
-              <div key={experience.company} className="flex items-center justify-between">
-                <div className="flex items-center gap-4 w-full">
-                  <Image src={experience.logo} alt={experience.company} className="object-cover rounded-full" width={40} height={40} />
-                  <div className="flex flex-col">
-                    <h3 className="text-lg font-bold">{experience.company}</h3>
-                    <p className="text-sm text-muted-foreground">{experience.title}</p>
-                    <p className="text-sm text-muted-foreground block md:hidden">{experience.date}</p>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground hidden md:block">{experience.date}</p>
-              </div>
-            ))}
+          <div className="font-mono text-label uppercase text-ink-6 lg:text-right">
+            {entry.date}
           </div>
-        </section>
-
-        <section className="mt-16">
-          <h2 className="text-2xl font-bold">Education</h2>
-          <div className="mt-12 flex flex-col gap-8">
-            {education.map((education) => (
-              <div key={education.school} className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <Image src={education.logo} alt={education.school} className="object-cover rounded-full" width={40} height={40} />
-                  <div className="flex flex-col">
-                    <h3 className="text-lg font-bold">{education.school}</h3>
-                    <p className="text-sm text-muted-foreground">{education.degree}</p>
-                    <p className="text-sm text-muted-foreground block md:hidden">{education.date}</p>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground hidden md:block">{education.date}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-16">
-          <h2 className="text-2xl font-bold">Skills</h2>
-          <div className="mt-12 flex flex-wrap gap-4">
-            {skills.map((skill) => (
-              <div key={skill.name} className="flex items-center justify-between">
-                <div className="flex items-center gap-2 border border-border rounded-full px-2 py-1">
-                  <svg
-                    role="img"
-                    viewBox="0 0 24 24"
-                    className="w-4 h-4 fill-muted-foreground"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d={skill.icon.path} />
-                  </svg>
-                  <p className="text-sm text-muted-foreground">{skill.name}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <div className="flex items-center gap-4 my-16">
-          <div className="flex-1 h-px bg-border"></div>
-          <span className="text-xs text-muted-foreground border border-border rounded-full px-3 py-1">
-            My Projects
-          </span>
-          <div className="flex-1 h-px bg-border"></div>
         </div>
+      ))}
+    </div>
+  );
+}
 
-        <section id="projects" className="mt-16 text-center scroll-mt-24">
-          <div className="max-w-lg mx-auto">
-            <h2 className="text-3xl font-bold">Check out my latest work</h2>
-            <p className="text-muted-foreground mt-4 text-lg">
-              I&apos;ve been working on a variety of projects to learn new technologies and improve my skills. Here are some of my favorites.
+const projectItems: IndexItem[] = projects.map((project) => {
+  // "||" not "??": link/repo use empty string for "absent"
+  const external = project.link || project.repo;
+  return {
+    meta: project.tags.slice(0, 3).join(" · "),
+    title: project.name,
+    description: project.description,
+    tag: project.docs ? "Case study" : "Site",
+    image: `/${project.img}`,
+    href: project.docs ? `/projects/${project.docs}` : external || undefined,
+    external: !project.docs,
+  };
+});
+
+export default function Home(): ReactNode {
+  return (
+    <div>
+      <TopBar />
+
+      <header className="flex flex-col items-start gap-9 border-b border-rule px-gutter pt-16 pb-11 md:flex-row md:items-center">
+        <div className="shrink-0 border border-rule bg-sunken">
+          <Image
+            src="/profile.jpeg"
+            alt="Amit Verma"
+            width={160}
+            height={160}
+            className="size-40 object-cover"
+          />
+        </div>
+        <div>
+          <div className="font-mono text-label uppercase text-ink-5">
+            Amit Verma — software engineer
+          </div>
+          <h1 className="mt-4 font-mono text-display font-bold text-ink-1">
+            Hi, I&apos;m Amit
+          </h1>
+          <p className="mt-4 max-w-[52ch] text-lead text-ink-3">
+            Software Engineer who loves building things. Currently building at
+            CIBC.
+          </p>
+        </div>
+      </header>
+
+      <section className="grid border-b border-rule md:grid-cols-2">
+        <div className="border-b border-rule px-gutter py-section md:border-r md:border-b-0 md:pr-9">
+          <SectionLabel index="01">About me</SectionLabel>
+          <div className="prose mt-4">
+            <p>
+              I&apos;m a software engineer who likes building systems that
+              actually hold up in the real world. I&apos;m drawn to tricky
+              constraints and I enjoy finding clean, practical solutions.
+              I&apos;ve worked in production environments at large Canadian
+              companies.
+            </p>
+            <p>
+              Outside of work, I&apos;m always open to collaborating on
+              projects. If you&apos;re building something interesting, I&apos;d
+              love to hear about it.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 text-left">
-            {projects.map((project) => {
-              const docsHref = project.docs ? `/projects/${project.docs}` : null;
-              // "||" not "??": link/repo use empty string for "absent"
-              const cardHref = docsHref ?? (project.link || project.repo);
-              const image = (
-                <Image
-                  src={`/${project.img}`}
-                  alt={project.name}
-                  className="object-cover w-full aspect-video"
-                  width={600}
-                  height={340}
-                />
-              );
-              return (
-                <div key={project.name} className="flex flex-col">
-                  <div className="relative overflow-hidden rounded-xl border border-border hover:border-muted-foreground/50 transition-colors">
-                    {docsHref ? (
-                      <Link href={docsHref}>{image}</Link>
-                    ) : cardHref ? (
-                      <a href={cardHref} target="_blank" rel="noopener noreferrer">
-                        {image}
-                      </a>
-                    ) : (
-                      image
-                    )}
-                    <div className="absolute top-2 right-2 flex items-center gap-2">
-                      {project.link && (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white rounded-full px-2 py-1 text-xs hover:bg-black/90 transition-colors"
-                        >
-                          <Globe className="size-3" />
-                          Website
-                        </a>
-                      )}
-                      {project.repo && (
-                        <a
-                          href={project.repo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 bg-black/70 backdrop-blur-sm text-white rounded-full px-2 py-1 text-xs hover:bg-black/90 transition-colors"
-                        >
-                          <Github className="size-3" />
-                          GitHub
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  {docsHref ? (
-                    <Link href={docsHref}>
-                      <h3 className="text-xl font-bold mt-3 hover:underline">{project.name}</h3>
-                    </Link>
-                  ) : (
-                    <h3 className="text-xl font-bold mt-3">{project.name}</h3>
-                  )}
-                  <p className="text-md text-muted-foreground mt-1">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="border border-border rounded-full px-2 py-1 text-sm text-muted-foreground"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+        </div>
+        <div className="bg-sunken px-gutter py-section">
+          <SectionLabel index="02">Now</SectionLabel>
+          <div className="mt-4 flex flex-col border-t border-rule">
+            {(
+              [
+                ["Role", "Software Engineer, CIBC"],
+                ["Focus", "Backend systems, platform engineering"],
+                ["Fav stack", "Python, Typescript, Cloudflare Workers"],
+                ["Located", "Toronto, ON Canada"],
+              ] as [string, string][]
+            ).map(([key, value]) => (
+              <div
+                key={key}
+                className="grid grid-cols-1 gap-1 border-b border-rule py-[10px] sm:grid-cols-[110px_1fr] sm:gap-5"
+              >
+                <span className="font-mono text-label-sm uppercase text-ink-6">
+                  {key}
+                </span>
+                <span className="text-small text-ink-2">{value}</span>
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
 
-        </section>
+      <section className="border-b border-rule px-gutter py-section">
+        <SectionLabel index="03">Skills</SectionLabel>
+        <div className="mt-4 max-w-measure font-mono text-small leading-[2] text-ink-3">
+          {skills.map((skill, i) => (
+            <span key={skill}>
+              {i > 0 && <span className="mx-3 text-ink-6">·</span>}
+              {skill}
+            </span>
+          ))}
+        </div>
+      </section>
 
-        <Footer />
-      </div>
+      <section className="border-b border-rule px-gutter py-section">
+        <SectionLabel index="04">Projects</SectionLabel>
+        <p className="mt-3 max-w-[62ch] text-small text-ink-4">
+          I&apos;ve been working on a variety of projects to learn new
+          technologies and improve my skills. Here are some of my favorites.
+        </p>
+        <div className="mt-5">
+          <IndexList items={projectItems} />
+        </div>
+      </section>
+
+      <section className="grid border-b border-rule md:grid-cols-2">
+        <div className="border-b border-rule px-gutter py-section md:border-r md:border-b-0 md:pr-9">
+          <SectionLabel index="05">Work experience</SectionLabel>
+          <RecordRows
+            entries={workExperience.map((job) => ({
+              date: job.date,
+              logo: job.logo,
+              title: job.company,
+              subtitle: job.title,
+            }))}
+          />
+        </div>
+        <div className="px-gutter py-section">
+          <SectionLabel index="06">Education</SectionLabel>
+          <RecordRows
+            entries={education.map((entry) => ({
+              date: entry.date,
+              logo: entry.logo,
+              title: entry.school,
+              subtitle: entry.degree,
+            }))}
+          />
+        </div>
+      </section>
+
+      <SiteFooter />
     </div>
-
   );
 }
