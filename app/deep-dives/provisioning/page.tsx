@@ -100,21 +100,18 @@ export default function ProvisioningDeepDive(): ReactNode {
                 <thead>
                   <tr>
                     <th>Service</th>
-                    <th>What it did</th>
-                    <th>How it deployed</th>
+                    <th>How it reached production</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Orchestration</td>
-                    <td>Ran ADF and Databricks workflows on a schedule</td>
                     <td>
                       A standalone <code>Function App</code> per data product
                     </td>
                   </tr>
                   <tr>
                     <td>Ingestion</td>
-                    <td>Landed RDBMS and file sources onto Databricks</td>
                     <td>
                       A Databricks workflow wrote a config row into the service
                       database
@@ -122,7 +119,6 @@ export default function ProvisioningDeepDive(): ReactNode {
                   </tr>
                   <tr>
                     <td>VBAC</td>
-                    <td>Hashed or redacted views over the Delta tables</td>
                     <td>
                       A Databricks workflow wrote a config row into the service
                       database
@@ -130,7 +126,6 @@ export default function ProvisioningDeepDive(): ReactNode {
                   </tr>
                   <tr>
                     <td>Consumption</td>
-                    <td>Databricks jobs and the resources they need</td>
                     <td>Asset Bundles, from a CLI on a privileged VM</td>
                   </tr>
                 </tbody>
@@ -147,14 +142,28 @@ export default function ProvisioningDeepDive(): ReactNode {
         </p>
         <p>
           <strong>Orchestration</strong> ran a team&apos;s Azure Data Factory
-          ingestion and their Databricks ETL on a schedule.{" "}
+          ingestion and their Databricks ETL to a schedule. A team declared
+          which jobs to run, when to run them, and where data was produced and
+          consumed.
+        </p>
+        <p>
           <strong>Ingestion</strong> landed data onto Databricks from relational
-          databases and from files in Azure storage accounts.{" "}
+          databases and from files dropped into Azure storage accounts. A team
+          declared the source and where it should land — a connection for an
+          RDBMS, a container and path for files.{" "}
+          <TK>the fields a source definition actually carried</TK>
+        </p>
+        <p>
           <strong>VBAC</strong> — view-based access control — kept regulated
-          columns away from users who had no business seeing them, by building
+          columns away from users with no authorization to see them, by building
           views over the Delta tables with the sensitive columns hashed or
-          redacted. <strong>Consumption</strong> deployed the Databricks jobs
-          and resources that read the result.
+          redacted. A team declared which columns were sensitive and which
+          treatment each one got. <TK>how access itself was granted</TK>
+        </p>
+        <p>
+          <strong>Consumption</strong> deployed the Databricks jobs and the
+          resources they need to read the finished data. A team supplied a
+          Databricks Asset Bundle describing them.
         </p>
 
         <h3>The config was already consolidated</h3>
