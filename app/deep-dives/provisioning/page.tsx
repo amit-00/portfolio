@@ -298,12 +298,6 @@ export default function ProvisioningDeepDive(): ReactNode {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Reconciliation control plane</td>
-                    <td>yes</td>
-                    <td>partly</td>
-                    <td>high</td>
-                  </tr>
-                  <tr>
                     <td>IaC, adopted</td>
                     <td>converges</td>
                     <td>no</td>
@@ -312,7 +306,7 @@ export default function ProvisioningDeepDive(): ReactNode {
                   <tr>
                     <td>IaC, built</td>
                     <td>yes</td>
-                    <td>yes</td>
+                    <td>TK</td>
                     <td>TK</td>
                   </tr>
                 </tbody>
@@ -330,15 +324,6 @@ export default function ProvisioningDeepDive(): ReactNode {
           implemented it was the decision worth defending.
         </p>
 
-        <h3>A reconciliation control plane</h3>
-        <p>
-          Converging desired against actual state answers drift well and removes
-          the human properly. It also assumes a platform team that can operate a
-          control plane as a product.{" "}
-          <TK>what it would have cost to run and to staff</TK>
-        </p>
-
-        <h3>Adopting an engine, or writing one</h3>
         <p>
           Terraform and Pulumi hand you a dependency graph, a plan and real
           state for free, and &quot;we wrote our own&quot; is usually the wrong
