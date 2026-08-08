@@ -91,46 +91,11 @@ export default function ProvisioningDeepDive(): ReactNode {
 
       <Section
         index="01"
-        eyebrow="BACKGROUND"
-        title="Four capabilities, four ways to production"
+        eyebrow="THE PLATFORM"
+        title="A data product needed all four"
         aside={
-          <Figure caption="Fig 1 — One configuration language described all four services. Each one still reached production its own way.">
-            <div className="prose max-w-none bg-page px-5 py-4">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Service</th>
-                    <th>How it reached production</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Orchestration</td>
-                    <td>
-                      A standalone <code>Function App</code> per data product
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Ingestion</td>
-                    <td>
-                      A Databricks workflow wrote a config row into the service
-                      database
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>VBAC</td>
-                    <td>
-                      A Databricks workflow wrote a config row into the service
-                      database
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Consumption</td>
-                    <td>Asset Bundles, from a CLI on a privileged VM</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <Figure caption="Fig 1 — Where each capability sits on a data product's path from source system to consumer.">
+            <DiagramSlot label="platform / four capabilities" />
           </Figure>
         }
       >
@@ -165,7 +130,72 @@ export default function ProvisioningDeepDive(): ReactNode {
           resources they need to read the finished data. A team supplied a
           Databricks Asset Bundle describing them.
         </p>
+      </Section>
 
+      <Section
+        index="02"
+        eyebrow="PROBLEM"
+        title="A deployment stopped wherever it broke"
+        aside={
+          <>
+            <Figure caption="Fig 2 — One configuration language described all four services. Each one still reached production its own way.">
+              <div className="prose max-w-none bg-page px-5 py-4">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Service</th>
+                      <th>How it reached production</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Orchestration</td>
+                      <td>
+                        A standalone <code>Function App</code> per data product
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Ingestion</td>
+                      <td>
+                        A Databricks workflow wrote a config row into the
+                        service database
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>VBAC</td>
+                      <td>
+                        A Databricks workflow wrote a config row into the
+                        service database
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Consumption</td>
+                      <td>Asset Bundles, from a CLI on a privileged VM</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </Figure>
+            <Figure caption="Fig 3 — The sequence, and what a failure in step three leaves standing behind it.">
+              <DiagramSlot label="before / sequential deploy, partial failure" />
+            </Figure>
+            <div className="border border-rule bg-page px-5 py-4">
+              <div className="font-mono text-label-sm uppercase text-ink-5">
+                Requirements for the redesign
+              </div>
+              <ol className="prose mt-3 max-w-none list-decimal pl-5 text-small">
+                <li>A deployment either fully lands or leaves nothing behind.</li>
+                <li>No privileged human on the path of a routine deployment.</li>
+                <li>One place to watch a deployment and see why it failed.</li>
+                <li>
+                  Services own their own config schema, checked before deploy.
+                </li>
+                <li>Promotion between environments uses the same mechanism.</li>
+              </ol>
+            </div>
+          </>
+        }
+      >
         <h3>The config was already consolidated</h3>
         <p>
           A team described all four in one file: a{" "}
@@ -204,41 +234,9 @@ export default function ProvisioningDeepDive(): ReactNode {
         </ol>
         <p>
           Step four is where the design shows. The four deployments ran one
-          after another with nothing tying them together, which is the fact the
-          rest of this page is about.
-        </p>
-      </Section>
-
-      <Section
-        index="02"
-        eyebrow="PROBLEM"
-        title="A deployment stopped wherever it broke"
-        aside={
-          <>
-            <Figure caption="Fig 2 — The sequence, and what a failure in step three leaves standing behind it.">
-              <DiagramSlot label="before / sequential deploy, partial failure" />
-            </Figure>
-            <div className="border border-rule bg-page px-5 py-4">
-              <div className="font-mono text-label-sm uppercase text-ink-5">
-                Requirements for the redesign
-              </div>
-              <ol className="prose mt-3 max-w-none list-decimal pl-5 text-small">
-                <li>A deployment either fully lands or leaves nothing behind.</li>
-                <li>No privileged human on the path of a routine deployment.</li>
-                <li>One place to watch a deployment and see why it failed.</li>
-                <li>
-                  Services own their own config schema, checked before deploy.
-                </li>
-                <li>Promotion between environments uses the same mechanism.</li>
-              </ol>
-            </div>
-          </>
-        }
-      >
-        <p>
-          Four problems came out of that structure. They are worth separating,
-          because the redesign had to answer all four and most of the obvious
-          fixes only answer one.
+          after another with nothing tying them together, and four problems came
+          out of that — worth separating, because the redesign had to answer all
+          four and most of the obvious fixes only answer one.
         </p>
 
         <h3>A failure left the system half-built</h3>
@@ -294,7 +292,7 @@ export default function ProvisioningDeepDive(): ReactNode {
         eyebrow="APPROACH"
         title="Declarative IaC, built rather than adopted"
         aside={
-          <Figure caption="Fig 3 — The options scored against the requirements from 02. Adopting an engine converges after a partial failure rather than unwinding it.">
+          <Figure caption="Fig 4 — The options scored against the requirements from 02. Adopting an engine converges after a partial failure rather than unwinding it.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
@@ -359,10 +357,10 @@ export default function ProvisioningDeepDive(): ReactNode {
         title="An engine for exactly four resources"
         aside={
           <>
-            <Figure caption="Fig 4 — A deployment as one workflow: four steps, each with the undo it owns.">
+            <Figure caption="Fig 5 — A deployment as one workflow: four steps, each with the undo it owns.">
               <DiagramSlot label="after / workflow + compensation" />
             </Figure>
-            <Figure caption="Fig 5 — Each step is idempotent and names its own compensating action.">
+            <Figure caption="Fig 6 — Each step is idempotent and names its own compensating action.">
               <div className="prose max-w-none">
                 <pre>
                   <code>{`// TK — the real definition
@@ -431,7 +429,7 @@ deploy(ddp, env) {
         eyebrow="RESULTS"
         title="What changed"
         aside={
-          <Figure caption="Fig 6 — Before and after. Numbers, not adjectives.">
+          <Figure caption="Fig 7 — Before and after. Numbers, not adjectives.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
