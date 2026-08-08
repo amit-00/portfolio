@@ -282,43 +282,43 @@ export default function ProvisioningDeepDive(): ReactNode {
 
       <Section
         index="03"
-        eyebrow="ALTERNATIVES"
-        title="Designs I ruled out"
+        eyebrow="APPROACH"
+        title="Declarative IaC, built rather than adopted"
         aside={
-          <Figure caption="Fig 3 — The alternatives scored against the requirements from 02.">
+          <Figure caption="Fig 3 — The options scored against the requirements from 02. Adopting an engine converges after a partial failure rather than unwinding it.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
                   <tr>
                     <th>Option</th>
-                    <th>Atomic</th>
-                    <th>Unattended</th>
-                    <th>Observable</th>
+                    <th>Partial failure</th>
+                    <th>Schema drift</th>
+                    <th>Cost to get there</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>More config consolidation</td>
-                    <td>TK</td>
-                    <td>TK</td>
-                    <td>TK</td>
-                  </tr>
-                  <tr>
-                    <td>Terraform / declarative IaC</td>
-                    <td>TK</td>
-                    <td>TK</td>
-                    <td>TK</td>
+                    <td>no</td>
+                    <td>no</td>
+                    <td>low</td>
                   </tr>
                   <tr>
                     <td>Reconciliation control plane</td>
-                    <td>TK</td>
-                    <td>TK</td>
+                    <td>yes</td>
+                    <td>partly</td>
+                    <td>high</td>
+                  </tr>
+                  <tr>
+                    <td>IaC, adopted</td>
+                    <td>converges</td>
+                    <td>no</td>
                     <td>TK</td>
                   </tr>
                   <tr>
-                    <td>Workflow engine</td>
-                    <td>TK</td>
-                    <td>TK</td>
+                    <td>IaC, built</td>
+                    <td>yes</td>
+                    <td>yes</td>
                     <td>TK</td>
                   </tr>
                 </tbody>
@@ -327,35 +327,70 @@ export default function ProvisioningDeepDive(): ReactNode {
           </Figure>
         }
       >
+        <p>
+          The requirements pointed at one shape of answer: describe the desired
+          state in one document, let something else make it true, and treat the
+          whole attempt as a single unit of work. That is declarative
+          infrastructure as code. Choosing the model was the easy part. Two
+          other shapes lost first, and then the real decision was whether to
+          adopt an engine or write one.
+        </p>
+
         <h3>Consolidating the config further</h3>
         <p>
           The obvious move, and the one the platform had already made. DDP
-          proved the limit of it: a single language over four unchanged
+          proved the ceiling of it: a single language over four unchanged
           mechanisms buys a better authoring experience and nothing else. It
           does not make a deployment atomic, does not remove the VM, and does
           not join the telemetry. <TK>how far the existing attempt got</TK>
         </p>
 
-        <h3>Declarative infrastructure as code</h3>
-        <p>
-          Plan-and-apply would have given real state and a diff. Why it did not
-          fit the work: two of the four services were not provisioned as
-          infrastructure at all, but as rows in a service database.{" "}
-          <TK>the specific step it could not express</TK>
-        </p>
-
         <h3>A reconciliation control plane</h3>
         <p>
           A controller converging desired against actual state answers drift
-          well. Why the operational cost landed above what the problem
-          justified. <TK>what it would have cost to run and to staff</TK>
+          well and would have removed the human properly. It also assumes a
+          platform team that can operate a control plane as a product.{" "}
+          <TK>what it would have cost to run and to staff</TK>
+        </p>
+
+        <h3>Adopting an engine, or writing one</h3>
+        <p>
+          This is the decision worth defending, because &quot;we wrote our
+          own&quot; is usually the wrong answer. Terraform and Pulumi both give
+          you a dependency graph, a plan, and real state for free — a plan alone
+          would have answered more of the problem than anything the platform had
+          at the time.
+        </p>
+        <p>
+          Two things pushed against adopting one. The first is that only half
+          the system looks like infrastructure. Orchestration and consumption
+          map onto existing providers cleanly; ingestion and VBAC are config
+          rows written into service databases, which means provider work of our
+          own regardless — and provider development is a separate language, a
+          separate release cycle, and a separate thing to keep current.
+        </p>
+        <p>
+          The second is that the resource set was closed. This engine never had
+          to provision arbitrary infrastructure, only four known component
+          types. Almost everything a general-purpose engine charges you for —
+          the plugin protocol, the type system, the state backend, the
+          provider ecosystem — is the price of generality the platform did not
+          need. <TK>the state-management question, and how the custom engine answers it</TK>
+        </p>
+        <p>
+          The honest third reason is delivery. The team already owned the DDP
+          parser and the deployment CLI, and extending code you own is faster
+          than introducing a tool, a state backend, and a runner identity into
+          an environment where the deployment entry point was a locked-down VM.
+          Building was what the available time and skills supported.{" "}
+          <TK>the constraint, stated concretely</TK>
         </p>
       </Section>
 
       <Section
         index="04"
         eyebrow="DESIGN"
-        title="Provisioning as a durable workflow"
+        title="An engine for exactly four resources"
         aside={
           <>
             <Figure caption="Fig 4 — A deployment as one workflow: four steps, each with the undo it owns.">
@@ -378,17 +413,22 @@ deploy(ddp, env) {
         }
       >
         <p>
-          One deployment became one durable workflow. The four components stayed
-          four steps, but the engine now owns the sequence: it can retry a step,
-          resume after a crash, and unwind everything already done when a later
-          step fails. <TK>the engine, and why this one</TK>
+          The engine keeps the parts of the IaC model that were doing work and
+          drops the parts that were not. A deployment is still declared, still
+          planned before it runs, and still executed as one unit — but the
+          resource set is fixed at four, so there is no plugin protocol, no
+          provider registry, and no general-purpose type system underneath it.{" "}
+          <TK>what the engine actually is: language, runtime, where it runs</TK>
         </p>
 
-        <h3>Why durable execution answered the hard requirement</h3>
+        <h3>A deployment is one unit of work</h3>
         <p>
-          Atomicity across four unlike systems was the requirement nothing else
-          met. Durable execution puts it in the runtime instead of asking four
-          services to agree on a protocol they have no reason to share.
+          The four components stayed four steps, but the engine owns the
+          sequence rather than a shell script running them in order. It can
+          retry a step, resume after a crash, and unwind everything already done
+          when a later step fails — which is the requirement nothing else met,
+          because four unlike systems have no reason to agree on a transaction
+          protocol of their own. <TK>the execution model, concretely</TK>
         </p>
 
         <h3>The step contract</h3>
