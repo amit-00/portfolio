@@ -112,18 +112,14 @@ export default function ProvisioningDeepDive(): ReactNode {
           consumed.
         </p>
         <p>
-          <strong>Ingestion</strong> landed data onto Databricks from relational
-          databases and from files dropped into Azure storage accounts. A team
-          declared the source and where it should land — a connection for an
-          RDBMS, a container and path for files.{" "}
-          <TK>the fields a source definition actually carried</TK>
+          <strong>Ingestion</strong> landed data onto Databricks from a
+          team&apos;s source systems. A team declared the source and where it
+          should land.
         </p>
         <p>
           <strong>VBAC</strong> — view-based access control — kept regulated
-          columns away from users with no authorization to see them, by building
-          views over the Delta tables with the sensitive columns hashed or
-          redacted. A team declared which columns were sensitive and which
-          treatment each one got. <TK>how access itself was granted</TK>
+          data away from users with no authorization to see it. A team declared
+          which data was sensitive.
         </p>
         <p>
           <strong>Consumption</strong> deployed the Databricks jobs and the
