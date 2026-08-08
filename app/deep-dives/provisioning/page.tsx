@@ -7,7 +7,7 @@ import { Figure } from "@/components/relay/figure";
 
 // Unlinked draft: keep it out of the index until it is finished and linked.
 export const metadata: Metadata = {
-  title: "Provisioning that finishes what it starts",
+  title: "One config, four ways to deploy it",
   robots: { index: false, follow: false },
 };
 
@@ -28,7 +28,7 @@ function DiagramSlot({ label }: { label: string }): ReactNode {
       role="img"
       aria-label={`Diagram placeholder: ${label}`}
     >
-      <span className="bg-page px-3 py-1 font-mono text-label-sm uppercase text-ink-5">
+      <span className="bg-page px-3 py-1 text-center font-mono text-label-sm uppercase text-ink-5">
         {label}
       </span>
     </div>
@@ -75,110 +75,242 @@ export default function ProvisioningDeepDive(): ReactNode {
 
       <header className="border-b border-rule px-gutter py-section">
         <div className="font-mono text-label uppercase text-ink-5">
-          deep dive · infrastructure · <TK>date</TK> · <TK>read time</TK>
+          deep dive · data platform · <TK>date</TK> · <TK>read time</TK>
         </div>
         <h1 className="mt-3 max-w-[22ch] font-mono text-display font-bold text-ink-1">
-          Provisioning that finishes what it starts
+          One config, four ways to deploy it
         </h1>
         <p className="mt-4 max-w-[62ch] text-lead leading-[1.6] text-ink-3">
-          Standing up an environment took <TK>duration</TK>, ran through hands
-          that had to be free, and left half-built resources behind whenever it
-          broke. Nothing recorded what actually existed. This is the rebuild:
-          what was wrong, the three designs I ruled out, and what a durable
-          workflow engine changed.
+          A data platform had already unified how teams described what they
+          wanted. It had not unified what happened next. Four services still
+          reached production four different ways, a deployment stopped wherever
+          it broke, and getting one right could take days. This is how
+          provisioning became a single transaction.
         </p>
       </header>
 
       <Section
         index="01"
+        eyebrow="BACKGROUND"
+        title="Four capabilities, four ways to production"
+        aside={
+          <Figure caption="Fig 1 — One configuration language described all four services. Each one still reached production its own way.">
+            <div className="prose max-w-none bg-page px-5 py-4">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Service</th>
+                    <th>What it did</th>
+                    <th>How it deployed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Orchestration</td>
+                    <td>Ran ADF and Databricks workflows on a schedule</td>
+                    <td>
+                      A standalone <code>Function App</code> per data product
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Ingestion</td>
+                    <td>Landed RDBMS and file sources onto Databricks</td>
+                    <td>
+                      A Databricks workflow wrote a config row; the next batch
+                      run picked it up
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>VBAC</td>
+                    <td>Hashed or redacted views over the Delta tables</td>
+                    <td>
+                      A Databricks workflow wrote a config row; the next batch
+                      run picked it up
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Consumption</td>
+                    <td>Databricks jobs and the resources they need</td>
+                    <td>Asset Bundles, from a CLI on a privileged VM</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </Figure>
+        }
+      >
+        <p>
+          The platform sat between source systems and the business. It moved
+          data onto Databricks, transformed it, and controlled who was allowed
+          to see what. Four capabilities did that work, and a data team
+          typically needed all four at once.
+        </p>
+        <p>
+          <strong>Orchestration</strong> ran a team&apos;s Azure Data Factory
+          ingestion and their Databricks ETL on a schedule.{" "}
+          <strong>Ingestion</strong> landed data onto Databricks from relational
+          databases and from files in Azure storage accounts.{" "}
+          <strong>VBAC</strong> — view-based access control — kept regulated
+          columns away from users who had no business seeing them, by building
+          views over the Delta tables with the sensitive columns hashed or
+          redacted. <strong>Consumption</strong> deployed the Databricks jobs
+          and resources that read the result.
+        </p>
+
+        <h3>The config was already consolidated</h3>
+        <p>
+          A team described all four in one file: a{" "}
+          <strong>declarative data product</strong>, or DDP, written in{" "}
+          <code>HOCON</code>. One document said what to ingest, what to
+          orchestrate, what to mask, and what to run. That consolidation was
+          deliberate, and it worked — as a surface.
+        </p>
+        <p>
+          Underneath it, nothing was consolidated at all. The DDP was parsed and
+          then fanned out to four deployment paths that had nothing in common
+          with each other: an app per data product for orchestration, rows
+          written into service databases for ingestion and VBAC, and Asset
+          Bundles for consumption. One language in, four mechanisms out.
+        </p>
+
+        <h3>How a deployment actually ran</h3>
+        <p>
+          Security requirements put the entry point on a locked-down VM, so
+          every deployment started with a person who had access to it:
+        </p>
+        <ol>
+          <li>A privileged user signs in to the VM.</li>
+          <li>
+            They run the deployment CLI against a target environment, passing
+            the team&apos;s DDP.
+          </li>
+          <li>
+            The CLI parses and validates the config, and stops on a validation
+            error.
+          </li>
+          <li>
+            It then deploys each component in sequence: orchestration, then the
+            Databricks resources, then VBAC, then ingestion.
+          </li>
+        </ol>
+        <p>
+          Step four is where the design shows. The four deployments ran one
+          after another with nothing tying them together, which is the fact the
+          rest of this page is about.
+        </p>
+      </Section>
+
+      <Section
+        index="02"
         eyebrow="PROBLEM"
-        title="What the old system actually did"
+        title="A deployment stopped wherever it broke"
         aside={
           <>
-            <Figure caption="Fig 1 — The old path, and the point at which a failed run stops leaving anything behind it.">
-              <DiagramSlot label="before / manual provisioning path" />
+            <Figure caption="Fig 2 — The sequence, and what a failure in step three leaves standing behind it.">
+              <DiagramSlot label="before / sequential deploy, partial failure" />
             </Figure>
             <div className="border border-rule bg-page px-5 py-4">
               <div className="font-mono text-label-sm uppercase text-ink-5">
-                Requirements
+                Requirements for the redesign
               </div>
               <ol className="prose mt-3 max-w-none list-decimal pl-5 text-small">
-                <li>Run unattended, start to finish.</li>
-                <li>One authoritative record of what exists.</li>
-                <li>A failed run leaves nothing behind.</li>
-                <li>Re-running is always safe.</li>
+                <li>A deployment either fully lands or leaves nothing behind.</li>
+                <li>No privileged human on the path of a routine deployment.</li>
+                <li>One place to watch a deployment and see why it failed.</li>
                 <li>
-                  <TK>the fifth, if there is one</TK>
+                  Services own their own config schema, checked before deploy.
                 </li>
+                <li>Promotion between environments uses the same mechanism.</li>
               </ol>
             </div>
           </>
         }
       >
         <p>
-          Open on the path a provisioning request took end to end — who
-          triggered it, what ran, where it waited on a person.{" "}
-          <TK>the trigger, the scripts, the approval gates</TK>
+          Four problems came out of that structure. They are worth separating,
+          because the redesign had to answer all four and most of the obvious
+          fixes only answer one.
         </p>
 
-        <h3>It waited on people</h3>
+        <h3>A failure left the system half-built</h3>
         <p>
-          The manual steps and the queue they created.{" "}
-          <TK>where the human sat in the loop, and how long a request idled</TK>
+          Components deployed in sequence with no shared transaction. If VBAC
+          failed, orchestration and the Databricks resources stayed deployed and
+          ingestion never ran. The platform was now in a state no config
+          described: partly the old data product, partly the new one. Recovering
+          meant working out by hand which of the four had landed.{" "}
+          <TK>what recovery actually involved</TK>
         </p>
 
-        <h3>Nothing knew what existed</h3>
+        <h3>Days, and a person who had to be free</h3>
         <p>
-          Real infrastructure diverged from anything declared, and there was no
-          reliable way to ask what was actually running.{" "}
-          <TK>a concrete drift incident and how it surfaced</TK>
+          The CLI lived on a VM only privileged users could reach, so every
+          deployment needed one of them available. A misconfiguration meant
+          going back around the whole loop, and for ingestion and VBAC the loop
+          was longer still — those changes landed as rows that only took effect
+          on the next scheduled batch run, so the feedback on a wrong value
+          arrived hours later. Getting a data product properly provisioned could
+          take days, and promoting it through environments repeated the effort.
         </p>
 
-        <h3>A failure left wreckage</h3>
+        <h3>Nowhere to look when it broke</h3>
         <p>
-          A run that died halfway left the resources it had already created
-          orphaned. Re-running was not safe, so cleanup was manual too.{" "}
-          <TK>what a failed run cost to clean up</TK>
+          Each service logged into its own place. Nothing joined a
+          user&apos;s deployment to the four sets of telemetry it produced, so
+          support staff answering &quot;why did this fail&quot; had to know the
+          platform&apos;s internals well enough to guess which of the four to
+          open first. There was no single view of one deployment.
+        </p>
+
+        <h3>The config drifted from the services it configured</h3>
+        <p>
+          The DDP schema was owned by the team maintaining the config language,
+          not by the services it described. Any service that wanted a new option
+          had to coordinate a schema change with that team. When the two got out
+          of step, a config that parsed cleanly would still fail at deploy time
+          against a service that did not understand it — a class of failure that
+          should have been caught at build time and instead surfaced in an
+          environment.
         </p>
 
         <h3>What the redesign had to do</h3>
         <p>
-          Close on the requirements these three failures produce — this is the
-          list every alternative in the next section gets scored against.
+          The requirements in the gutter fall directly out of these four. Every
+          alternative in the next section is scored against them.
         </p>
       </Section>
 
       <Section
-        index="02"
+        index="03"
         eyebrow="ALTERNATIVES"
-        title="Three redesigns I ruled out"
+        title="Designs I ruled out"
         aside={
-          <Figure caption="Fig 2 — The three alternatives scored against the requirements from 01.">
+          <Figure caption="Fig 3 — The alternatives scored against the requirements from 02.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
                   <tr>
                     <th>Option</th>
+                    <th>Atomic</th>
                     <th>Unattended</th>
-                    <th>Truth</th>
-                    <th>Recovers</th>
+                    <th>Observable</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Declarative IaC</td>
+                    <td>More config consolidation</td>
                     <td>TK</td>
                     <td>TK</td>
                     <td>TK</td>
                   </tr>
                   <tr>
-                    <td>Control plane</td>
+                    <td>Terraform / declarative IaC</td>
                     <td>TK</td>
                     <td>TK</td>
                     <td>TK</td>
                   </tr>
                   <tr>
-                    <td>Harden scripts</td>
+                    <td>Reconciliation control plane</td>
                     <td>TK</td>
                     <td>TK</td>
                     <td>TK</td>
@@ -195,45 +327,49 @@ export default function ProvisioningDeepDive(): ReactNode {
           </Figure>
         }
       >
-        <h3>Declarative IaC on its own</h3>
+        <h3>Consolidating the config further</h3>
         <p>
-          What this would have looked like, and why plan-and-apply answered
-          drift but not the multi-step, long-running, partially-external work a
-          provision actually does. <TK>the specific step it could not express</TK>
+          The obvious move, and the one the platform had already made. DDP
+          proved the limit of it: a single language over four unchanged
+          mechanisms buys a better authoring experience and nothing else. It
+          does not make a deployment atomic, does not remove the VM, and does
+          not join the telemetry. <TK>how far the existing attempt got</TK>
+        </p>
+
+        <h3>Declarative infrastructure as code</h3>
+        <p>
+          Plan-and-apply would have given real state and a diff. Why it did not
+          fit the work: two of the four services were not provisioned as
+          infrastructure at all, but as rows consumed by a later batch run.{" "}
+          <TK>the specific step it could not express</TK>
         </p>
 
         <h3>A reconciliation control plane</h3>
         <p>
-          A controller converging desired state against actual state. Why the
-          operational cost landed above what the problem justified.{" "}
-          <TK>what it would have cost to run and to staff</TK>
-        </p>
-
-        <h3>Hardening the scripts already there</h3>
-        <p>
-          The cheapest option, and the one worth taking seriously. Why
-          retrofitting idempotency and resumability onto the existing path was
-          the same work as replacing it, with none of the guarantees.
+          A controller converging desired against actual state answers drift
+          well. Why the operational cost landed above what the problem
+          justified. <TK>what it would have cost to run and to staff</TK>
         </p>
       </Section>
 
       <Section
-        index="03"
+        index="04"
         eyebrow="DESIGN"
         title="Provisioning as a durable workflow"
         aside={
           <>
-            <Figure caption="Fig 3 — A provision as a workflow: steps, retries, and the compensation path on failure.">
-              <DiagramSlot label="workflow / step + compensation" />
+            <Figure caption="Fig 4 — A deployment as one workflow: four steps, each with the undo it owns.">
+              <DiagramSlot label="after / workflow + compensation" />
             </Figure>
-            <Figure caption="Fig 4 — A provision definition. Each step is idempotent and names its own undo.">
+            <Figure caption="Fig 5 — Each step is idempotent and names its own compensating action.">
               <div className="prose max-w-none">
                 <pre>
                   <code>{`// TK — the real definition
-provision(request) {
-  step("network",  create, destroy)
-  step("database", create, destroy)
-  step("service",  deploy,  rollback)
+deploy(ddp, env) {
+  step("orchestration", apply, teardown)
+  step("databricks",    apply, teardown)
+  step("vbac",          apply, teardown)
+  step("ingestion",     apply, teardown)
 }`}</code>
                 </pre>
               </div>
@@ -242,46 +378,54 @@ provision(request) {
         }
       >
         <p>
-          The model: one provision is one durable workflow, and every unit of
-          work inside it is a step the engine can retry, resume, or undo.{" "}
-          <TK>the engine, and why this one</TK>
+          One deployment became one durable workflow. The four components stayed
+          four steps, but the engine now owns the sequence: it can retry a step,
+          resume after a crash, and unwind everything already done when a later
+          step fails. <TK>the engine, and why this one</TK>
         </p>
 
         <h3>Why durable execution answered the hard requirement</h3>
         <p>
-          Partial failure and rollback were the requirements nothing else met
-          cleanly. Durable execution addresses them at the runtime rather than
-          in every script.
+          Atomicity across four unlike systems was the requirement nothing else
+          met. Durable execution puts it in the runtime instead of asking four
+          services to agree on a protocol they have no reason to share.
         </p>
 
         <h3>The step contract</h3>
         <p>
           Each step is idempotent under a stable key and names its own
-          compensating action, so a re-run is safe and an abort unwinds.{" "}
-          <TK>how keys are derived; what compensation looks like in practice</TK>
+          compensating action, so a retry is safe and an abort unwinds cleanly.{" "}
+          <TK>how keys are derived; what teardown means for a config row</TK>
         </p>
 
-        <h3>Where the truth lives now</h3>
+        <h3>Services own their own schema</h3>
         <p>
-          Workflow history became the record of what was provisioned and why,
-          which is what closed the drift gap.{" "}
-          <TK>what is queried, and by whom</TK>
+          How the config contract moved to the services, so a schema and the
+          behaviour behind it can no longer drift apart.{" "}
+          <TK>the mechanism, and whether HOCON survived</TK>
+        </p>
+
+        <h3>One deployment, one trace</h3>
+        <p>
+          Workflow history became the single view support had been missing —
+          every step of a deployment, its inputs, and where it stopped, in one
+          place. <TK>what support actually opens now</TK>
         </p>
 
         <h3>What I gave up</h3>
         <p>
           The honest trade-offs: an engine to operate, coupling to its
-          programming model, and state machines that are harder to debug than a
+          programming model, and a state machine that is harder to read than a
           script with a log. <TK>the one that has actually hurt</TK>
         </p>
       </Section>
 
       <Section
-        index="04"
+        index="05"
         eyebrow="RESULTS"
         title="What changed"
         aside={
-          <Figure caption="Fig 5 — Before and after. Numbers, not adjectives.">
+          <Figure caption="Fig 6 — Before and after. Numbers, not adjectives.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
@@ -293,22 +437,22 @@ provision(request) {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Time to provision</td>
-                    <td>TK</td>
-                    <td>TK</td>
-                  </tr>
-                  <tr>
-                    <td>Manual touch points</td>
-                    <td>TK</td>
+                    <td>Time to provision a data product</td>
+                    <td>days</td>
                     <td>TK</td>
                   </tr>
                   <tr>
-                    <td>Drift incidents / quarter</td>
-                    <td>TK</td>
+                    <td>Privileged users on the path</td>
+                    <td>1 per deploy</td>
                     <td>TK</td>
                   </tr>
                   <tr>
-                    <td>Cleanup after a failed run</td>
+                    <td>Feedback on a bad config</td>
+                    <td>next batch run</td>
+                    <td>TK</td>
+                  </tr>
+                  <tr>
+                    <td>Half-deployed states per quarter</td>
                     <td>TK</td>
                     <td>TK</td>
                   </tr>
@@ -325,7 +469,7 @@ provision(request) {
 
         <h3>What it unlocked</h3>
         <p>
-          The second-order effects — what became possible once provisioning ran
+          The second-order effects — what became possible once a deployment ran
           unattended and recorded itself.{" "}
           <TK>the thing nobody asked for that fell out of it</TK>
         </p>
