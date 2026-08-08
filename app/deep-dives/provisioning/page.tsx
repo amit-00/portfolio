@@ -106,15 +106,14 @@ export default function ProvisioningDeepDive(): ReactNode {
           typically needed all four at once.
         </p>
         <p>
-          <strong>Orchestration</strong> ran a team&apos;s Azure Data Factory
-          ingestion and their Databricks ETL to a schedule. A team declared
-          which jobs to run, when to run them, and where data was produced and
-          consumed.
+          <strong>Orchestration</strong> ran a team&apos;s ingestion and their
+          Databricks ETL to a schedule. A team declared which jobs to run, when
+          to run them, and where data was produced and consumed.
         </p>
         <p>
           <strong>Ingestion</strong> landed data onto Databricks from a
-          team&apos;s source systems. A team declared the source and where it
-          should land.
+          team&apos;s source systems, through Azure Data Factory. A team
+          declared the source and where it should land.
         </p>
         <p>
           <strong>VBAC</strong> — view-based access control — kept regulated
