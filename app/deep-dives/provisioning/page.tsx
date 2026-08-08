@@ -298,12 +298,6 @@ export default function ProvisioningDeepDive(): ReactNode {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>More config consolidation</td>
-                    <td>no</td>
-                    <td>no</td>
-                    <td>low</td>
-                  </tr>
-                  <tr>
                     <td>Reconciliation control plane</td>
                     <td>yes</td>
                     <td>partly</td>
@@ -330,17 +324,10 @@ export default function ProvisioningDeepDive(): ReactNode {
         <p>
           The requirements pointed at one shape: declare the desired state in
           one document, let something else make it true, and treat the attempt
-          as a single unit of work. That is declarative infrastructure as code.
-          Choosing the model was easy. What implemented it was the decision
-          worth defending.
-        </p>
-
-        <h3>Consolidating the config further</h3>
-        <p>
-          The obvious move, and the one the platform had already made. DDP
-          proved the ceiling: one language over four unchanged mechanisms buys
-          better authoring and nothing else — not atomicity, not the VM, not the
-          telemetry. <TK>how far the existing attempt got</TK>
+          as a single unit of work. That is declarative infrastructure as code,
+          and the platform had spent its previous attempt on the document rather
+          than on what happened after it. Choosing the model was easy. What
+          implemented it was the decision worth defending.
         </p>
 
         <h3>A reconciliation control plane</h3>
