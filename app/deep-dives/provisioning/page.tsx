@@ -83,9 +83,9 @@ export default function ProvisioningDeepDive(): ReactNode {
         <p className="mt-4 max-w-[62ch] text-lead leading-[1.6] text-ink-3">
           A data platform had already unified how teams described what they
           wanted. It had not unified what happened next. Four services still
-          reached production four different ways, a deployment stopped wherever
-          it broke, and getting one right could take days. This is how
-          provisioning became a single transaction.
+          reached production four different ways, every deployment went through
+          a privileged user on a locked-down VM, and a failure stopped wherever
+          it hit. This is how provisioning became a single transaction.
         </p>
       </header>
 
@@ -116,16 +116,16 @@ export default function ProvisioningDeepDive(): ReactNode {
                     <td>Ingestion</td>
                     <td>Landed RDBMS and file sources onto Databricks</td>
                     <td>
-                      A Databricks workflow wrote a config row; the next batch
-                      run picked it up
+                      A Databricks workflow wrote a config row into the service
+                      database
                     </td>
                   </tr>
                   <tr>
                     <td>VBAC</td>
                     <td>Hashed or redacted views over the Delta tables</td>
                     <td>
-                      A Databricks workflow wrote a config row; the next batch
-                      run picked it up
+                      A Databricks workflow wrote a config row into the service
+                      database
                     </td>
                   </tr>
                   <tr>
@@ -242,15 +242,15 @@ export default function ProvisioningDeepDive(): ReactNode {
           <TK>what recovery actually involved</TK>
         </p>
 
-        <h3>Days, and a person who had to be free</h3>
+        <h3>Every deployment needed a person who had to be free</h3>
         <p>
-          The CLI lived on a VM only privileged users could reach, so every
-          deployment needed one of them available. A misconfiguration meant
-          going back around the whole loop, and for ingestion and VBAC the loop
-          was longer still — those changes landed as rows that only took effect
-          on the next scheduled batch run, so the feedback on a wrong value
-          arrived hours later. Getting a data product properly provisioned could
-          take days, and promoting it through environments repeated the effort.
+          Security requirements put the CLI on a VM only privileged users could
+          reach, which made one of them a dependency of every deployment — not
+          to approve anything, just to be the hands. A team could not deploy
+          their own data product, and a misconfiguration meant finding that
+          person again and going back around the whole loop. Promoting through
+          environments repeated the trip each time.{" "}
+          <TK>how long a full provision took end to end</TK>
         </p>
 
         <h3>Nowhere to look when it broke</h3>
@@ -340,7 +340,7 @@ export default function ProvisioningDeepDive(): ReactNode {
         <p>
           Plan-and-apply would have given real state and a diff. Why it did not
           fit the work: two of the four services were not provisioned as
-          infrastructure at all, but as rows consumed by a later batch run.{" "}
+          infrastructure at all, but as rows in a service database.{" "}
           <TK>the specific step it could not express</TK>
         </p>
 
@@ -438,7 +438,7 @@ deploy(ddp, env) {
                 <tbody>
                   <tr>
                     <td>Time to provision a data product</td>
-                    <td>days</td>
+                    <td>TK</td>
                     <td>TK</td>
                   </tr>
                   <tr>
@@ -447,8 +447,8 @@ deploy(ddp, env) {
                     <td>TK</td>
                   </tr>
                   <tr>
-                    <td>Feedback on a bad config</td>
-                    <td>next batch run</td>
+                    <td>Deployments a team can run itself</td>
+                    <td>none</td>
                     <td>TK</td>
                   </tr>
                   <tr>
