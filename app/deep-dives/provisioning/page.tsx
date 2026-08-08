@@ -328,62 +328,47 @@ export default function ProvisioningDeepDive(): ReactNode {
         }
       >
         <p>
-          The requirements pointed at one shape of answer: describe the desired
-          state in one document, let something else make it true, and treat the
-          whole attempt as a single unit of work. That is declarative
-          infrastructure as code. Choosing the model was the easy part. Two
-          other shapes lost first, and then the real decision was whether to
-          adopt an engine or write one.
+          The requirements pointed at one shape: declare the desired state in
+          one document, let something else make it true, and treat the attempt
+          as a single unit of work. That is declarative infrastructure as code.
+          Choosing the model was easy. What implemented it was the decision
+          worth defending.
         </p>
 
         <h3>Consolidating the config further</h3>
         <p>
           The obvious move, and the one the platform had already made. DDP
-          proved the ceiling of it: a single language over four unchanged
-          mechanisms buys a better authoring experience and nothing else. It
-          does not make a deployment atomic, does not remove the VM, and does
-          not join the telemetry. <TK>how far the existing attempt got</TK>
+          proved the ceiling: one language over four unchanged mechanisms buys
+          better authoring and nothing else — not atomicity, not the VM, not the
+          telemetry. <TK>how far the existing attempt got</TK>
         </p>
 
         <h3>A reconciliation control plane</h3>
         <p>
-          A controller converging desired against actual state answers drift
-          well and would have removed the human properly. It also assumes a
-          platform team that can operate a control plane as a product.{" "}
+          Converging desired against actual state answers drift well and removes
+          the human properly. It also assumes a platform team that can operate a
+          control plane as a product.{" "}
           <TK>what it would have cost to run and to staff</TK>
         </p>
 
         <h3>Adopting an engine, or writing one</h3>
         <p>
-          This is the decision worth defending, because &quot;we wrote our
-          own&quot; is usually the wrong answer. Terraform and Pulumi both give
-          you a dependency graph, a plan, and real state for free — a plan alone
-          would have answered more of the problem than anything the platform had
-          at the time.
+          Terraform and Pulumi hand you a dependency graph, a plan and real
+          state for free, and &quot;we wrote our own&quot; is usually the wrong
+          answer. Two things pushed the other way. Only half the system looks
+          like infrastructure — ingestion and VBAC are config rows, so a
+          provider was ours to write regardless, in another language on another
+          release cycle. And the resource set was closed: four known component
+          types, never arbitrary infrastructure, so the plugin protocol,
+          provider registry and general type system were all generality the
+          platform would pay for and never use.{" "}
+          <TK>the state-management question, and how the engine answers it</TK>
         </p>
         <p>
-          Two things pushed against adopting one. The first is that only half
-          the system looks like infrastructure. Orchestration and consumption
-          map onto existing providers cleanly; ingestion and VBAC are config
-          rows written into service databases, which means provider work of our
-          own regardless — and provider development is a separate language, a
-          separate release cycle, and a separate thing to keep current.
-        </p>
-        <p>
-          The second is that the resource set was closed. This engine never had
-          to provision arbitrary infrastructure, only four known component
-          types. Almost everything a general-purpose engine charges you for —
-          the plugin protocol, the type system, the state backend, the
-          provider ecosystem — is the price of generality the platform did not
-          need. <TK>the state-management question, and how the custom engine answers it</TK>
-        </p>
-        <p>
-          The honest third reason is delivery. The team already owned the DDP
-          parser and the deployment CLI, and extending code you own is faster
-          than introducing a tool, a state backend, and a runner identity into
-          an environment where the deployment entry point was a locked-down VM.
-          Building was what the available time and skills supported.{" "}
-          <TK>the constraint, stated concretely</TK>
+          The third reason is delivery. The team already owned the DDP parser
+          and the CLI, and extending code you own beats introducing a tool, a
+          state backend and a runner identity into an environment whose entry
+          point was a locked-down VM. <TK>the constraint, stated concretely</TK>
         </p>
       </Section>
 
