@@ -129,6 +129,77 @@ export default function ProvisioningDeepDive(): ReactNode {
 
       <Section
         index="02"
+        eyebrow="THE NEED"
+        title="Teams think in data products, not services"
+        aside={
+          <div className="border border-rule bg-page px-5 py-4">
+            <div className="font-mono text-label-sm uppercase text-ink-5">
+              What a team needs
+            </div>
+            <ol className="prose mt-3 max-w-none list-decimal pl-5 text-small">
+              <li>Describe the data product once, in their own terms.</li>
+              <li>Get the same product in every environment.</li>
+              <li>Change it safely, for as long as it lives.</li>
+              <li>Do it themselves, without waiting on anyone.</li>
+              <li>
+                Know whether it worked — and if not, what state it is in.
+              </li>
+            </ol>
+          </div>
+        }
+      >
+        <p>
+          A team that owns a data product already knows what it is. Where the
+          data comes from, what has to run and when, which fields are
+          regulated, who reads the result. That knowledge is the whole of what
+          they want to say.
+        </p>
+        <p>
+          What has to exist for it to be real is a different list: an
+          orchestration app, ingestion configuration, masking rules, and a set
+          of Databricks jobs — four services, each with its own resources, in
+          every environment the product lives in. Nobody on the owning team
+          wants to think in those terms, and there is no reason they should have
+          to. Provisioning is the translation between the two lists, and the
+          rest of this section is what a team needs from it.
+        </p>
+
+        <h3>The same product, in every environment</h3>
+        <p>
+          A data product is not built once. It exists in development, then test,
+          then production, and it should be the same product in each — same
+          sources, same schedule, same masking, with only the environment
+          differing. Moving it forward should not mean building it again.
+        </p>
+
+        <h3>It never stops changing</h3>
+        <p>
+          A source gets added. A schedule moves. A column becomes regulated.
+          Provisioning is not a first-day activity, it is the mechanism a team
+          reaches for over the whole life of the product — which means it has to
+          be cheap to run again, and safe to run when almost nothing has
+          changed.
+        </p>
+
+        <h3>Nobody to wait on</h3>
+        <p>
+          Hundreds of data products across tens of teams means no central group
+          can be in the loop for every change without becoming the bottleneck
+          for all of it. A team needs to provision on its own schedule.
+        </p>
+
+        <h3>An answer they can act on</h3>
+        <p>
+          When it works, a team needs to know it worked. When it does not, they
+          need to know what stopped, why, and what state their product is now in
+          — without first having to learn which of the four services was
+          involved. A half-finished product they cannot see into is worse than a
+          failure they can read.
+        </p>
+      </Section>
+
+      <Section
+        index="03"
         eyebrow="PROBLEM"
         title="A deployment stopped wherever it broke"
         aside={
@@ -283,11 +354,11 @@ export default function ProvisioningDeepDive(): ReactNode {
       </Section>
 
       <Section
-        index="03"
+        index="04"
         eyebrow="APPROACH"
         title="Declarative IaC, built rather than adopted"
         aside={
-          <Figure caption="Fig 4 — The options scored against the requirements from 02. Adopting an engine converges after a partial failure rather than unwinding it.">
+          <Figure caption="Fig 4 — The options scored against the requirements from 03. Adopting an engine converges after a partial failure rather than unwinding it.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
@@ -347,7 +418,7 @@ export default function ProvisioningDeepDive(): ReactNode {
       </Section>
 
       <Section
-        index="04"
+        index="05"
         eyebrow="DESIGN"
         title="An engine for exactly four resources"
         aside={
@@ -420,7 +491,7 @@ deploy(ddp, env) {
       </Section>
 
       <Section
-        index="05"
+        index="06"
         eyebrow="RESULTS"
         title="What changed"
         aside={
