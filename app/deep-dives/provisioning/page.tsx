@@ -237,10 +237,9 @@ export default function ProvisioningDeepDive(): ReactNode {
         <p>
           Provisioning already existed when I took the project on. A data
           product was described in one file — a{" "}
-          <strong>declarative data product</strong>, or DDP, written in{" "}
-          <code>HOCON</code> — saying what to ingest, what to orchestrate, what
-          to mask, and what to run. A CLI turned that document into deployed
-          infrastructure.
+          <strong>declarative data product</strong>, or DDP — saying what to
+          ingest, what to orchestrate, what to mask, and what to run. A CLI
+          turned that document into deployed infrastructure.
         </p>
 
         <h3>Deploying a data product</h3>
@@ -497,7 +496,7 @@ deploy(ddp, env) {
         <p>
           How the config contract moved to the services, so a schema and the
           behaviour behind it can no longer drift apart.{" "}
-          <TK>the mechanism, and whether HOCON survived</TK>
+          <TK>the mechanism, and whether the DDP format changed with it</TK>
         </p>
 
         <h3>One deployment, one trace</h3>
