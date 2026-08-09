@@ -149,52 +149,38 @@ export default function ProvisioningDeepDive(): ReactNode {
         }
       >
         <p>
-          A team that owns a data product already knows what it is. Where the
-          data comes from, what has to run and when, which fields are
-          regulated, who reads the result. That knowledge is the whole of what
-          they want to say.
-        </p>
-        <p>
-          What has to exist for it to be real is a different list: an
-          orchestration app, ingestion configuration, masking rules, and a set
-          of Databricks jobs — four services, each with its own resources, in
-          every environment the product lives in. Nobody on the owning team
-          wants to think in those terms, and there is no reason they should have
-          to. Provisioning is the translation between the two lists, and the
-          rest of this section is what a team needs from it.
+          A team that owns a data product knows what it is: where the data comes
+          from, what runs and when, which fields are regulated, who reads the
+          result. Making it real is a different list — an orchestration app,
+          ingestion config, masking rules, and Databricks jobs, in every
+          environment it lives in. Provisioning is the translation between the
+          two.
         </p>
 
         <h3>The same product, in every environment</h3>
         <p>
-          A data product is not built once. It exists in development, then test,
-          then production, and it should be the same product in each — same
-          sources, same schedule, same masking, with only the environment
-          differing. Moving it forward should not mean building it again.
+          A data product exists in development, then test, then production.
+          Promoting it should not mean building it again.
         </p>
 
         <h3>It never stops changing</h3>
         <p>
           A source gets added. A schedule moves. A column becomes regulated.
-          Provisioning is not a first-day activity, it is the mechanism a team
-          reaches for over the whole life of the product — which means it has to
-          be cheap to run again, and safe to run when almost nothing has
-          changed.
+          Provisioning runs for the life of the product, so it has to be cheap
+          to repeat and safe when almost nothing has changed.
         </p>
 
         <h3>Nobody to wait on</h3>
         <p>
-          Hundreds of data products across tens of teams means no central group
-          can be in the loop for every change without becoming the bottleneck
-          for all of it. A team needs to provision on its own schedule.
+          Hundreds of data products across tens of teams. Any central group in
+          the loop for every change is the bottleneck for all of it.
         </p>
 
         <h3>An answer they can act on</h3>
         <p>
-          When it works, a team needs to know it worked. When it does not, they
-          need to know what stopped, why, and what state their product is now in
-          — without first having to learn which of the four services was
-          involved. A half-finished product they cannot see into is worse than a
-          failure they can read.
+          When it fails, a team needs to know what stopped, why, and what state
+          their product is in — without first learning which of the four
+          services was involved.
         </p>
       </Section>
 
