@@ -338,44 +338,43 @@ export default function ProvisioningDeepDive(): ReactNode {
         }
       >
         <p>
-          That system met the first need: teams described a product rather than
-          four services. The other four are where it fell short.
+          The system met the first need — teams described a product, not four
+          services. It missed the other four.
         </p>
 
-        <h3>A failure left the product half-built</h3>
+        <h3>Nothing made the four components one deployment</h3>
         <p>
-          The four components deployed in sequence with no shared transaction.
-          If VBAC failed, orchestration and consumption stayed deployed and
-          ingestion never ran, leaving a data product no config described. Changing a product was not safe, and a team could not see
-          which of the four had landed without working it out by hand.{" "}
+          They ran in sequence with no shared transaction. If VBAC failed,
+          orchestration and consumption stayed deployed and ingestion never ran:
+          a data product no config described, and no record of which of the four
+          had landed. Working that out was manual, every time.{" "}
           <TK>what recovery actually involved</TK>
         </p>
 
-        <h3>Someone else had to be free</h3>
+        <h3>Teams could not deploy their own products</h3>
         <p>
-          Only privileged users could reach the VM, which made one of them a
-          dependency of every deployment — not to approve anything, just to be
-          the hands. A team could not provision its own data product, and each
-          environment repeated the trip.{" "}
-          <TK>how long a full provision took end to end</TK>
+          The CLI sat on a VM only privileged users could reach, so every
+          deployment borrowed one of them — not to approve anything, just to be
+          the hands. Every misconfiguration and every environment cost another
+          trip. <TK>how long a full provision took end to end</TK>
         </p>
 
-        <h3>Nowhere to look when it broke</h3>
+        <h3>No single view of a deployment</h3>
         <p>
-          Each service logged into its own place, and nothing joined a
-          deployment to the four sets of telemetry it produced. Answering
-          &quot;why did this fail&quot; meant knowing which of the four to open
-          first, which put the platform team back in a loop the DDP was meant to
-          take them out of.
+          Four services, four places to look, and nothing tying any of them back
+          to the deployment that caused them. Answering &quot;why did this
+          fail&quot; required knowing which of the four to open first, so it
+          fell to the platform team — back in the loop the DDP existed to remove
+          them from.
         </p>
 
-        <h3>A contract nobody owned</h3>
+        <h3>Nobody owned the config contract</h3>
         <p>
           The DDP schema belonged to the team maintaining the config language,
-          not to the services it described. A service wanting a new option
-          coordinated a schema change with that team, and when the two drifted
-          apart a config that parsed cleanly still failed at deploy time — a
-          build-time error surfacing in an environment instead.
+          not to the services it described. A service adding an option had to
+          coordinate a schema change; when the two drifted, a config that parsed
+          cleanly failed at deploy time. A build-time error, surfacing in an
+          environment.
         </p>
       </Section>
 
