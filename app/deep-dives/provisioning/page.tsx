@@ -187,10 +187,10 @@ export default function ProvisioningDeepDive(): ReactNode {
       <Section
         index="03"
         eyebrow="WHAT I INHERITED"
-        title="One document in, four deployments out"
+        title="From one document to four components"
         aside={
           <>
-            <Figure caption="Fig 2 — One configuration language described all four services. Each one still reached production its own way.">
+            <Figure caption="Fig 2 — The deployment mechanism behind each of the four components.">
               <div className="prose max-w-none bg-page px-5 py-4">
                 <table>
                   <thead>
@@ -228,10 +228,77 @@ export default function ProvisioningDeepDive(): ReactNode {
                 </table>
               </div>
             </Figure>
-            <Figure caption="Fig 3 — The sequence, and what a failure in step three leaves standing behind it.">
-              <DiagramSlot label="before / sequential deploy, partial failure" />
+            <Figure caption="Fig 3 — The deployment sequence, from CLI invocation to the four components.">
+              <DiagramSlot label="existing / deployment sequence" />
             </Figure>
-            <Figure caption="Fig 4 — The five needs from 02, against what the existing path actually delivered.">
+          </>
+        }
+      >
+        <p>
+          Provisioning already existed when I took the project on. A data
+          product was described in one file — a{" "}
+          <strong>declarative data product</strong>, or DDP, written in{" "}
+          <code>HOCON</code> — saying what to ingest, what to orchestrate, what
+          to mask, and what to run. A CLI turned that document into deployed
+          infrastructure.
+        </p>
+
+        <h3>Deploying a data product</h3>
+        <p>
+          Security requirements kept the CLI on a locked-down VM, so a
+          deployment ran from there:
+        </p>
+        <ol>
+          <li>A privileged user signs in to the VM.</li>
+          <li>
+            They run the CLI against a target environment, passing the
+            team&apos;s DDP.
+          </li>
+          <li>
+            The CLI parses the document and validates it, stopping on any
+            validation error.
+          </li>
+          <li>
+            It deploys each component in turn: orchestration, the Databricks
+            resources, VBAC, then ingestion.
+          </li>
+        </ol>
+
+        <h3>What happened behind each step</h3>
+        <p>
+          Each component was deployed by the mechanism its service read
+          configuration from, so the four steps did quite different things.
+        </p>
+        <ul>
+          <li>
+            <strong>Orchestration</strong> — a <code>Function App</code>{" "}
+            dedicated to that data product, carrying its schedule and job
+            definitions.
+          </li>
+          <li>
+            <strong>Databricks resources</strong> — deployed as an Asset Bundle.
+          </li>
+          <li>
+            <strong>VBAC</strong> and <strong>ingestion</strong> — a Databricks
+            workflow wrote the team&apos;s configuration into each service&apos;s
+            database, where the running service picked it up.
+          </li>
+        </ul>
+        <p>
+          From there each service ran on its own terms and its own cadence.
+        </p>
+      </Section>
+
+      <Section
+        index="04"
+        eyebrow="THE GAP"
+        title="A deployment stopped wherever it broke"
+        aside={
+          <>
+            <Figure caption="Fig 4 — What a failure at step three leaves standing behind it.">
+              <DiagramSlot label="existing / partial failure" />
+            </Figure>
+            <Figure caption="Fig 5 — The five needs from 02, against what the existing path delivered.">
               <div className="prose max-w-none bg-page px-5 py-4">
                 <table>
                   <thead>
@@ -269,100 +336,54 @@ export default function ProvisioningDeepDive(): ReactNode {
         }
       >
         <p>
-          Provisioning already existed when I took the project on, and teams
-          used it every day. A data product was described in one file: a{" "}
-          <strong>declarative data product</strong>, or DDP, written in{" "}
-          <code>HOCON</code>. One document said what to ingest, what to
-          orchestrate, what to mask, and what to run.
-        </p>
-        <p>
-          That is the first need, met. The platform had already decided teams
-          should describe a product rather than four services, and the DDP is
-          where that decision lived. Everything below is about what happened
-          after the document was written.
+          That system met the first need: teams described a product rather than
+          four services. The other four are where it fell short.
         </p>
 
-        <h3>What a team actually did</h3>
+        <h3>A failure left the product half-built</h3>
         <p>
-          Security requirements put the deployment entry point on a locked-down
-          VM, so provisioning began with finding someone who could reach it:
-        </p>
-        <ol>
-          <li>A privileged user signs in to the VM.</li>
-          <li>
-            They run the deployment CLI against a target environment, passing
-            the team&apos;s DDP.
-          </li>
-          <li>
-            The CLI parses and validates the config, and stops on a validation
-            error.
-          </li>
-          <li>
-            It deploys each component in sequence: orchestration, then the
-            Databricks resources, then VBAC, then ingestion.
-          </li>
-        </ol>
-        <p>
-          Step four is where the design shows. The DDP was parsed and then
-          fanned out to four deployment paths with nothing in common — an app
-          per data product for orchestration, rows written into service
-          databases for ingestion and VBAC, Asset Bundles for consumption. One
-          document in, four deployments out, and nothing holding them together
-          as one thing.
-        </p>
-
-        <h3>A failure left the system half-built</h3>
-        <p>
-          Four components deployed in sequence with no shared transaction. If
-          VBAC failed, orchestration and the Databricks resources stayed
-          deployed and ingestion never ran, leaving the platform in a state no
-          config described: partly the old data product, partly the new one.
-          That breaks two needs at once — changing a product was not safe,
-          because a failure mid-change left it neither where it was nor where it
-          was going, and the team could not see which of the four had landed
-          without working it out by hand.{" "}
+          The four components deployed in sequence with no shared transaction.
+          If VBAC failed, orchestration and the Databricks resources stayed
+          deployed and ingestion never ran, leaving a data product no config
+          described. Changing a product was not safe, and a team could not see
+          which of the four had landed without working it out by hand.{" "}
           <TK>what recovery actually involved</TK>
         </p>
 
         <h3>Someone else had to be free</h3>
         <p>
-          The CLI lived on a VM only privileged users could reach, which made
-          one of them a dependency of every deployment — not to approve
-          anything, just to be the hands. A team could not provision its own
-          data product, a misconfiguration meant finding that person again, and
-          each environment repeated the trip.{" "}
+          Only privileged users could reach the VM, which made one of them a
+          dependency of every deployment — not to approve anything, just to be
+          the hands. A team could not provision its own data product, and each
+          environment repeated the trip.{" "}
           <TK>how long a full provision took end to end</TK>
         </p>
 
         <h3>Nowhere to look when it broke</h3>
         <p>
-          Each service logged into its own place. Nothing joined a team&apos;s
-          deployment to the four sets of telemetry it produced, so answering
-          &quot;why did this fail&quot; meant knowing the platform&apos;s
-          internals well enough to guess which of the four to open first. The
-          people best placed to answer that were the platform team — which put
-          them back in a loop the DDP was supposed to have taken them out of.
+          Each service logged into its own place, and nothing joined a
+          deployment to the four sets of telemetry it produced. Answering
+          &quot;why did this fail&quot; meant knowing which of the four to open
+          first, which put the platform team back in a loop the DDP was meant to
+          take them out of.
         </p>
 
-        <h3>And one problem it created</h3>
+        <h3>A contract nobody owned</h3>
         <p>
-          The DDP schema was owned by the team maintaining the config language,
-          not by the services it described. Any service wanting a new option had
-          to coordinate a schema change with that team, and when the two got out
-          of step a config that parsed cleanly would still fail at deploy time
-          against a service that did not understand it. Consolidating the
-          surface had introduced a contract nobody owned end to end — a class of
-          failure that should have been caught at build time and instead
-          surfaced in an environment.
+          The DDP schema belonged to the team maintaining the config language,
+          not to the services it described. A service wanting a new option
+          coordinated a schema change with that team, and when the two drifted
+          apart a config that parsed cleanly still failed at deploy time — a
+          build-time error surfacing in an environment instead.
         </p>
       </Section>
 
       <Section
-        index="04"
+        index="05"
         eyebrow="APPROACH"
         title="Declarative IaC, built rather than adopted"
         aside={
-          <Figure caption="Fig 5 — The options scored against the needs from 02. Adopting an engine converges after a partial failure rather than unwinding it.">
+          <Figure caption="Fig 6 — The options scored against the needs from 02. Adopting an engine converges after a partial failure rather than unwinding it.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
@@ -422,15 +443,15 @@ export default function ProvisioningDeepDive(): ReactNode {
       </Section>
 
       <Section
-        index="05"
+        index="06"
         eyebrow="DESIGN"
         title="An engine for exactly four resources"
         aside={
           <>
-            <Figure caption="Fig 6 — A deployment as one workflow: four steps, each with the undo it owns.">
+            <Figure caption="Fig 7 — A deployment as one workflow: four steps, each with the undo it owns.">
               <DiagramSlot label="after / workflow + compensation" />
             </Figure>
-            <Figure caption="Fig 7 — Each step is idempotent and names its own compensating action.">
+            <Figure caption="Fig 8 — Each step is idempotent and names its own compensating action.">
               <div className="prose max-w-none">
                 <pre>
                   <code>{`// TK — the real definition
@@ -495,11 +516,11 @@ deploy(ddp, env) {
       </Section>
 
       <Section
-        index="06"
+        index="07"
         eyebrow="RESULTS"
         title="What changed"
         aside={
-          <Figure caption="Fig 8 — Before and after. Numbers, not adjectives.">
+          <Figure caption="Fig 9 — Before and after. Numbers, not adjectives.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
