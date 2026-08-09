@@ -324,7 +324,7 @@ export default function ProvisioningDeepDive(): ReactNode {
                     </tr>
                     <tr>
                       <td>Nobody to wait on</td>
-                      <td>A privileged user on every deployment</td>
+                      <td>A ticket and a multi-day approval for VM access</td>
                     </tr>
                     <tr>
                       <td>An answer they can act on</td>
@@ -347,12 +347,12 @@ export default function ProvisioningDeepDive(): ReactNode {
           had landed. <TK>what recovery actually involved</TK>
         </p>
 
-        <h3>Teams could not deploy their own products</h3>
+        <h3>Self-service began with a ticket</h3>
         <p>
-          The CLI sat on a VM only privileged users could reach, so every
-          deployment borrowed one of them as hands. Every misconfiguration and
-          every environment cost another trip.{" "}
-          <TK>how long a full provision took end to end</TK>
+          Running the CLI meant reaching the VM, and reaching the VM meant
+          filing a ticket and waiting on an approval with a multi-day
+          turnaround. The provision itself was quick. Being allowed to start it
+          was not. <TK>whether access was granted once or per window</TK>
         </p>
 
         <h3>No single view of a deployment</h3>
@@ -525,18 +525,18 @@ deploy(ddp, env) {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Time to provision a data product</td>
-                    <td>TK</td>
-                    <td>TK</td>
-                  </tr>
-                  <tr>
-                    <td>Privileged users on the path</td>
-                    <td>1 per deploy</td>
+                    <td>Wait before a first deployment</td>
+                    <td>Days — ticket and approval</td>
                     <td>TK</td>
                   </tr>
                   <tr>
                     <td>Deployments a team can run itself</td>
-                    <td>none</td>
+                    <td>None</td>
+                    <td>TK</td>
+                  </tr>
+                  <tr>
+                    <td>Places to look when one fails</td>
+                    <td>4</td>
                     <td>TK</td>
                   </tr>
                   <tr>
