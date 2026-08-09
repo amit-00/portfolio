@@ -7,7 +7,7 @@ import { Figure } from "@/components/relay/figure";
 
 // Unlinked draft: keep it out of the index until it is finished and linked.
 export const metadata: Metadata = {
-  title: "One config, four ways to deploy it",
+  title: "One document, four deployments",
   robots: { index: false, follow: false },
 };
 
@@ -78,109 +78,112 @@ export default function ProvisioningDeepDive(): ReactNode {
           deep dive · data platform · <TK>date</TK> · <TK>read time</TK>
         </div>
         <h1 className="mt-3 max-w-[22ch] font-mono text-display font-bold text-ink-1">
-          One config, four ways to deploy it
+          One document, four deployments
         </h1>
         <p className="mt-4 max-w-[62ch] text-lead leading-[1.6] text-ink-3">
-          A data platform had already unified how teams described what they
-          wanted. It had not unified what happened next. Four services still
-          reached production four different ways, every deployment went through
-          a privileged user on a locked-down VM, and a failure stopped wherever
-          it hit. This is how provisioning became a single transaction.
+          A data platform let teams describe a data product in one document. But
+          the platform did not deploy that product as one unit. Each of the four
+          services used a different deployment mechanism. A team also waited
+          several days for permission to start a deployment. If one component
+          failed, the components before it stayed deployed. This article
+          describes that system, its gaps, and the engine that replaced it.
         </p>
       </header>
 
       <Section
         index="01"
         eyebrow="THE PLATFORM"
-        title="A data product needed all four"
+        title="A data product used all four services"
         aside={
-          <Figure caption="Fig 1 — Where each capability sits on a data product's path from source system to consumer.">
-            <DiagramSlot label="platform / four capabilities" />
+          <Figure caption="Fig 1 — The position of each service on the path from the source system to the consumer.">
+            <DiagramSlot label="platform / four services" />
           </Figure>
         }
       >
         <p>
-          The platform sat between source systems and the business. It moved
-          data onto Databricks, transformed it, and controlled who was allowed
-          to see what. Four capabilities did that work, and a data team
-          typically needed all four at once.
+          The platform connected source systems to the business. It moved data
+          to Databricks, changed the data, and controlled which users could see
+          it. Four services did this work, and a data team usually needed all
+          four.
         </p>
         <p>
-          <strong>Orchestration</strong> ran a team&apos;s ingestion and their
-          Databricks ETL to a schedule. A team declared which jobs to run, when
-          to run them, and where data was produced and consumed.
+          <strong>Orchestration</strong> ran the ingestion jobs and the
+          Databricks ETL jobs on a schedule. A team specified which jobs to run,
+          the schedule for each job, and the location of the input and output
+          data.
         </p>
         <p>
-          <strong>Ingestion</strong> landed data onto Databricks from a
-          team&apos;s source systems, through Azure Data Factory. A team
-          declared the source and where it should land.
+          <strong>Ingestion</strong> moved data from the source systems to
+          Databricks with Azure Data Factory. A team specified the source and
+          the destination.
         </p>
         <p>
-          <strong>VBAC</strong> — view-based access control — kept regulated
-          data away from users with no authorization to see it. A team declared
-          which data was sensitive.
+          <strong>VBAC</strong> (view-based access control) prevented access to
+          regulated data. Users without authorization could not see this data. A
+          team specified which data was sensitive.
         </p>
         <p>
-          <strong>Consumption</strong> deployed the Databricks jobs and the
-          resources they need to read the finished data. A team supplied a
-          Databricks Asset Bundle describing them.
+          <strong>Consumption</strong> deployed the Databricks jobs that read
+          the completed data, and the resources for those jobs. A team supplied
+          a Databricks Asset Bundle.
         </p>
       </Section>
 
       <Section
         index="02"
         eyebrow="THE NEED"
-        title="Teams think in data products, not services"
+        title="A team thinks about the product, not the services"
         aside={
           <div className="border border-rule bg-page px-5 py-4">
             <div className="font-mono text-label-sm uppercase text-ink-5">
-              What a team needs
+              What a team must be able to do
             </div>
             <ol className="prose mt-3 max-w-none list-decimal pl-5 text-small">
-              <li>Describe the data product once, in their own terms.</li>
-              <li>Get the same product in every environment.</li>
-              <li>Change it safely, for as long as it lives.</li>
-              <li>Do it themselves, without waiting on anyone.</li>
-              <li>
-                Know whether it worked — and if not, what state it is in.
-              </li>
+              <li>Describe the data product one time.</li>
+              <li>Deploy the same product to each environment.</li>
+              <li>Change the product safely for its full life.</li>
+              <li>Deploy without help from another person.</li>
+              <li>Know the result, and the condition of the product.</li>
             </ol>
           </div>
         }
       >
         <p>
-          A team that owns a data product knows what it is: where the data comes
-          from, what runs and when, which fields are regulated, who reads the
-          result. Making it real is a different list — an orchestration app,
-          ingestion config, masking rules, and Databricks jobs, in every
-          environment it lives in. Provisioning is the translation between the
-          two.
+          The team that owns a data product knows the details of that product.
+          It knows the source of the data, the jobs and their schedules, the
+          regulated fields, and the users who read the result. But the platform
+          needs a different list: an orchestration app, an ingestion
+          configuration, masking rules, and Databricks jobs. It needs this list
+          for each environment. Provisioning converts the first list into the
+          second list.
         </p>
 
-        <h3>The same product, in every environment</h3>
+        <h3>The product must exist in each environment</h3>
         <p>
-          A data product exists in development, then test, then production.
-          Promoting it should not mean building it again.
+          A data product exists in development, then in test, then in
+          production. A team must not build the product again for each
+          environment.
         </p>
 
-        <h3>It never stops changing</h3>
+        <h3>The product changes after the first deployment</h3>
         <p>
-          A source gets added. A schedule moves. A column becomes regulated.
-          Provisioning runs for the life of the product, so it has to be cheap
-          to repeat and safe when almost nothing has changed.
+          A team adds a source. A team changes a schedule. A column becomes
+          regulated. Provisioning continues for the full life of the product. It
+          must be easy to repeat, and safe when almost nothing changed.
         </p>
 
-        <h3>Nobody to wait on</h3>
+        <h3>A team must not wait for another person</h3>
         <p>
-          Hundreds of data products across tens of teams. Any central group in
-          the loop for every change is the bottleneck for all of it.
+          The platform has hundreds of data products and tens of teams. If one
+          central group must approve each change, that group delays all of the
+          teams.
         </p>
 
-        <h3>An answer they can act on</h3>
+        <h3>The team must know the result</h3>
         <p>
-          When it fails, a team needs to know what stopped, why, and what state
-          their product is in — without first learning which of the four
-          services was involved.
+          If a deployment fails, the team must know which step stopped, the
+          cause, and the condition of the product. The team must not first find
+          which of the four services caused the failure.
         </p>
       </Section>
 
@@ -190,145 +193,137 @@ export default function ProvisioningDeepDive(): ReactNode {
         title="From one document to four components"
         aside={
           <>
-            <Figure caption="Fig 2 — The deployment mechanism behind each of the four components.">
+            <Figure caption="Fig 2 — The deployment mechanism for each of the four components.">
               <div className="prose max-w-none bg-page px-5 py-4">
                 <table>
                   <thead>
                     <tr>
                       <th>Service</th>
-                      <th>How it reached production</th>
+                      <th>Deployment mechanism</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>Orchestration</td>
-                      <td>
-                        An ARM template, deployed through the Azure API
-                      </td>
+                      <td>An ARM template, sent to the Azure API</td>
                     </tr>
                     <tr>
                       <td>Consumption</td>
-                      <td>
-                        An Asset Bundle, deployed through the Databricks CLI
-                      </td>
+                      <td>An Asset Bundle, sent with the Databricks CLI</td>
                     </tr>
                     <tr>
                       <td>VBAC</td>
                       <td>
-                        A Databricks workflow wrote a config row into the
-                        service database
+                        A Databricks workflow wrote a row into the service
+                        database
                       </td>
                     </tr>
                     <tr>
                       <td>Ingestion</td>
                       <td>
-                        A Databricks workflow wrote a config row into the
-                        service database
+                        A Databricks workflow wrote a row into the service
+                        database
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </Figure>
-            <Figure caption="Fig 3 — The deployment sequence, from CLI invocation to the four components.">
+            <Figure caption="Fig 3 — The deployment sequence, from the CLI to the four components.">
               <DiagramSlot label="existing / deployment sequence" />
             </Figure>
           </>
         }
       >
         <p>
-          Provisioning already existed when I took the project on. A data
-          product was described in one file — a{" "}
-          <strong>declarative data product</strong>, or DDP — saying what to
-          ingest, what to orchestrate, what to mask, and what to run. A CLI
-          turned that document into deployed infrastructure.
+          Provisioning already existed when I started the project. A team
+          described a data product in one file. This file is a{" "}
+          <strong>declarative data product</strong>, or DDP. It specified the
+          data to ingest, the jobs to orchestrate, the data to mask, and the
+          jobs to run. A CLI converted the DDP into deployed infrastructure.
         </p>
 
-        <h3>Deploying a data product</h3>
+        <h3>How a team deployed a data product</h3>
         <p>
-          Security requirements kept the CLI on a locked-down VM, so a
-          deployment ran from there:
+          Security requirements kept the CLI on a restricted VM. Each deployment
+          ran from that VM.
         </p>
         <ol>
-          <li>A privileged user signs in to the VM.</li>
+          <li>The user signs in to the VM.</li>
           <li>
-            They run the CLI against a target environment, passing the
-            team&apos;s DDP.
+            The user runs the CLI for the target environment and supplies the
+            DDP.
           </li>
+          <li>The CLI reads the DDP and validates it. The CLI stops if it finds an error.</li>
           <li>
-            The CLI parses the document and validates it, stopping on any
-            validation error.
-          </li>
-          <li>
-            It deploys each component in turn: orchestration, consumption,
-            VBAC, then ingestion.
+            The CLI deploys each component in sequence: orchestration,
+            consumption, VBAC, then ingestion.
           </li>
         </ol>
 
-        <h3>What happened behind each step</h3>
+        <h3>What each step did</h3>
         <p>
-          Each component was deployed by the mechanism its service read
-          configuration from, so the four steps did quite different things.
+          Each service read its configuration from a different location. Thus
+          the four steps used four different mechanisms.
         </p>
         <ul>
           <li>
-            <strong>Orchestration</strong> — an ARM template deployed through
-            the Azure API, standing up a <code>Function App</code> dedicated to
-            that data product and carrying its schedule and job definitions.
+            <strong>Orchestration</strong> — the CLI sent an ARM template to the
+            Azure API. This template created a <code>Function App</code> for
+            that data product. The Function App contained the schedule and the
+            job definitions.
           </li>
           <li>
-            <strong>Consumption</strong> — an Asset Bundle deployed through the
-            Databricks CLI.
+            <strong>Consumption</strong> — the CLI deployed an Asset Bundle with
+            the Databricks CLI.
           </li>
           <li>
             <strong>VBAC</strong> and <strong>ingestion</strong> — a Databricks
-            workflow wrote the team&apos;s configuration into each service&apos;s
-            database, where the running service picked it up.
+            workflow wrote the configuration into the database of each service.
+            Each service then read its configuration from that database.
           </li>
         </ul>
-        <p>
-          From there each service ran on its own terms and its own cadence.
-        </p>
+        <p>Each service then operated on its own schedule.</p>
       </Section>
 
       <Section
         index="04"
         eyebrow="THE GAP"
-        title="A deployment stopped wherever it broke"
+        title="The system met one need of five"
         aside={
           <>
-            <Figure caption="Fig 4 — What a failure at step three leaves standing behind it.">
+            <Figure caption="Fig 4 — The components that stay deployed after a failure at step three.">
               <DiagramSlot label="existing / partial failure" />
             </Figure>
-            <Figure caption="Fig 5 — The five needs from 02, against what the existing path delivered.">
+            <Figure caption="Fig 5 — The five needs from 02 and the result from the existing process.">
               <div className="prose max-w-none bg-page px-5 py-4">
                 <table>
                   <thead>
                     <tr>
                       <th>What a team needs</th>
-                      <th>What they got</th>
+                      <th>What the system gave</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Describe it once</td>
-                      <td>Met — one DDP said all four</td>
+                      <td>Describe it one time</td>
+                      <td>Met — one DDP described all four services</td>
                     </tr>
                     <tr>
-                      <td>Same product per environment</td>
-                      <td>The whole manual trip, once per environment</td>
+                      <td>The same product in each environment</td>
+                      <td>One manual process for each environment</td>
                     </tr>
                     <tr>
-                      <td>Change it safely</td>
-                      <td>A failed run left unknown state behind</td>
+                      <td>Change the product safely</td>
+                      <td>A failure left an unknown condition</td>
                     </tr>
                     <tr>
-                      <td>Nobody to wait on</td>
-                      <td>A ticket and a multi-day approval for VM access</td>
+                      <td>No wait for another person</td>
+                      <td>A ticket and an approval of several days</td>
                     </tr>
                     <tr>
-                      <td>An answer they can act on</td>
-                      <td>Four sets of telemetry, no single view</td>
+                      <td>Know the result</td>
+                      <td>Four sets of logs and no single record</td>
                     </tr>
                   </tbody>
                 </table>
@@ -337,120 +332,61 @@ export default function ProvisioningDeepDive(): ReactNode {
           </>
         }
       >
-        <p>The system met the first need. It missed the other four.</p>
-
-        <h3>Nothing made the four components one deployment</h3>
         <p>
-          They ran in sequence with no shared transaction. A failure at VBAC
-          left orchestration and consumption deployed and ingestion never run —
-          a data product no config described, and no record of which of the four
-          had landed. <TK>what recovery actually involved</TK>
+          The system met the first need. It did not meet the other four.
         </p>
 
-        <h3>Self-service began with a ticket</h3>
+        <h3>The four components were not one deployment</h3>
         <p>
-          Running the CLI meant reaching the VM, and reaching the VM meant
-          filing a ticket and waiting on an approval with a multi-day
-          turnaround. The provision itself was quick. Being allowed to start it
-          was not. <TK>whether access was granted once or per window</TK>
+          The components ran in sequence, but no transaction contained them. If
+          VBAC failed, orchestration and consumption stayed deployed, and
+          ingestion did not run. The result was a data product that no DDP
+          described. The system kept no record of which components it deployed.{" "}
+          <TK>what recovery actually involved</TK>
         </p>
 
-        <h3>No single view of a deployment</h3>
+        <h3>A team needed approval to use the VM</h3>
         <p>
-          Four services, four places to look, nothing tying them to the
-          deployment that caused them. Answering &quot;why did this fail&quot;
-          meant knowing which to open first, so it fell to the platform team.
+          To run the CLI, a user needed access to the VM. To receive that
+          access, the user submitted a ticket and waited for approval. This
+          approval took several days. The deployment itself was quick, but the
+          wait for permission was not.{" "}
+          <TK>whether a user received access one time or per window</TK>
         </p>
 
-        <h3>Nobody owned the config contract</h3>
+        <h3>No single record of a deployment</h3>
         <p>
-          The DDP schema belonged to the team maintaining the config language,
-          not to the services it described. When the two drifted, a config that
-          parsed cleanly failed at deploy time — a build-time error surfacing in
-          an environment.
+          Each of the four services wrote its own logs. No record connected
+          these logs to the deployment that caused them. To find the cause of a
+          failure, a person had to know which service to examine first. Usually
+          only the platform team knew this.
+        </p>
+
+        <h3>No team owned the DDP schema</h3>
+        <p>
+          The team that maintained the config language owned the DDP schema. The
+          services that used the schema did not own it. When the schema and a
+          service became different, a valid DDP failed at deployment. A build
+          step could find this error, but it occurred in an environment.
         </p>
       </Section>
 
       <Section
         index="05"
-        eyebrow="APPROACH"
-        title="Declarative IaC, built rather than adopted"
-        aside={
-          <Figure caption="Fig 6 — The options scored against the needs from 02. Adopting an engine converges after a partial failure rather than unwinding it.">
-            <div className="prose max-w-none bg-page px-5 py-4">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Option</th>
-                    <th>Partial failure</th>
-                    <th>Schema drift</th>
-                    <th>Cost to get there</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>IaC, adopted</td>
-                    <td>converges</td>
-                    <td>no</td>
-                    <td>TK</td>
-                  </tr>
-                  <tr>
-                    <td>IaC, built</td>
-                    <td>yes</td>
-                    <td>TK</td>
-                    <td>TK</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Figure>
-        }
-      >
-        <p>
-          The requirements pointed at one shape: declare the desired state in
-          one document, let something else make it true, and treat the attempt
-          as a single unit of work. That is declarative infrastructure as code,
-          and the platform had spent its previous attempt on the document rather
-          than on what happened after it. Choosing the model was easy. What
-          implemented it was the decision worth defending.
-        </p>
-
-        <p>
-          Terraform and Pulumi hand you a dependency graph, a plan and real
-          state for free, and &quot;we wrote our own&quot; is usually the wrong
-          answer. Two things pushed the other way. Only half the system looks
-          like infrastructure — ingestion and VBAC are config rows, so a
-          provider was ours to write regardless, in another language on another
-          release cycle. And the resource set was closed: four known component
-          types, never arbitrary infrastructure, so the plugin protocol,
-          provider registry and general type system were all generality the
-          platform would pay for and never use.{" "}
-          <TK>the state-management question, and how the engine answers it</TK>
-        </p>
-        <p>
-          The third reason is delivery. The team already owned the DDP parser
-          and the CLI, and extending code you own beats introducing a tool, a
-          state backend and a runner identity into an environment whose entry
-          point was a locked-down VM. <TK>the constraint, stated concretely</TK>
-        </p>
-      </Section>
-
-      <Section
-        index="06"
-        eyebrow="DESIGN"
+        eyebrow="THE ENGINE"
         title="An engine for exactly four resources"
         aside={
           <>
-            <Figure caption="Fig 7 — A deployment as one workflow: four steps, each with the undo it owns.">
+            <Figure caption="Fig 6 — A deployment as one workflow: four steps, each with the undo it owns.">
               <DiagramSlot label="after / workflow + compensation" />
             </Figure>
-            <Figure caption="Fig 8 — Each step is idempotent and names its own compensating action.">
+            <Figure caption="Fig 7 — Each step is idempotent and names its own compensating action.">
               <div className="prose max-w-none">
                 <pre>
                   <code>{`// TK — the real definition
 deploy(ddp, env) {
   step("orchestration", apply, teardown)
-  step("databricks",    apply, teardown)
+  step("consumption",   apply, teardown)
   step("vbac",          apply, teardown)
   step("ingestion",     apply, teardown)
 }`}</code>
@@ -474,9 +410,7 @@ deploy(ddp, env) {
           The four components stayed four steps, but the engine owns the
           sequence rather than a shell script running them in order. It can
           retry a step, resume after a crash, and unwind everything already done
-          when a later step fails — which is the requirement nothing else met,
-          because four unlike systems have no reason to agree on a transaction
-          protocol of their own. <TK>the execution model, concretely</TK>
+          when a later step fails. <TK>the execution model, concretely</TK>
         </p>
 
         <h3>The step contract</h3>
@@ -485,35 +419,14 @@ deploy(ddp, env) {
           compensating action, so a retry is safe and an abort unwinds cleanly.{" "}
           <TK>how keys are derived; what teardown means for a config row</TK>
         </p>
-
-        <h3>Services own their own schema</h3>
-        <p>
-          How the config contract moved to the services, so a schema and the
-          behaviour behind it can no longer drift apart.{" "}
-          <TK>the mechanism, and whether the DDP format changed with it</TK>
-        </p>
-
-        <h3>One deployment, one trace</h3>
-        <p>
-          Workflow history became the single view support had been missing —
-          every step of a deployment, its inputs, and where it stopped, in one
-          place. <TK>what support actually opens now</TK>
-        </p>
-
-        <h3>What I gave up</h3>
-        <p>
-          The honest trade-offs: an engine to operate, coupling to its
-          programming model, and a state machine that is harder to read than a
-          script with a log. <TK>the one that has actually hurt</TK>
-        </p>
       </Section>
 
       <Section
-        index="07"
+        index="06"
         eyebrow="RESULTS"
         title="What changed"
         aside={
-          <Figure caption="Fig 9 — Before and after. Numbers, not adjectives.">
+          <Figure caption="Fig 8 — Before and after. Numbers, not adjectives.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
