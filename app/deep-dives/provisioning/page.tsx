@@ -337,44 +337,37 @@ export default function ProvisioningDeepDive(): ReactNode {
           </>
         }
       >
-        <p>
-          The system met the first need — teams described a product, not four
-          services. It missed the other four.
-        </p>
+        <p>The system met the first need. It missed the other four.</p>
 
         <h3>Nothing made the four components one deployment</h3>
         <p>
-          They ran in sequence with no shared transaction. If VBAC failed,
-          orchestration and consumption stayed deployed and ingestion never ran:
+          They ran in sequence with no shared transaction. A failure at VBAC
+          left orchestration and consumption deployed and ingestion never run —
           a data product no config described, and no record of which of the four
-          had landed. Working that out was manual, every time.{" "}
-          <TK>what recovery actually involved</TK>
+          had landed. <TK>what recovery actually involved</TK>
         </p>
 
         <h3>Teams could not deploy their own products</h3>
         <p>
           The CLI sat on a VM only privileged users could reach, so every
-          deployment borrowed one of them — not to approve anything, just to be
-          the hands. Every misconfiguration and every environment cost another
-          trip. <TK>how long a full provision took end to end</TK>
+          deployment borrowed one of them as hands. Every misconfiguration and
+          every environment cost another trip.{" "}
+          <TK>how long a full provision took end to end</TK>
         </p>
 
         <h3>No single view of a deployment</h3>
         <p>
-          Four services, four places to look, and nothing tying any of them back
-          to the deployment that caused them. Answering &quot;why did this
-          fail&quot; required knowing which of the four to open first, so it
-          fell to the platform team — back in the loop the DDP existed to remove
-          them from.
+          Four services, four places to look, nothing tying them to the
+          deployment that caused them. Answering &quot;why did this fail&quot;
+          meant knowing which to open first, so it fell to the platform team.
         </p>
 
         <h3>Nobody owned the config contract</h3>
         <p>
           The DDP schema belonged to the team maintaining the config language,
-          not to the services it described. A service adding an option had to
-          coordinate a schema change; when the two drifted, a config that parsed
-          cleanly failed at deploy time. A build-time error, surfacing in an
-          environment.
+          not to the services it described. When the two drifted, a config that
+          parsed cleanly failed at deploy time — a build-time error surfacing in
+          an environment.
         </p>
       </Section>
 
