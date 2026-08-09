@@ -423,10 +423,116 @@ deploy(ddp, env) {
 
       <Section
         index="06"
+        eyebrow="FAILURE"
+        title="What happens when a step fails"
+        aside={
+          <Figure caption="Fig 8 — The compensating action for each resource type.">
+            <DiagramSlot label="engine / retry and compensation" />
+          </Figure>
+        }
+      >
+        <p>
+          This section covers the order of the steps, the retry behaviour, and
+          the compensating action for each resource type.{" "}
+          <TK>the execution model</TK>
+        </p>
+
+        <h3>A step can run more than one time</h3>
+        <p>
+          <TK>how the engine derives the key that makes a step idempotent</TK>
+        </p>
+
+        <h3>Each resource type has a teardown</h3>
+        <p>
+          <TK>
+            what teardown does for an ARM template, an Asset Bundle, and a
+            config row
+          </TK>
+        </p>
+
+        <h3>Teardown does not reverse every effect</h3>
+        <p>
+          <TK>which resource types cannot fully reverse, and what that means</TK>
+        </p>
+      </Section>
+
+      <Section
+        index="07"
+        eyebrow="ENTRY POINT"
+        title="A team starts a deployment from GitHub Actions"
+        aside={
+          <Figure caption="Fig 9 — The path from a GitHub Actions workflow to the engine on the VM.">
+            <DiagramSlot label="after / entry point" />
+          </Figure>
+        }
+      >
+        <p>
+          GitHub Actions replaced the VM as the entry point for a team. The
+          engine still runs on the VM. Credentials in the workflow give the
+          pipeline the access that a person needed before.{" "}
+          <TK>the exact path from the workflow to the engine</TK>
+        </p>
+
+        <h3>The engine resolves the environment</h3>
+        <p>
+          <TK>
+            how a DDP separates the values that are fixed from the values that
+            change per environment
+          </TK>
+        </p>
+
+        <h3>Each service owns its schema</h3>
+        <p>
+          <TK>the mechanism, and whether the DDP format changed with it</TK>
+        </p>
+
+        <h3>One deployment, one record</h3>
+        <p>
+          <TK>what a person opens now to see why a deployment failed</TK>
+        </p>
+      </Section>
+
+      <Section
+        index="08"
+        eyebrow="COST"
+        title="What this design gave up"
+        aside={
+          <div className="border border-rule bg-page px-5 py-4">
+            <div className="font-mono text-label-sm uppercase text-ink-5">
+              Known limits
+            </div>
+            <ul className="prose mt-3 max-w-none list-disc pl-5 text-small">
+              <li>One small group maintains the engine.</li>
+              <li>Teardown does not reverse every effect.</li>
+              <li>
+                <TK>whether the engine detects drift</TK>
+              </li>
+            </ul>
+          </div>
+        }
+      >
+        <p>
+          <TK>the trade-offs, stated before a reader can find them</TK>
+        </p>
+
+        <h3>A small group owns the engine</h3>
+        <p>
+          Hundreds of data products depend on an engine that one engineer wrote.{" "}
+          <TK>who maintains it now, and what the team did about this</TK>
+        </p>
+
+        <h3>What is still open</h3>
+        <p>
+          <TK>the gaps this design did not close</TK>
+        </p>
+      </Section>
+
+      <Section
+        index="09"
         eyebrow="RESULTS"
         title="What changed"
         aside={
-          <Figure caption="Fig 8 — Before and after. Numbers, not adjectives.">
+          <Figure caption="Fig 10 — Before and after. Numbers, not adjectives.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
@@ -473,12 +579,6 @@ deploy(ddp, env) {
           The second-order effects — what became possible once a deployment ran
           unattended and recorded itself.{" "}
           <TK>the thing nobody asked for that fell out of it</TK>
-        </p>
-
-        <h3>What is still open</h3>
-        <p>
-          The gaps the redesign did not close, and what I would do next.{" "}
-          <TK>the honest remainder</TK>
         </p>
       </Section>
 
