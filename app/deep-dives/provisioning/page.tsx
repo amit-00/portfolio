@@ -203,14 +203,13 @@ export default function ProvisioningDeepDive(): ReactNode {
                     <tr>
                       <td>Orchestration</td>
                       <td>
-                        A standalone <code>Function App</code> per data product
+                        An ARM template, deployed through the Azure API
                       </td>
                     </tr>
                     <tr>
-                      <td>Ingestion</td>
+                      <td>Consumption</td>
                       <td>
-                        A Databricks workflow wrote a config row into the
-                        service database
+                        An Asset Bundle, deployed through the Databricks CLI
                       </td>
                     </tr>
                     <tr>
@@ -221,8 +220,11 @@ export default function ProvisioningDeepDive(): ReactNode {
                       </td>
                     </tr>
                     <tr>
-                      <td>Consumption</td>
-                      <td>Asset Bundles, from a CLI on a privileged VM</td>
+                      <td>Ingestion</td>
+                      <td>
+                        A Databricks workflow wrote a config row into the
+                        service database
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -258,8 +260,8 @@ export default function ProvisioningDeepDive(): ReactNode {
             validation error.
           </li>
           <li>
-            It deploys each component in turn: orchestration, the Databricks
-            resources, VBAC, then ingestion.
+            It deploys each component in turn: orchestration, consumption,
+            VBAC, then ingestion.
           </li>
         </ol>
 
@@ -270,12 +272,13 @@ export default function ProvisioningDeepDive(): ReactNode {
         </p>
         <ul>
           <li>
-            <strong>Orchestration</strong> — a <code>Function App</code>{" "}
-            dedicated to that data product, carrying its schedule and job
-            definitions.
+            <strong>Orchestration</strong> — an ARM template deployed through
+            the Azure API, standing up a <code>Function App</code> dedicated to
+            that data product and carrying its schedule and job definitions.
           </li>
           <li>
-            <strong>Databricks resources</strong> — deployed as an Asset Bundle.
+            <strong>Consumption</strong> — an Asset Bundle deployed through the
+            Databricks CLI.
           </li>
           <li>
             <strong>VBAC</strong> and <strong>ingestion</strong> — a Databricks
@@ -342,9 +345,8 @@ export default function ProvisioningDeepDive(): ReactNode {
         <h3>A failure left the product half-built</h3>
         <p>
           The four components deployed in sequence with no shared transaction.
-          If VBAC failed, orchestration and the Databricks resources stayed
-          deployed and ingestion never ran, leaving a data product no config
-          described. Changing a product was not safe, and a team could not see
+          If VBAC failed, orchestration and consumption stayed deployed and
+          ingestion never ran, leaving a data product no config described. Changing a product was not safe, and a team could not see
           which of the four had landed without working it out by hand.{" "}
           <TK>what recovery actually involved</TK>
         </p>
