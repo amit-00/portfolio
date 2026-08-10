@@ -7,7 +7,7 @@ import { Figure } from "@/components/relay/figure";
 
 // Unlinked draft: keep it out of the index until it is finished and linked.
 export const metadata: Metadata = {
-  title: "One description, many deployments",
+  title: "Rebuilding provisioning for a data platform",
   robots: { index: false, follow: false },
 };
 
@@ -78,7 +78,7 @@ export default function ProvisioningDeepDive(): ReactNode {
           deep dive · data platform · <TK>date</TK> · <TK>read time</TK>
         </div>
         <h1 className="mt-3 max-w-[22ch] font-mono text-display font-bold text-ink-1">
-          One description, many deployments
+          Rebuilding provisioning for a data platform
         </h1>
         <p className="mt-4 max-w-[62ch] text-lead leading-[1.6] text-ink-3">
           A data platform let teams describe a data product in one set of files.
@@ -193,7 +193,7 @@ export default function ProvisioningDeepDive(): ReactNode {
       <Section
         index="03"
         eyebrow="WHAT I INHERITED"
-        title="From one description to many components"
+        title="The process before the engine"
         aside={
           <>
             <Figure caption="Fig 2 — The deployment mechanism for each kind of component.">
