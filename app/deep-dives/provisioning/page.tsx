@@ -7,7 +7,7 @@ import { Figure } from "@/components/relay/figure";
 
 // Unlinked draft: keep it out of the index until it is finished and linked.
 export const metadata: Metadata = {
-  title: "One document, four deployments",
+  title: "One document, many deployments",
   robots: { index: false, follow: false },
 };
 
@@ -78,54 +78,40 @@ export default function ProvisioningDeepDive(): ReactNode {
           deep dive · data platform · <TK>date</TK> · <TK>read time</TK>
         </div>
         <h1 className="mt-3 max-w-[22ch] font-mono text-display font-bold text-ink-1">
-          One document, four deployments
+          One document, many deployments
         </h1>
         <p className="mt-4 max-w-[62ch] text-lead leading-[1.6] text-ink-3">
           A data platform let teams describe a data product in one document. But
-          the platform did not deploy that product as one unit. Each of the four
-          services used a different deployment mechanism. A team also waited
-          several days for permission to start a deployment. If one component
-          failed, the components before it stayed deployed. This article
-          describes that system, its gaps, and the engine that replaced it.
+          the platform did not deploy that product as one unit. Each service
+          used a different deployment mechanism. A team also waited several days
+          for permission to start a deployment. If one component failed, the
+          components before it stayed deployed. This article describes that
+          system, its gaps, and the engine that replaced it.
         </p>
       </header>
 
       <Section
         index="01"
         eyebrow="THE PLATFORM"
-        title="A data product used all four services"
+        title="A data product used several services"
         aside={
-          <Figure caption="Fig 1 — The position of each service on the path from the source system to the consumer.">
-            <DiagramSlot label="platform / four services" />
+          <Figure caption="Fig 1 — One data product, and the services it used together.">
+            <DiagramSlot label="platform / services in one product" />
           </Figure>
         }
       >
         <p>
-          The platform connected source systems to the business. It moved data
-          to Databricks, changed the data, and controlled which users could see
-          it. Four services did this work, and a data team usually needed all
-          four.
+          The platform connected source systems to the business. It moved data,
+          changed the data, and controlled which users could see it. A set of
+          services did this work. A team usually used several of them together
+          for one data product.
         </p>
         <p>
-          <strong>Orchestration</strong> ran the ingestion jobs and the
-          Databricks ETL jobs on a schedule. A team specified which jobs to run,
-          the schedule for each job, and the location of the input and output
-          data.
-        </p>
-        <p>
-          <strong>Ingestion</strong> moved data from the source systems to
-          Databricks with Azure Data Factory. A team specified the source and
-          the destination.
-        </p>
-        <p>
-          <strong>VBAC</strong> (view-based access control) prevented access to
-          regulated data. Users without authorization could not see this data. A
-          team specified which data was sensitive.
-        </p>
-        <p>
-          <strong>Consumption</strong> deployed the Databricks jobs that read
-          the completed data, and the resources for those jobs. A team supplied
-          a Databricks Asset Bundle.
+          These services were not the same shape. Some needed only
+          configuration. Others needed infrastructure, and the platform deployed
+          that infrastructure for the team. Application code then went onto that
+          infrastructure. Some of this code belonged to the team. Some belonged
+          to the platform.
         </p>
       </Section>
 
@@ -152,10 +138,10 @@ export default function ProvisioningDeepDive(): ReactNode {
           The team that owns a data product knows the details of that product.
           It knows the source of the data, the jobs and their schedules, the
           regulated fields, and the users who read the result. But the platform
-          needs a different list: an orchestration app, an ingestion
-          configuration, masking rules, and Databricks jobs. It needs this list
-          for each environment. Provisioning converts the first list into the
-          second list.
+          needs a different list: infrastructure, application code, job
+          definitions and configuration. It needs this list for each
+          environment. Provisioning converts the first list into the second
+          list.
         </p>
 
         <h3>The product must exist in each environment</h3>
@@ -183,53 +169,45 @@ export default function ProvisioningDeepDive(): ReactNode {
         <p>
           If a deployment fails, the team must know which step stopped, the
           cause, and the condition of the product. The team must not first find
-          which of the four services caused the failure.
+          which service caused the failure.
         </p>
       </Section>
 
       <Section
         index="03"
         eyebrow="WHAT I INHERITED"
-        title="From one document to four components"
+        title="From one document to many components"
         aside={
           <>
-            <Figure caption="Fig 2 — The deployment mechanism for each of the four components.">
+            <Figure caption="Fig 2 — The deployment mechanism for each kind of component.">
               <div className="prose max-w-none bg-page px-5 py-4">
                 <table>
                   <thead>
                     <tr>
-                      <th>Service</th>
-                      <th>Deployment mechanism</th>
+                      <th>What the CLI deployed</th>
+                      <th>Mechanism</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Orchestration</td>
+                      <td>Infrastructure, and the code for it</td>
                       <td>An ARM template, sent to the Azure API</td>
                     </tr>
                     <tr>
-                      <td>Consumption</td>
+                      <td>Job definitions</td>
                       <td>An Asset Bundle, sent with the Databricks CLI</td>
                     </tr>
                     <tr>
-                      <td>VBAC</td>
+                      <td>Runtime configuration</td>
                       <td>
-                        A Databricks workflow wrote a row into the service
-                        database
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Ingestion</td>
-                      <td>
-                        A Databricks workflow wrote a row into the service
-                        database
+                        A workflow wrote a row into the database of a service
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </Figure>
-            <Figure caption="Fig 3 — The deployment sequence, from the CLI to the four components.">
+            <Figure caption="Fig 3 — The deployment sequence, from the CLI to the components.">
               <DiagramSlot label="existing / deployment sequence" />
             </Figure>
           </>
@@ -238,9 +216,9 @@ export default function ProvisioningDeepDive(): ReactNode {
         <p>
           Provisioning already existed when I started the project. A team
           described a data product in one file. This file is a{" "}
-          <strong>declarative data product</strong>, or DDP. It specified the
-          data to ingest, the jobs to orchestrate, the data to mask, and the
-          jobs to run. A CLI converted the DDP into deployed infrastructure.
+          <strong>declarative data product</strong>, or DDP. It specified every
+          service that the product used, and the settings for each one. A CLI
+          converted the DDP into deployed infrastructure.
         </p>
 
         <h3>How a team deployed a data product</h3>
@@ -254,33 +232,31 @@ export default function ProvisioningDeepDive(): ReactNode {
             The user runs the CLI for the target environment and supplies the
             DDP.
           </li>
-          <li>The CLI reads the DDP and validates it. The CLI stops if it finds an error.</li>
           <li>
-            The CLI deploys each component in sequence: orchestration,
-            consumption, VBAC, then ingestion.
+            The CLI reads the DDP and validates it. The CLI stops if it finds an
+            error.
           </li>
+          <li>The CLI deploys each component, one after the other.</li>
         </ol>
 
         <h3>What each step did</h3>
         <p>
-          Each service read its configuration from a different location. Thus
-          the four steps used four different mechanisms.
+          Each service received its configuration in a different way. Thus each
+          step used a different mechanism.
         </p>
         <ul>
           <li>
-            <strong>Orchestration</strong> — the CLI sent an ARM template to the
-            Azure API. This template created a <code>Function App</code> for
-            that data product. The Function App contained the schedule and the
-            job definitions.
+            For infrastructure, the CLI sent an ARM template to the Azure API.
+            The template created the resources for that data product. The
+            application code then went onto those resources.
           </li>
           <li>
-            <strong>Consumption</strong> — the CLI deployed an Asset Bundle with
-            the Databricks CLI.
+            For job definitions, the CLI deployed an Asset Bundle with the
+            Databricks CLI.
           </li>
           <li>
-            <strong>VBAC</strong> and <strong>ingestion</strong> — a Databricks
-            workflow wrote the configuration into the database of each service.
-            Each service then read its configuration from that database.
+            For runtime configuration, a workflow wrote a row into the database
+            of a service. That service then read the row.
           </li>
         </ul>
         <p>Each service then operated on its own schedule.</p>
@@ -307,7 +283,7 @@ export default function ProvisioningDeepDive(): ReactNode {
                   <tbody>
                     <tr>
                       <td>Describe it one time</td>
-                      <td>Met — one DDP described all four services</td>
+                      <td>Met — one DDP described every service</td>
                     </tr>
                     <tr>
                       <td>The same product in each environment</td>
@@ -332,16 +308,14 @@ export default function ProvisioningDeepDive(): ReactNode {
           </>
         }
       >
-        <p>
-          The system met the first need. It did not meet the other four.
-        </p>
+        <p>The system met the first need. It did not meet the other four.</p>
 
-        <h3>The four components were not one deployment</h3>
+        <h3>The components were not one deployment</h3>
         <p>
           The components ran in sequence, but no transaction contained them. If
-          VBAC failed, orchestration and consumption stayed deployed, and
-          ingestion did not run. The result was a data product that no DDP
-          described. The system kept no record of which components it deployed.{" "}
+          one component failed, the components before it stayed deployed, and
+          the components after it did not run. The result was a data product
+          that no DDP described. The system kept no record of what it deployed.{" "}
           <TK>what recovery actually involved</TK>
         </p>
 
@@ -356,10 +330,10 @@ export default function ProvisioningDeepDive(): ReactNode {
 
         <h3>No single record of a deployment</h3>
         <p>
-          Each of the four services wrote its own logs. No record connected
-          these logs to the deployment that caused them. To find the cause of a
-          failure, a person had to know which service to examine first. Usually
-          only the platform team knew this.
+          Each service wrote its own logs. No record connected these logs to the
+          deployment that caused them. To find the cause of a failure, a person
+          had to know which service to examine first. Usually only the platform
+          team knew this.
         </p>
 
         <h3>No team owned the DDP schema</h3>
@@ -378,7 +352,7 @@ export default function ProvisioningDeepDive(): ReactNode {
         aside={
           <>
             <Figure caption="Fig 6 — The engine calls each service API with the location of the config in ADLS.">
-              <DiagramSlot label="engine / one interface, four services" />
+              <DiagramSlot label="engine / one interface, every service" />
             </Figure>
             <Figure caption="Fig 7 — One request format and one response format, for every operation on every service.">
               <div className="prose max-w-none">
