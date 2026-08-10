@@ -104,6 +104,7 @@ export default function ProvisioningDeepDive(): ReactNode {
           The platform connected source systems to the business. Teams used it
           to build and to run data products.
         </p>
+        <h3>What is a data product</h3>
         <p>
           A data product is one set of data that a team owns and supplies to
           other users. It contains the pipeline that makes the data, the data
