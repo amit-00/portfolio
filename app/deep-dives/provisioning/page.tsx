@@ -83,10 +83,10 @@ export default function ProvisioningDeepDive(): ReactNode {
         <p className="mt-4 max-w-[62ch] text-lead leading-[1.6] text-ink-3">
           A data platform let teams describe a data product in one set of files.
           But the platform did not deploy that product as one unit. Each service
-          used a different deployment mechanism. A team also waited several days
-          for permission to start a deployment. If one component failed, the
-          components before it stayed deployed. This article describes that
-          system, its gaps, and the engine that replaced it.
+          used a different deployment mechanism. Only a few approved users could
+          start a deployment. If one component failed, the components before it
+          stayed deployed. This article describes that system, its gaps, and the
+          engine that replaced it.
         </p>
       </header>
 
@@ -243,11 +243,12 @@ export default function ProvisioningDeepDive(): ReactNode {
         </p>
 
         <h3>How a team deployed a data product</h3>
+        <p>
+          A user needed access to the VM before any of this. That access came
+          through a ticket, with an approval of one or two business days. A user
+          did this one time.
+        </p>
         <ol>
-          <li>
-            A user requests access to the VM. An approver receives a ticket.
-            Approval takes one or two business days.
-          </li>
           <li>The user connects to the VM with SSH.</li>
           <li>
             The user runs the CLI and gives it a URL. The URL points to a
@@ -314,7 +315,7 @@ export default function ProvisioningDeepDive(): ReactNode {
                     </tr>
                     <tr>
                       <td>No wait for another person</td>
-                      <td>A ticket and one or two business days</td>
+                      <td>Only users with approved VM access</td>
                     </tr>
                     <tr>
                       <td>Know the result</td>
@@ -343,11 +344,13 @@ export default function ProvisioningDeepDive(): ReactNode {
           <TK>what that teardown involved for a user</TK>
         </p>
 
-        <h3>A team waited to start</h3>
+        <h3>Only approved users could deploy</h3>
         <p>
-          Only a user with VM access could deploy. That access needed a ticket
-          and an approval of one or two business days. The deployment itself was
-          quick. The wait for permission was not.
+          A user received VM access one time, so the approval was not a delay on
+          each deployment. It was a barrier to the first one. A team with no
+          approved user waited one or two business days, and each new person on
+          a team waited again. After that, the approved users were the only path
+          to production for the whole team.
         </p>
 
         <h3>A failure was hard to trace</h3>
