@@ -377,18 +377,23 @@ export default function ProvisioningDeepDive(): ReactNode {
         title="The engine calls one interface for each service"
         aside={
           <>
-            <Figure caption="Fig 6 — The engine calls the same four operations on each service API.">
+            <Figure caption="Fig 6 — The engine calls each service API with the location of the config in ADLS.">
               <DiagramSlot label="engine / one interface, four services" />
             </Figure>
-            <Figure caption="Fig 7 — The interface each service supplies.">
+            <Figure caption="Fig 7 — One request format and one response format, for every operation on every service.">
               <div className="prose max-w-none">
                 <pre>
                   <code>{`// TK — the real interface
+interface Request {
+  location     // where the config and the code are in ADLS
+  environment
+}
+
 interface ServiceApi {
-  validate(spec, env)  // report the errors in this part of the DDP
-  plan(spec, env)      // report the changes to make
-  deploy(spec, env)    // make the changes
-  destroy(spec, env)   // remove what deploy made
+  validate(Request) -> Response  // report the errors in this part
+  plan(Request)     -> Response  // report the changes to make
+  deploy(Request)   -> Response  // make the changes
+  destroy(Request)  -> Response  // remove what deploy made
 }`}</code>
                 </pre>
               </div>
@@ -418,17 +423,26 @@ interface ServiceApi {
           </li>
         </ul>
         <p>
-          The engine reads the DDP. For each component, the engine calls the API
-          of that service. The engine controls the sequence and records the
-          result. It contains no deployment logic for any service.{" "}
+          Each operation also uses the same request format and the same response
+          format. The engine thus calls every service in the same way. It
+          contains no deployment logic for any service.{" "}
           <TK>whether the engine plans all services before it deploys any</TK>
         </p>
 
-        <h3>A new service does not change the engine</h3>
+        <h3>The request gives a location, not the config</h3>
         <p>
-          A team can add a service to the platform. That service supplies the
-          same four operations. The engine then deploys it. The engine needs no
-          change. <TK>whether a service was added after the first release</TK>
+          At deployment, the config and the application code go to ADLS. The
+          request tells the service where to find them. Each service then reads
+          only the parts that it needs.{" "}
+          <TK>who writes to ADLS, and at which point</TK>
+        </p>
+
+        <h3>A team makes its own service deployable</h3>
+        <p>
+          The engine owns the contract. The team that maintains a service
+          implements that contract for the service. A DDP can then deploy the
+          service. The engine needs no change.{" "}
+          <TK>whether a service was added after the first release</TK>
         </p>
 
         <h3>Each service owns its own rules</h3>
