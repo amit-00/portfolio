@@ -208,16 +208,17 @@ export default function ProvisioningDeepDive(): ReactNode {
                   <tbody>
                     <tr>
                       <td>Infrastructure, and the code for it</td>
-                      <td>An ARM template, sent to the Azure API</td>
+                      <td>An ARM template, applied with the Azure CLI</td>
                     </tr>
                     <tr>
                       <td>Job definitions</td>
-                      <td>An Asset Bundle, sent with the Databricks CLI</td>
+                      <td>An Asset Bundle</td>
                     </tr>
                     <tr>
                       <td>Runtime configuration</td>
                       <td>
-                        A workflow wrote a row into the database of a service
+                        A Databricks workflow wrote a row into the database of a
+                        service
                       </td>
                     </tr>
                   </tbody>
@@ -233,27 +234,28 @@ export default function ProvisioningDeepDive(): ReactNode {
         <p>
           Provisioning already existed when I started the project. A team
           described a data product in a set of configuration files. Together
-          these files are a <strong>declarative data product</strong>, or DDP.
-          They specified every service that the product used, and the settings
-          for each one. A CLI converted the DDP into deployed infrastructure.
+          these files are a <strong>declarative data product</strong>, or DDP. A
+          CLI application converted the DDP into deployed infrastructure.
+        </p>
+        <p>
+          The CLI was single-threaded, and it blocked until a deployment
+          finished. It ran on an Azure VM that also ran other applications.
         </p>
 
         <h3>How a team deployed a data product</h3>
-        <p>
-          Security requirements kept the CLI on a restricted VM. Each deployment
-          ran from that VM.
-        </p>
         <ol>
-          <li>The user signs in to the VM.</li>
           <li>
-            The user runs the CLI for the target environment and supplies the
-            DDP.
+            A user requests access to the VM. An approver receives a ticket.
+            Approval takes one or two business days.
           </li>
+          <li>The user connects to the VM with SSH.</li>
           <li>
-            The CLI reads the DDP and validates it. The CLI stops if it finds an
-            error.
+            The user runs the CLI and gives it a URL. The URL points to a
+            package on Artifactory that holds the config and the application
+            code.
           </li>
-          <li>The CLI deploys each component, one after the other.</li>
+          <li>The CLI downloads the package and validates the contents.</li>
+          <li>The CLI deploys each service, one after the other.</li>
         </ol>
 
         <h3>What each step did</h3>
@@ -263,17 +265,17 @@ export default function ProvisioningDeepDive(): ReactNode {
         </p>
         <ul>
           <li>
-            For infrastructure, the CLI sent an ARM template to the Azure API.
-            The template created the resources for that data product. The
-            application code then went onto those resources.
+            One service needed infrastructure. The CLI applied an ARM template
+            with the Azure CLI, then installed the application code on the new
+            resources.
           </li>
           <li>
-            For job definitions, the CLI deployed an Asset Bundle with the
-            Databricks CLI.
+            One service needed job definitions. The CLI deployed an Asset
+            Bundle.
           </li>
           <li>
-            For runtime configuration, a workflow wrote a row into the database
-            of a service. That service then read the row.
+            One service needed configuration in its own database. The CLI sent
+            the data to a Databricks workflow, and that workflow wrote the row.
           </li>
         </ul>
         <p>Each service then operated on its own schedule.</p>
@@ -285,7 +287,7 @@ export default function ProvisioningDeepDive(): ReactNode {
         title="The system met one need of five"
         aside={
           <>
-            <Figure caption="Fig 4 — The components that stay deployed after a failure at step three.">
+            <Figure caption="Fig 4 — Where a run stops, and what stays deployed behind it.">
               <DiagramSlot label="existing / partial failure" />
             </Figure>
             <Figure caption="Fig 5 — The five needs from 02 and the result from the existing process.">
@@ -308,15 +310,15 @@ export default function ProvisioningDeepDive(): ReactNode {
                     </tr>
                     <tr>
                       <td>Change the product safely</td>
-                      <td>A failure left an unknown condition</td>
+                      <td>A failure stopped the run part of the way</td>
                     </tr>
                     <tr>
                       <td>No wait for another person</td>
-                      <td>A ticket and an approval of several days</td>
+                      <td>A ticket and one or two business days</td>
                     </tr>
                     <tr>
                       <td>Know the result</td>
-                      <td>Four sets of logs and no single record</td>
+                      <td>No common record, and sometimes several engineers</td>
                     </tr>
                   </tbody>
                 </table>
@@ -327,38 +329,42 @@ export default function ProvisioningDeepDive(): ReactNode {
       >
         <p>The system met the first need. It did not meet the other four.</p>
 
-        <h3>The components were not one deployment</h3>
+        <h3>A failure stopped the run part of the way</h3>
         <p>
-          The components ran in sequence, but no transaction contained them. If
-          one component failed, the components before it stayed deployed, and
-          the components after it did not run. The result was a data product
-          that no DDP described. The system kept no record of what it deployed.{" "}
-          <TK>what recovery actually involved</TK>
+          The CLI deployed the services in sequence, and a failure at any one of
+          them stopped the run. The services before it stayed deployed. The
+          services after it did not run. A config error that validation missed,
+          a fault in the deployment logic, an unavailable service, or a crash of
+          the CLI could each cause this.
+        </p>
+        <p>
+          A second run did not always correct it. Some services first needed a
+          teardown of the previous deployment.{" "}
+          <TK>what that teardown involved for a user</TK>
         </p>
 
-        <h3>A team needed approval to use the VM</h3>
+        <h3>A team waited to start</h3>
         <p>
-          To run the CLI, a user needed access to the VM. To receive that
-          access, the user submitted a ticket and waited for approval. This
-          approval took several days. The deployment itself was quick, but the
-          wait for permission was not.{" "}
-          <TK>whether a user received access one time or per window</TK>
+          Only a user with VM access could deploy. That access needed a ticket
+          and an approval of one or two business days. The deployment itself was
+          quick. The wait for permission was not.
         </p>
 
-        <h3>No single record of a deployment</h3>
+        <h3>A failure was hard to trace</h3>
         <p>
-          Each service wrote its own logs. No record connected these logs to the
-          deployment that caused them. To find the cause of a failure, a person
-          had to know which service to examine first. Usually only the platform
-          team knew this.
+          Each service deployed by a different mechanism, and none of them
+          reported through a common interface. No single record showed what a
+          deployment did. A user often could not tell why a run failed. Several
+          engineers sometimes had to work together to find the cause.
         </p>
 
-        <h3>No team owned the DDP schema</h3>
+        <h3>The code resisted new services</h3>
         <p>
-          The team that maintained the config language owned the DDP schema. The
-          services that used the schema did not own it. When the schema and a
-          service became different, a valid DDP failed at deployment. A build
-          step could find this error, but it occurred in an environment.
+          Rules for one service lived in the CLI. The teardown above is one
+          example: a requirement of a single service reached into the
+          application that deployed all of them. To add a service to the
+          platform, several engineers had to work together, then iterate and
+          test. <TK>how long an integration took</TK>
         </p>
       </Section>
 
