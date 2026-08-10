@@ -111,6 +111,7 @@ export default function ProvisioningDeepDive(): ReactNode {
           itself, the rules for access to it, and the jobs that read it. One
           team owns a data product for its full life.
         </p>
+        <h3>What the platform supplied</h3>
         <p>
           The platform supplied a set of services for this work. A team usually
           used several of them together for one data product. These services
