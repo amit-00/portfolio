@@ -374,21 +374,21 @@ export default function ProvisioningDeepDive(): ReactNode {
       <Section
         index="05"
         eyebrow="THE ENGINE"
-        title="An engine for exactly four resources"
+        title="The engine calls one interface for each service"
         aside={
           <>
-            <Figure caption="Fig 6 — A deployment as one workflow: four steps, each with the undo it owns.">
-              <DiagramSlot label="after / workflow + compensation" />
+            <Figure caption="Fig 6 — The engine calls the same four operations on each service API.">
+              <DiagramSlot label="engine / one interface, four services" />
             </Figure>
-            <Figure caption="Fig 7 — Each step is idempotent and names its own compensating action.">
+            <Figure caption="Fig 7 — The interface each service supplies.">
               <div className="prose max-w-none">
                 <pre>
-                  <code>{`// TK — the real definition
-deploy(ddp, env) {
-  step("orchestration", apply, teardown)
-  step("consumption",   apply, teardown)
-  step("vbac",          apply, teardown)
-  step("ingestion",     apply, teardown)
+                  <code>{`// TK — the real interface
+interface ServiceApi {
+  validate(spec, env)  // report the errors in this part of the DDP
+  plan(spec, env)      // report the changes to make
+  deploy(spec, env)    // make the changes
+  destroy(spec, env)   // remove what deploy made
 }`}</code>
                 </pre>
               </div>
@@ -397,27 +397,50 @@ deploy(ddp, env) {
         }
       >
         <p>
-          The engine keeps the parts of the IaC model that were doing work and
-          drops the parts that were not. A deployment is still declared, still
-          planned before it runs, and still executed as one unit — but the
-          resource set is fixed at four, so there is no plugin protocol, no
-          provider registry, and no general-purpose type system underneath it.{" "}
-          <TK>what the engine actually is: language, runtime, where it runs</TK>
+          The engine deploys nothing itself. Each service supplies an API, and
+          the engine calls that API. The API has the same four operations for
+          every service.
+        </p>
+        <ul>
+          <li>
+            <strong>Validate</strong> — the service reports the errors in its
+            part of the DDP.
+          </li>
+          <li>
+            <strong>Plan</strong> — the service reports the changes that it will
+            make.
+          </li>
+          <li>
+            <strong>Deploy</strong> — the service makes those changes.
+          </li>
+          <li>
+            <strong>Destroy</strong> — the service removes what deploy made.
+          </li>
+        </ul>
+        <p>
+          The engine reads the DDP. For each component, the engine calls the API
+          of that service. The engine controls the sequence and records the
+          result. It contains no deployment logic for any service.{" "}
+          <TK>whether the engine plans all services before it deploys any</TK>
         </p>
 
-        <h3>A deployment is one unit of work</h3>
+        <h3>A new service does not change the engine</h3>
         <p>
-          The four components stayed four steps, but the engine owns the
-          sequence rather than a shell script running them in order. It can
-          retry a step, resume after a crash, and unwind everything already done
-          when a later step fails. <TK>the execution model, concretely</TK>
+          A team can add a service to the platform. That service supplies the
+          same four operations. The engine then deploys it. The engine needs no
+          change. <TK>whether a service was added after the first release</TK>
         </p>
 
-        <h3>The step contract</h3>
+        <h3>Each service owns its own rules</h3>
         <p>
-          Each step is idempotent under a stable key and names its own
-          compensating action, so a retry is safe and an abort unwinds cleanly.{" "}
-          <TK>how keys are derived; what teardown means for a config row</TK>
+          A service validates its own part of the DDP. It also selects how to
+          deploy its resources. If a service changes its deployment method, that
+          change stays behind the API. The engine does not see it.
+        </p>
+        <p>
+          This also closes the schema problem from section 04. The team that
+          owns a service now owns the validation for that service.{" "}
+          <TK>whether the DDP schema itself also moved to the services</TK>
         </p>
       </Section>
 
@@ -432,27 +455,30 @@ deploy(ddp, env) {
         }
       >
         <p>
-          This section covers the order of the steps, the retry behaviour, and
-          the compensating action for each resource type.{" "}
-          <TK>the execution model</TK>
+          Destroy is the fourth operation for a reason. If a deployment stops
+          part of the way, the engine can call destroy on each service that
+          already deployed. <TK>whether the engine does this, or stops</TK>
         </p>
 
         <h3>A step can run more than one time</h3>
         <p>
-          <TK>how the engine derives the key that makes a step idempotent</TK>
-        </p>
-
-        <h3>Each resource type has a teardown</h3>
-        <p>
           <TK>
-            what teardown does for an ARM template, an Asset Bundle, and a
-            config row
+            whether deploy is idempotent, and how a service recognises a repeat
           </TK>
         </p>
 
-        <h3>Teardown does not reverse every effect</h3>
+        <h3>What destroy does for each service</h3>
         <p>
-          <TK>which resource types cannot fully reverse, and what that means</TK>
+          <TK>
+            what destroy removes for the ARM template, the Asset Bundle, and the
+            config rows
+          </TK>
+        </p>
+
+        <h3>Destroy does not reverse every effect</h3>
+        <p>
+          A service can remove what it deployed. It cannot always reverse what
+          that deployment caused. <TK>which services have this limit</TK>
         </p>
       </Section>
 
@@ -479,11 +505,6 @@ deploy(ddp, env) {
             how a DDP separates the values that are fixed from the values that
             change per environment
           </TK>
-        </p>
-
-        <h3>Each service owns its schema</h3>
-        <p>
-          <TK>the mechanism, and whether the DDP format changed with it</TK>
         </p>
 
         <h3>One deployment, one record</h3>
