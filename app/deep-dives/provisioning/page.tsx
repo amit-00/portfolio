@@ -101,10 +101,18 @@ export default function ProvisioningDeepDive(): ReactNode {
         }
       >
         <p>
-          The platform connected source systems to the business. It moved data,
-          changed the data, and controlled which users could see it. A set of
-          services did this work. A team usually used several of them together
-          for one data product.
+          The platform connected source systems to the business. Teams used it
+          to build and to run data products.
+        </p>
+        <p>
+          A data product is one set of data that a team owns and supplies to
+          other users. It contains the pipeline that makes the data, the data
+          itself, the rules for access to it, and the jobs that read it. One
+          team owns a data product for its full life.
+        </p>
+        <p>
+          The platform supplied a set of services for this work. A team usually
+          used several of them together for one data product.
         </p>
         <p>
           These services were not the same shape. Some needed only
