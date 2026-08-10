@@ -340,8 +340,10 @@ export default function ProvisioningDeepDive(): ReactNode {
         </p>
         <p>
           A second run did not always correct it. Some services first needed a
-          teardown of the previous deployment.{" "}
-          <TK>what that teardown involved for a user</TK>
+          teardown of the previous deployment. Each service tore down in a
+          different way, and most of them through an API with its own interface.
+          Recovery from one failed run thus crossed several different
+          interfaces.
         </p>
 
         <h3>Only approved users could deploy</h3>
@@ -367,7 +369,7 @@ export default function ProvisioningDeepDive(): ReactNode {
           example: a requirement of a single service reached into the
           application that deployed all of them. To add a service to the
           platform, several engineers had to work together, then iterate and
-          test. <TK>how long an integration took</TK>
+          test. An integration often took weeks.
         </p>
       </Section>
 
