@@ -7,7 +7,7 @@ import { Figure } from "@/components/relay/figure";
 
 // Unlinked draft: keep it out of the index until it is finished and linked.
 export const metadata: Metadata = {
-  title: "One document, many deployments",
+  title: "One description, many deployments",
   robots: { index: false, follow: false },
 };
 
@@ -78,11 +78,11 @@ export default function ProvisioningDeepDive(): ReactNode {
           deep dive · data platform · <TK>date</TK> · <TK>read time</TK>
         </div>
         <h1 className="mt-3 max-w-[22ch] font-mono text-display font-bold text-ink-1">
-          One document, many deployments
+          One description, many deployments
         </h1>
         <p className="mt-4 max-w-[62ch] text-lead leading-[1.6] text-ink-3">
-          A data platform let teams describe a data product in one document. But
-          the platform did not deploy that product as one unit. Each service
+          A data platform let teams describe a data product in one set of files.
+          But the platform did not deploy that product as one unit. Each service
           used a different deployment mechanism. A team also waited several days
           for permission to start a deployment. If one component failed, the
           components before it stayed deployed. This article describes that
@@ -193,7 +193,7 @@ export default function ProvisioningDeepDive(): ReactNode {
       <Section
         index="03"
         eyebrow="WHAT I INHERITED"
-        title="From one document to many components"
+        title="From one description to many components"
         aside={
           <>
             <Figure caption="Fig 2 — The deployment mechanism for each kind of component.">
@@ -232,10 +232,10 @@ export default function ProvisioningDeepDive(): ReactNode {
       >
         <p>
           Provisioning already existed when I started the project. A team
-          described a data product in one file. This file is a{" "}
-          <strong>declarative data product</strong>, or DDP. It specified every
-          service that the product used, and the settings for each one. A CLI
-          converted the DDP into deployed infrastructure.
+          described a data product in a set of configuration files. Together
+          these files are a <strong>declarative data product</strong>, or DDP.
+          They specified every service that the product used, and the settings
+          for each one. A CLI converted the DDP into deployed infrastructure.
         </p>
 
         <h3>How a team deployed a data product</h3>
