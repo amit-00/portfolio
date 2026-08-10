@@ -113,8 +113,15 @@ export default function ProvisioningDeepDive(): ReactNode {
         </p>
         <p>
           The platform supplied a set of services for this work. A team usually
-          used several of them together for one data product.
+          used several of them together for one data product. These services
+          included:
         </p>
+        <ul>
+          <li>Ingestion of data from a source system.</li>
+          <li>Orchestration of jobs on a schedule.</li>
+          <li>Access control over regulated fields.</li>
+          <li>Compute for the jobs that read the finished data.</li>
+        </ul>
         <p>
           These services were not the same shape. Some needed only
           configuration. Others needed infrastructure, and the platform deployed
