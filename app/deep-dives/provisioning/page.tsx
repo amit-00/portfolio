@@ -125,10 +125,10 @@ export default function ProvisioningDeepDive(): ReactNode {
         </ul>
         <p>
           These services were not the same shape. Some needed only
-          configuration. Others needed infrastructure, and the platform deployed
-          that infrastructure for the team. Application code then went onto that
-          infrastructure. Some of this code belonged to the team. Some belonged
-          to the platform.
+          configuration. Others needed infrastructure. For those services, the
+          platform deployed the infrastructure and then installed the
+          application code on it. That code came from the team, or from the
+          platform itself.
         </p>
       </Section>
 
