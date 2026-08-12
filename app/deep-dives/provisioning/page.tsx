@@ -579,31 +579,54 @@ interface ServiceApi {
         eyebrow="RESULTS"
         title="What changed"
         aside={
-          <Figure caption="Fig 4 — The four gaps from section 04, before and after.">
+          <Figure caption="Fig 4 — Before and after the engine.">
             <div className="prose max-w-none bg-page px-5 py-4">
+              <p className="!mb-3">
+                <TK>every value below is an example — replace before publishing</TK>
+              </p>
               <table>
                 <thead>
                   <tr>
+                    <th>Measure</th>
                     <th>Before</th>
                     <th>After</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Only approved users could deploy</td>
-                    <td>Any team, from a workflow</td>
+                    <td>Teams that deploy in a month</td>
+                    <td>6</td>
+                    <td>41</td>
                   </tr>
                   <tr>
-                    <td>A failed run left components deployed</td>
-                    <td>The run removes its own work</td>
+                    <td>Deployments in a month</td>
+                    <td>34</td>
+                    <td>290</td>
                   </tr>
                   <tr>
-                    <td>Several services to search, several engineers</td>
-                    <td>One trace for one deployment</td>
+                    <td>Wait for deployment access</td>
+                    <td>1–2 business days</td>
+                    <td>None</td>
                   </tr>
                   <tr>
-                    <td>A new service took weeks</td>
-                    <td>Four operations, and no change to the engine</td>
+                    <td>Runs that end in a mixed state</td>
+                    <td>4 each month</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>Engineer-days to add a service</td>
+                    <td>30</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Engine changes per new service</td>
+                    <td>Several</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>Queue time at peak (p95)</td>
+                    <td>—</td>
+                    <td>4 minutes</td>
                   </tr>
                 </tbody>
               </table>
@@ -614,8 +637,8 @@ interface ServiceApi {
         <p>
           A team now deploys its own data product from a workflow. Nobody
           requests access to a machine, and nobody waits for a person with that
-          access. This is the change that teams noticed first.{" "}
-          <TK>a number that shows it</TK>
+          access. This is the change that teams noticed first, and the count of
+          teams that deploy each month is what shows it.
         </p>
 
         <h3>A new service is no longer a project</h3>
