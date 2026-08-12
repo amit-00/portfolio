@@ -566,7 +566,9 @@ interface ServiceApi {
               <li>Each service team implements and maintains the contract.</li>
               <li>Every service must keep its deploy idempotent.</li>
               <li>The engine trusts a destroy that it cannot check.</li>
-              <li>More components to operate than one CLI.</li>
+              <li>
+                The provisioning team operates a cluster, runners and storage.
+              </li>
               <li>
                 <TK>whether the engine detects drift after a deployment</TK>
               </li>
@@ -598,8 +600,9 @@ interface ServiceApi {
         <p>
           The old system was one application on one machine. The new one is an
           engine, a Kubernetes cluster with its runners, a storage account, and
-          an API for every service. Each part needs someone to watch it.{" "}
-          <TK>who operates the engine now</TK>
+          an API for every service. The provisioning team operates the engine
+          and the infrastructure around it. Each service team operates its own
+          API.
         </p>
       </Section>
 
