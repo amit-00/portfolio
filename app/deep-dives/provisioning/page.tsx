@@ -20,24 +20,10 @@ function TK({ children }: { children: ReactNode }): ReactNode {
   );
 }
 
-/** The 135° hatch marks where a real diagram belongs. */
-function DiagramSlot({ label }: { label: string }): ReactNode {
-  return (
-    <div
-      className="flex h-44 items-center justify-center bg-[repeating-linear-gradient(135deg,transparent,transparent_6px,var(--color-rule)_6px,var(--color-rule)_7px)]"
-      role="img"
-      aria-label={`Diagram placeholder: ${label}`}
-    >
-      <span className="bg-page px-3 py-1 text-center font-mono text-label-sm uppercase text-ink-5">
-        {label}
-      </span>
-    </div>
-  );
-}
-
 /**
  * One movement of the argument: the claim on the left held to the prose measure,
- * the single artefact that backs it in the gutter to its right.
+ * the single artefact that backs it in the gutter to its right. A section with
+ * no artefact runs as one column rather than leaving an empty gutter.
  */
 function Section({
   index,
@@ -50,20 +36,26 @@ function Section({
   eyebrow: string;
   title: string;
   children: ReactNode;
-  aside: ReactNode;
+  aside?: ReactNode;
 }): ReactNode {
   return (
-    <section className="grid border-b border-rule lg:grid-cols-2">
-      <div className="min-w-0 px-gutter py-section lg:border-r lg:border-rule">
+    <section
+      className={`grid border-b border-rule ${aside ? "lg:grid-cols-2" : ""}`}
+    >
+      <div
+        className={`min-w-0 px-gutter py-section ${aside ? "lg:border-r lg:border-rule" : ""}`}
+      >
         <SectionLabel index={index}>{eyebrow}</SectionLabel>
         <h2 className="mt-3 max-w-[24ch] font-mono text-h2 font-bold text-ink-1">
           {title}
         </h2>
         <div className="prose mt-4">{children}</div>
       </div>
-      <div className="flex min-w-0 flex-col gap-6 bg-sunken px-gutter py-section">
-        {aside}
-      </div>
+      {aside && (
+        <div className="flex min-w-0 flex-col gap-6 bg-sunken px-gutter py-section">
+          {aside}
+        </div>
+      )}
     </section>
   );
 }
@@ -94,11 +86,6 @@ export default function ProvisioningDeepDive(): ReactNode {
         index="01"
         eyebrow="THE PLATFORM"
         title="A data product used several services"
-        aside={
-          <Figure caption="Fig 1 — One data product, and the services it used together.">
-            <DiagramSlot label="platform / services in one product" />
-          </Figure>
-        }
       >
         <p>
           The platform connected source systems to the business. Teams used it
@@ -195,40 +182,35 @@ export default function ProvisioningDeepDive(): ReactNode {
         eyebrow="WHAT I INHERITED"
         title="The process before the engine"
         aside={
-          <>
-            <Figure caption="Fig 2 — The deployment mechanism for each kind of component.">
-              <div className="prose max-w-none bg-page px-5 py-4">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>What the CLI deployed</th>
-                      <th>Mechanism</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Infrastructure, and the code for it</td>
-                      <td>An ARM template, applied with the Azure CLI</td>
-                    </tr>
-                    <tr>
-                      <td>Job definitions</td>
-                      <td>An Asset Bundle</td>
-                    </tr>
-                    <tr>
-                      <td>Runtime configuration</td>
-                      <td>
-                        A Databricks workflow wrote a row into the database of a
-                        service
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </Figure>
-            <Figure caption="Fig 3 — The deployment sequence, from the CLI to the components.">
-              <DiagramSlot label="existing / deployment sequence" />
-            </Figure>
-          </>
+          <Figure caption="Fig 1 — The deployment mechanism for each kind of component.">
+            <div className="prose max-w-none bg-page px-5 py-4">
+              <table>
+                <thead>
+                  <tr>
+                    <th>What the CLI deployed</th>
+                    <th>Mechanism</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Infrastructure, and the code for it</td>
+                    <td>An ARM template, applied with the Azure CLI</td>
+                  </tr>
+                  <tr>
+                    <td>Job definitions</td>
+                    <td>An Asset Bundle</td>
+                  </tr>
+                  <tr>
+                    <td>Runtime configuration</td>
+                    <td>
+                      A Databricks workflow wrote a row into the database of a
+                      service
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </Figure>
         }
       >
         <p>
@@ -287,45 +269,40 @@ export default function ProvisioningDeepDive(): ReactNode {
         eyebrow="THE GAP"
         title="The system met one need of five"
         aside={
-          <>
-            <Figure caption="Fig 4 — Where a run stops, and what stays deployed behind it.">
-              <DiagramSlot label="existing / partial failure" />
-            </Figure>
-            <Figure caption="Fig 5 — The five needs from 02 and the result from the existing process.">
-              <div className="prose max-w-none bg-page px-5 py-4">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>What a team needs</th>
-                      <th>What the system gave</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Describe it one time</td>
-                      <td>Met — one DDP described every service</td>
-                    </tr>
-                    <tr>
-                      <td>The same product in each environment</td>
-                      <td>One manual process for each environment</td>
-                    </tr>
-                    <tr>
-                      <td>Change the product safely</td>
-                      <td>A failure stopped the run part of the way</td>
-                    </tr>
-                    <tr>
-                      <td>No wait for another person</td>
-                      <td>Only users with approved VM access</td>
-                    </tr>
-                    <tr>
-                      <td>Know the result</td>
-                      <td>No common record, and sometimes several engineers</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </Figure>
-          </>
+          <Figure caption="Fig 2 — The five needs from 02 and the result from the existing process.">
+            <div className="prose max-w-none bg-page px-5 py-4">
+              <table>
+                <thead>
+                  <tr>
+                    <th>What a team needs</th>
+                    <th>What the system gave</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Describe it one time</td>
+                    <td>Met — one DDP described every service</td>
+                  </tr>
+                  <tr>
+                    <td>The same product in each environment</td>
+                    <td>One manual process for each environment</td>
+                  </tr>
+                  <tr>
+                    <td>Change the product safely</td>
+                    <td>A failure stopped the run part of the way</td>
+                  </tr>
+                  <tr>
+                    <td>No wait for another person</td>
+                    <td>Only users with approved VM access</td>
+                  </tr>
+                  <tr>
+                    <td>Know the result</td>
+                    <td>No common record, and sometimes several engineers</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </Figure>
         }
       >
         <p>The system met the first need. It did not meet the other four.</p>
@@ -378,14 +355,10 @@ export default function ProvisioningDeepDive(): ReactNode {
         eyebrow="THE ENGINE"
         title="The engine calls one interface for each service"
         aside={
-          <>
-            <Figure caption="Fig 6 — The engine calls each service API with the location of the config in ADLS.">
-              <DiagramSlot label="engine / one interface, every service" />
-            </Figure>
-            <Figure caption="Fig 7 — One request format and one response format, for every operation on every service.">
-              <div className="prose max-w-none">
-                <pre>
-                  <code>{`// TK — the real interface
+          <Figure caption="Fig 3 — One request format and one response format, for every operation on every service.">
+            <div className="prose max-w-none">
+              <pre>
+                <code>{`// TK — the real interface
 interface Request {
   location     // where the config and the code are in ADLS
   environment
@@ -397,10 +370,9 @@ interface ServiceApi {
   deploy(Request)   -> Response  // make the changes
   destroy(Request)  -> Response  // remove what deploy made
 }`}</code>
-                </pre>
-              </div>
-            </Figure>
-          </>
+              </pre>
+            </div>
+          </Figure>
         }
       >
         <p>
@@ -435,9 +407,8 @@ interface ServiceApi {
         <h3>The request gives a location, not the config</h3>
         <p>
           The client writes the config and the application code to Azure Data
-          Lake Storage (ADLS). The
-          engine processes them and gives each service the location. Each
-          service then reads only the parts that it needs.
+          Lake Storage (ADLS). The engine processes them and gives each service
+          the location. Each service then reads only the parts that it needs.
         </p>
 
         <h3>A team makes its own service deployable</h3>
@@ -467,11 +438,6 @@ interface ServiceApi {
         index="06"
         eyebrow="FAILURE"
         title="What happens when a step fails"
-        aside={
-          <Figure caption="Fig 8 — A failed run, and the destroy calls that remove its work.">
-            <DiagramSlot label="engine / failure and destroy" />
-          </Figure>
-        }
       >
         <p>
           The previous deployment stays live until a new one is fully
@@ -508,11 +474,6 @@ interface ServiceApi {
         index="07"
         eyebrow="ENTRY POINT"
         title="A team starts a deployment from GitHub Actions"
-        aside={
-          <Figure caption="Fig 9 — From a GitHub Actions workflow to the engine, and the status URL back.">
-            <DiagramSlot label="after / entry point" />
-          </Figure>
-        }
       >
         <p>
           A team starts a deployment from a GitHub Actions workflow. The
@@ -539,9 +500,9 @@ interface ServiceApi {
 
         <h3>A team watches its own deployment</h3>
         <p>
-          The runner polls the status URL while the deployment runs. The progress
-          appears in the output of the GitHub Actions run, and it stays there
-          with the rest of the logs for that run.
+          The runner polls the status URL while the deployment runs. The
+          progress appears in the output of the GitHub Actions run, and it stays
+          there with the rest of the logs for that run.
         </p>
 
         <h3>One deployment, one trace</h3>
@@ -569,9 +530,7 @@ interface ServiceApi {
               <li>
                 The provisioning team operates a cluster, runners and storage.
               </li>
-              <li>
-                <TK>whether the engine detects drift after a deployment</TK>
-              </li>
+              <li>The engine does not detect drift after a deployment.</li>
             </ul>
           </div>
         }
@@ -596,6 +555,15 @@ interface ServiceApi {
           does.
         </p>
 
+        <h3>The engine does not watch what it deployed</h3>
+        <p>
+          The engine deploys a config and then stops. It does not compare the
+          live components against that config afterward. If a person changes a
+          resource directly, nothing reports the difference. A second deployment
+          of the same config version does not correct it either, because a
+          service that already holds that version makes no change.
+        </p>
+
         <h3>More parts to operate</h3>
         <p>
           The old system was one application on one machine. The new one is an
@@ -611,7 +579,7 @@ interface ServiceApi {
         eyebrow="RESULTS"
         title="What changed"
         aside={
-          <Figure caption="Fig 10 — The four gaps from section 04, before and after.">
+          <Figure caption="Fig 4 — The four gaps from section 04, before and after.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
@@ -635,9 +603,7 @@ interface ServiceApi {
                   </tr>
                   <tr>
                     <td>A new service took weeks</td>
-                    <td>
-                      Four operations, and no change to the engine
-                    </td>
+                    <td>Four operations, and no change to the engine</td>
                   </tr>
                 </tbody>
               </table>
