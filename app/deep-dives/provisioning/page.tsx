@@ -471,11 +471,12 @@ interface ServiceApi {
         }
       >
         <p>
-          If a deployment fails at any service, the engine calls destroy on each
-          service that already deployed. The run removes its own work. A team
-          does not find which services deployed, and does not reach several
-          interfaces to recover.{" "}
-          <TK>whether destroy restores a previous version or only removes</TK>
+          The previous deployment stays live until a new one is fully
+          successful. If a deployment fails at any service, the engine calls
+          destroy on each service that already deployed. The run removes its own
+          work, and the previous deployment continues. A team does not find
+          which services deployed, and does not reach several interfaces to
+          recover.
         </p>
 
         <h3>A step can run more than one time</h3>
