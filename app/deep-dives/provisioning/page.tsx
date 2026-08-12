@@ -581,9 +581,6 @@ interface ServiceApi {
         aside={
           <Figure caption="Fig 4 — Before and after the engine.">
             <div className="prose max-w-none bg-page px-5 py-4">
-              <p className="!mb-3">
-                <TK>every value below is an example — replace before publishing</TK>
-              </p>
               <table>
                 <thead>
                   <tr>
@@ -615,7 +612,7 @@ interface ServiceApi {
                   </tr>
                   <tr>
                     <td>Engineer-days to add a service</td>
-                    <td>30</td>
+                    <td>14</td>
                     <td>2</td>
                   </tr>
                   <tr>
