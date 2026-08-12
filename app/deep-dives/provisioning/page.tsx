@@ -479,11 +479,13 @@ interface ServiceApi {
           recover.
         </p>
 
-        <h3>A step can run more than one time</h3>
+        <h3>A deploy can arrive more than one time</h3>
         <p>
-          <TK>
-            whether deploy is idempotent, and how a service recognises a repeat
-          </TK>
+          The engine delivers each deploy at least one time. A retry or a
+          network fault can thus send the same deploy again. But each deploy
+          operation is idempotent, so a repeat makes no further change. The two
+          properties together give a deployment that happens just one time.{" "}
+          <TK>how a service makes its deploy idempotent</TK>
         </p>
 
         <h3>What destroy does for each service</h3>
