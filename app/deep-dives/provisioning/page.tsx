@@ -427,36 +427,38 @@ interface ServiceApi {
         <p>
           Each operation also uses the same request format and the same response
           format. The engine thus calls every service in the same way. It
-          contains no deployment logic for any service.{" "}
-          <TK>whether the engine plans all services before it deploys any</TK>
+          contains no deployment logic for any service. It also does not plan
+          every service before it deploys any, and works through the services
+          one at a time.
         </p>
 
         <h3>The request gives a location, not the config</h3>
         <p>
-          At deployment, the config and the application code go to ADLS. The
-          request tells the service where to find them. Each service then reads
-          only the parts that it needs.{" "}
-          <TK>who writes to ADLS, and at which point</TK>
+          The client writes the config and the application code to ADLS. The
+          engine processes them and gives each service the location. Each
+          service then reads only the parts that it needs.
         </p>
 
         <h3>A team makes its own service deployable</h3>
         <p>
           The engine owns the contract. The team that maintains a service
           implements that contract for the service. A DDP can then deploy the
-          service. The engine needs no change.{" "}
-          <TK>whether a service was added after the first release</TK>
+          service, and the engine needs no change. Several services joined the
+          platform after the first release, and each one went in without
+          difficulty.
         </p>
 
         <h3>Each service owns its own rules</h3>
         <p>
-          A service validates its own part of the DDP. It also selects how to
-          deploy its resources. If a service changes its deployment method, that
-          change stays behind the API. The engine does not see it.
+          A service owns its own config schema. It also selects how to deploy
+          its resources. If a service changes its deployment method, that change
+          stays behind the API. The engine does not see it.
         </p>
         <p>
-          This also closes the schema problem from section 04. The team that
-          owns a service now owns the validation for that service.{" "}
-          <TK>whether the DDP schema itself also moved to the services</TK>
+          A general validation API collects the schemas of all the services and
+          validates a complete config against them. This closes the schema
+          problem from section 04. The team that owns a service now owns the
+          rules for it.
         </p>
       </Section>
 
@@ -465,8 +467,8 @@ interface ServiceApi {
         eyebrow="FAILURE"
         title="What happens when a step fails"
         aside={
-          <Figure caption="Fig 8 — The compensating action for each resource type.">
-            <DiagramSlot label="engine / retry and compensation" />
+          <Figure caption="Fig 8 — A failed run, and the destroy calls that remove its work.">
+            <DiagramSlot label="engine / failure and destroy" />
           </Figure>
         }
       >
@@ -484,22 +486,20 @@ interface ServiceApi {
           The engine delivers each deploy at least one time. A retry or a
           network fault can thus send the same deploy again. But each deploy
           operation is idempotent, so a repeat makes no further change. The two
-          properties together give a deployment that happens just one time.{" "}
-          <TK>how a service makes its deploy idempotent</TK>
+          properties together give a deployment that happens just one time.
+        </p>
+        <p>
+          The config version is what makes this work. A service compares the
+          version in the request against the version it already deployed. A
+          version that is already live needs no further change.
         </p>
 
-        <h3>What destroy does for each service</h3>
+        <h3>Destroy is different for every service</h3>
         <p>
-          <TK>
-            what destroy removes for the ARM template, the Asset Bundle, and the
-            config rows
-          </TK>
-        </p>
-
-        <h3>Destroy does not reverse every effect</h3>
-        <p>
-          A service can remove what it deployed. It cannot always reverse what
-          that deployment caused. <TK>which services have this limit</TK>
+          One service removes some metadata from its database. Another tears
+          down real infrastructure. The engine does not know which, and does not
+          need to. That is the purpose of the interface: the engine calls
+          destroy, and the service decides what destroy means.
         </p>
       </Section>
 
