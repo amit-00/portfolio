@@ -434,7 +434,8 @@ interface ServiceApi {
 
         <h3>The request gives a location, not the config</h3>
         <p>
-          The client writes the config and the application code to ADLS. The
+          The client writes the config and the application code to Azure Data
+          Lake Storage (ADLS). The
           engine processes them and gives each service the location. Each
           service then reads only the parts that it needs.
         </p>
@@ -508,29 +509,47 @@ interface ServiceApi {
         eyebrow="ENTRY POINT"
         title="A team starts a deployment from GitHub Actions"
         aside={
-          <Figure caption="Fig 9 — The path from a GitHub Actions workflow to the engine on the VM.">
+          <Figure caption="Fig 9 — From a GitHub Actions workflow to the engine, and the status URL back.">
             <DiagramSlot label="after / entry point" />
           </Figure>
         }
       >
         <p>
-          GitHub Actions replaced the VM as the entry point for a team. The
-          engine still runs on the VM. Credentials in the workflow give the
-          pipeline the access that a person needed before.{" "}
-          <TK>the exact path from the workflow to the engine</TK>
+          A team starts a deployment from a GitHub Actions workflow. The
+          workflow uploads the config to ADLS and starts the deployment engine.
+          The engine returns a URL for the status of that deployment. No person
+          needs access to a machine.
+        </p>
+        <p>
+          These workflows run on ephemeral runners in an Azure Kubernetes
+          Service (AKS) cluster, and the Actions Runner Controller (ARC) manages
+          them. Each job receives a new runner, and the cluster adds runners
+          when demand increases. This gives the platform far more scale than a
+          fixed set of runners on one machine.
         </p>
 
         <h3>The engine resolves the environment</h3>
         <p>
-          <TK>
-            how a DDP separates the values that are fixed from the values that
-            change per environment
-          </TK>
+          The engine reads the config that the team supplied. It substitutes the
+          correct environment variables and produces one canonical config. Each
+          service then reads that canonical config and deploys its own
+          components. A team thus describes a product one time, and each
+          environment receives the values that belong to it.
         </p>
 
-        <h3>One deployment, one record</h3>
+        <h3>A team watches its own deployment</h3>
         <p>
-          <TK>what a person opens now to see why a deployment failed</TK>
+          The runner polls the status URL while the deployment runs. The progress
+          appears in the output of the GitHub Actions run, and it stays there
+          with the rest of the logs for that run.
+        </p>
+
+        <h3>One deployment, one trace</h3>
+        <p>
+          Every service in the deployment path now produces traces with
+          OpenTelemetry. Platform engineers read those traces in Azure Monitor.
+          One deployment thus has one trace, across the engine and all of the
+          services that it called.
         </p>
       </Section>
 
