@@ -471,9 +471,11 @@ interface ServiceApi {
         }
       >
         <p>
-          Destroy is the fourth operation for a reason. If a deployment stops
-          part of the way, the engine can call destroy on each service that
-          already deployed. <TK>whether the engine does this, or stops</TK>
+          If a deployment fails at any service, the engine calls destroy on each
+          service that already deployed. The run removes its own work. A team
+          does not find which services deployed, and does not reach several
+          interfaces to recover.{" "}
+          <TK>whether destroy restores a previous version or only removes</TK>
         </p>
 
         <h3>A step can run more than one time</h3>
