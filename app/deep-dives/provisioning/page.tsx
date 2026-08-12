@@ -563,28 +563,43 @@ interface ServiceApi {
               Known limits
             </div>
             <ul className="prose mt-3 max-w-none list-disc pl-5 text-small">
-              <li>One small group maintains the engine.</li>
-              <li>Teardown does not reverse every effect.</li>
+              <li>Each service team implements and maintains the contract.</li>
+              <li>Every service must keep its deploy idempotent.</li>
+              <li>The engine trusts a destroy that it cannot check.</li>
+              <li>More components to operate than one CLI.</li>
               <li>
-                <TK>whether the engine detects drift</TK>
+                <TK>whether the engine detects drift after a deployment</TK>
               </li>
             </ul>
           </div>
         }
       >
+        <p>The design did not remove work. It moved work.</p>
+
+        <h3>Each service team carries the contract</h3>
         <p>
-          <TK>the trade-offs, stated before a reader can find them</TK>
+          The old CLI held the deployment logic for every service, and one team
+          maintained all of it. Now each service team implements four operations
+          and maintains them for the life of the service. The platform gains
+          services that deploy themselves. The service teams pay for it.
         </p>
 
-        <h3>A small group owns the engine</h3>
+        <h3>The guarantee depends on every service</h3>
         <p>
-          Hundreds of data products depend on an engine that one engineer wrote.{" "}
-          <TK>who maintains it now, and what the team did about this</TK>
+          At-least-once delivery is safe only because each deploy is idempotent.
+          One service with a defect in that logic breaks the guarantee for the
+          deployments that use it, and the engine cannot detect this. The same
+          holds for destroy. The engine calls it and trusts the result, because
+          the interface exists so that the engine does not know what destroy
+          does.
         </p>
 
-        <h3>What is still open</h3>
+        <h3>More parts to operate</h3>
         <p>
-          <TK>the gaps this design did not close</TK>
+          The old system was one application on one machine. The new one is an
+          engine, a Kubernetes cluster with its runners, a storage account, and
+          an API for every service. Each part needs someone to watch it.{" "}
+          <TK>who operates the engine now</TK>
         </p>
       </Section>
 
@@ -593,36 +608,33 @@ interface ServiceApi {
         eyebrow="RESULTS"
         title="What changed"
         aside={
-          <Figure caption="Fig 10 — Before and after. Numbers, not adjectives.">
+          <Figure caption="Fig 10 — The four gaps from section 04, before and after.">
             <div className="prose max-w-none bg-page px-5 py-4">
               <table>
                 <thead>
                   <tr>
-                    <th>Measure</th>
                     <th>Before</th>
                     <th>After</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Wait before a first deployment</td>
-                    <td>Days — ticket and approval</td>
-                    <td>TK</td>
+                    <td>Only approved users could deploy</td>
+                    <td>Any team, from a workflow</td>
                   </tr>
                   <tr>
-                    <td>Deployments a team can run itself</td>
-                    <td>None</td>
-                    <td>TK</td>
+                    <td>A failed run left components deployed</td>
+                    <td>The run removes its own work</td>
                   </tr>
                   <tr>
-                    <td>Places to look when one fails</td>
-                    <td>4</td>
-                    <td>TK</td>
+                    <td>Several services to search, several engineers</td>
+                    <td>One trace for one deployment</td>
                   </tr>
                   <tr>
-                    <td>Half-deployed states per quarter</td>
-                    <td>TK</td>
-                    <td>TK</td>
+                    <td>A new service took weeks</td>
+                    <td>
+                      Four operations, and no change to the engine
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -631,15 +643,26 @@ interface ServiceApi {
         }
       >
         <p>
-          Lead with the number that matters most.{" "}
-          <TK>before → after, stated plainly</TK>
+          A team now deploys its own data product from a workflow. Nobody
+          requests access to a machine, and nobody waits for a person with that
+          access. This is the change that teams noticed first.{" "}
+          <TK>a number that shows it</TK>
         </p>
 
-        <h3>What it unlocked</h3>
+        <h3>A new service is no longer a project</h3>
         <p>
-          The second-order effects — what became possible once a deployment ran
-          unattended and recorded itself.{" "}
-          <TK>the thing nobody asked for that fell out of it</TK>
+          Before, a new service needed several engineers and some weeks of work
+          in the deployment application. Several services joined the platform
+          after the first release of the engine. Each one implemented the same
+          four operations, and the engine did not change for any of them.
+        </p>
+
+        <h3>A failure is no longer an investigation</h3>
+        <p>
+          A failed run removes its own work, and the previous deployment stays
+          live. A team reads the result in its own workflow output. A platform
+          engineer reads one trace across every service. Nobody assembles the
+          story from several sets of logs.
         </p>
       </Section>
 
