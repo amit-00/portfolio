@@ -595,13 +595,13 @@ interface ServiceApi {
                 <tbody>
                   <tr>
                     <td>Teams that deploy in a month</td>
-                    <td>6</td>
-                    <td>41</td>
+                    <td>10</td>
+                    <td>50</td>
                   </tr>
                   <tr>
                     <td>Deployments in a month</td>
-                    <td>34</td>
-                    <td>290</td>
+                    <td>35</td>
+                    <td>300</td>
                   </tr>
                   <tr>
                     <td>Wait for deployment access</td>
@@ -610,7 +610,7 @@ interface ServiceApi {
                   </tr>
                   <tr>
                     <td>Runs that end in a mixed state</td>
-                    <td>4 each month</td>
+                    <td>12 each month</td>
                     <td>0</td>
                   </tr>
                   <tr>
